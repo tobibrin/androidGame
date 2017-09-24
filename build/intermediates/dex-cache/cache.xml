@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tobi\Desktop\androidGame\AndroidGame\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\Tobi\Desktop\androidGame\AndroidGame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_1ff7add45ac5d64b231c335570db6cba7f41ea43\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Tobi\Desktop\androidGame\AndroidGame\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="a6e0d91c11ebefd4283d3c6af5f05af1ebaea56e">
+        <dex dex="C:\Users\Tobi\Desktop\androidGame\AndroidGame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_60ab8948b070b7053bc02b192ef3a21db5b33ade\classes.dex" />
+    </item>
+
+</items>
