@@ -19,7 +19,7 @@ public class Player implements GameObject{
     }
 
     @Override
-    public void Draw(Canvas canvas) {
+    public void draw(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(this.color);
         canvas.drawRect(this.rect, paint);
@@ -30,9 +30,9 @@ public class Player implements GameObject{
     }
 
     @Override
-    public void Update() { }
+    public void update() { }
 
-    public void Update(Point pos) {
+    public void update(Point pos) {
         rect.set(pos.x - (rect.width() / 2), pos.y - (rect.height() / 2), pos.x + (rect.width() / 2), pos.y + (rect.height() / 2));
     }
 }

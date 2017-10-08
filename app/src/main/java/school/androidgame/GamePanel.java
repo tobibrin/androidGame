@@ -69,8 +69,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     //Frame update
-    public void Update() {
-        player.Update(this.playerPos);
+    public void update(float dt) {
+        player.update(this.playerPos);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         canvas.drawColor(Color.WHITE);
 
-        this.player.Draw(canvas);
+        this.player.draw(canvas);
 
     }
 }
