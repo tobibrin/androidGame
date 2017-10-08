@@ -15,70 +15,77 @@ public class MainThread extends Thread{
     private SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
-    private static Canvas canvas;
+    private Canvas canvas;
+
+    private long startTime, timeMillis, targetTime, waitTime, totalTime, dt, lastFrameTime;
+    private int frameCount;
+
 
     public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;
+
+        this.timeMillis = 1000/MainThread.MAX_FPS;
+        this.targetTime = timeMillis;
+        this.frameCount = 0;
+        this.totalTime = 0;
+        this.lastFrameTime = 0;
+        this.dt = 0;
     }
 
     @Override
     public void run() {
-        long startTime;
-        long timeMillis = 1000 / MainThread.MAX_FPS;
-        long targetTime = timeMillis;
-        long waitTime;
-        int frameCount = 0;
-        long totalTime = 0;
-
-        long lastFrameTime = 0;
-        long dt = 0;
+        this.targetTime = this.timeMillis;
+        this.frameCount = 0;
+        this.totalTime = 0;
+        this.lastFrameTime = 0;
+        this.dt = 0;
 
         while(running) {
-            startTime = System.nanoTime();
-            canvas = null;
-            dt = System.currentTimeMillis() - lastFrameTime;
-            lastFrameTime = System.currentTimeMillis();
+            this.startTime = System.nanoTime();
+            this.canvas = null;
+            this.dt = System.currentTimeMillis() - lastFrameTime;
+            this.lastFrameTime = System.currentTimeMillis();
 
             try {
-                canvas = this.surfaceHolder.lockCanvas();
-                synchronized (surfaceHolder) {
-                    this.gamePanel.update(dt);
-                    this.gamePanel.draw(canvas);
+                this.canvas = this.surfaceHolder.lockCanvas();
+                synchronized (this.surfaceHolder) {
+                    this.gamePanel.update(this.dt);
+                    this.gamePanel.draw(this.canvas);
                 }
             } catch (Exception e){
                 e.printStackTrace();
             } finally {
-                if(canvas != null) {
+                if(this.canvas != null) {
                     try{
-                        surfaceHolder.unlockCanvasAndPost(canvas);
+                        this.surfaceHolder.unlockCanvasAndPost(canvas);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    dt = System.currentTimeMillis();
+                    this.dt = System.currentTimeMillis();
                 }
             }
 
-            timeMillis = (System.nanoTime() - startTime) / 1000000;
-            waitTime = targetTime - timeMillis;
+            this.timeMillis = (System.nanoTime() - this.startTime) / 1000000;
+            this.waitTime = this.targetTime - this.timeMillis;
 
             try {
-                if(waitTime > 0) {
-                    this.sleep(waitTime);
+                if(this.waitTime > 0) {
+                    MainThread.sleep(this.waitTime);
 
                 }
             } catch (Exception e){
                 e.printStackTrace();
             }
 
-            totalTime += System.nanoTime() - startTime;
-            frameCount++;
-            if (frameCount == MainThread.MAX_FPS) {
+            this.totalTime += System.nanoTime() - this.startTime;
+            this.frameCount++;
+            if (this.frameCount == MainThread.MAX_FPS) {
 //                this.averageFps = 1000 / ( (totalTime/frameCount) / 1000000);
-                frameCount = 0;
-                totalTime = 0;
+                this.frameCount = 0;
+                this.totalTime = 0;
             }
 
 
