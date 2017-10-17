@@ -1,5 +1,7 @@
 package school.androidgame.Core;
 
+import android.graphics.Canvas;
+
 import java.util.UUID;
 
 /**
@@ -34,6 +36,10 @@ public abstract class GameObject {
         this.visible = false;
         this.uuid = UUID.randomUUID();
     }
+
+    public abstract void update(float dt);
+
+    public abstract void draw(Canvas canvas);
 
     public int getX(){
         return this.x;
