@@ -1,6 +1,9 @@
 package school.androidgame.Entities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.view.TextureView;
 
 import school.androidgame.Core.GameObject;
 
@@ -13,8 +16,13 @@ public class Player extends GameObject {
     public long score;
     public int lifes;
 
-    public Player(){
+    public Player(int x, int y, int width, int height){
         super();
+
+        this.setName("player");
+        this.setVisible(true);
+
+        Bitmap bitmap = BitmapFactory.decodeFile("images/Player.png");
 
         this.score = 0;
         this.lifes = 3;

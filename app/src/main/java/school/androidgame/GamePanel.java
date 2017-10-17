@@ -3,11 +3,11 @@ package school.androidgame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import school.androidgame.Entities.Player;
 
 /**
  * Created by Tobi on 18.09.2017.
@@ -16,16 +16,19 @@ import android.view.SurfaceView;
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
 
+    private school.androidgame.Entities.Player player;
+
     private boolean isAbleToMove = false;
-    private Player player;
-    private Point playerPos;
 
     public GamePanel(Context context) {
         super(context);
         getHolder().addCallback(this);
         this.thread = new MainThread(getHolder(), this);
-        this.player = new Player(new Rect(100, 100, 200, 200), Color.MAGENTA);
-        this.playerPos = new Point(150,150);
+
+        this.player = new Player();
+
+
+//        this.player = new Player(new Rect(100, 100, 200, 200), Color.MAGENTA);
 
         setFocusable(true);
     }
@@ -36,7 +39,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        // start gameloop after surface is ready
         this.thread = new MainThread(getHolder(), this);
 
         this.thread.setRunning(true);
@@ -58,19 +60,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                this.isAbleToMove = this.player.GetRect().contains((int) event.getX(), (int) event.getY());
+//                this.isAbleToMove = this.player.GetRect().contains((int) event.getX(), (int) event.getY());
 
             case MotionEvent.ACTION_MOVE:
-                if(this.isAbleToMove) {
-                    this.playerPos.set((int) event.getX(), (int) event.getY());
-                }
+//                if(this.isAbleToMove) {
+//                    this.playerPos.set((int) event.getX(), (int) event.getY());
+//                }
         }
         return true;
     }
 
-    //Frame update
     public void update(float dt) {
-        player.update(this.playerPos);
+
+        this.player.update(dt);
     }
 
     @Override
