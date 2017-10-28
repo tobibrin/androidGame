@@ -29,6 +29,8 @@ local.properties
 .idea/vcs.xml
 *.iml
 
+build/intermediates/dex-cache/cache.xml
+
 # OS-specific files
 .DS_Store
 .DS_Store?
