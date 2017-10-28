@@ -14,21 +14,20 @@ import school.androidgame.Entities.Player;
  */
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
-    private MainThread thread;
 
+    private MainThread thread;
+    private Context Context;
     private school.androidgame.Entities.Player player;
 
     private boolean isAbleToMove = false;
 
     public GamePanel(Context context) {
         super(context);
+        this.Context = context;
         getHolder().addCallback(this);
         this.thread = new MainThread(getHolder(), this);
 
-        this.player = new Player();
-
-
-//        this.player = new Player(new Rect(100, 100, 200, 200), Color.MAGENTA);
+        this.player = new Player(this.Context, 50,50, 64, 64);
 
         setFocusable(true);
     }
@@ -60,9 +59,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                this.player.onActionDown(event);
 //                this.isAbleToMove = this.player.GetRect().contains((int) event.getX(), (int) event.getY());
 
+
             case MotionEvent.ACTION_MOVE:
+                this.player.onActionMove(event);
 //                if(this.isAbleToMove) {
 //                    this.playerPos.set((int) event.getX(), (int) event.getY());
 //                }

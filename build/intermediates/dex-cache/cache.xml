@@ -2,22 +2,112 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="C:\Users\Tobi\Desktop\androidGame\AndroidGame\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\0ef19912640916758694ab005e0712991f662b57\output\jars\classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\Tobi\Desktop\androidGame\AndroidGame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_1ff7add45ac5d64b231c335570db6cba7f41ea43\classes.dex" />
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_eb402c916265dd46352c98cfaad706f80f01cf36.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="C:\Users\Tobi\Desktop\androidGame\AndroidGame\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Tobi\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="a6e0d91c11ebefd4283d3c6af5f05af1ebaea56e">
-        <dex dex="C:\Users\Tobi\Desktop\androidGame\AndroidGame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_60ab8948b070b7053bc02b192ef3a21db5b33ade\classes.dex" />
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\support-annotations-25.3.1_c372a4ebd11141c27701632acc116ebc6a8ee577.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\0683070752c448957c6e498c4604e2d0c191e205\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_99c6ac1869bc6cf2342291fb588dd57a211d063d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\3849cead863671a6933390443b42ba4cca91d243\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_6339976ac989109bc38b9329707dc3d139da2bb5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\72cf8742c6b436c56cf11800d172b39d495ee36e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_5b7fc61a3334b87ddce8f73dd0f7bdeb2d22f226.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\7872545804395b918b6bf334f0a64a44ce0db085\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_03ae1d023fc9ed75153806bb7103013386b41c34.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\5453eec4672bdba5b442b07156cc26e4a2c6292c\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_5afe8e83a7e71ccb5dab111600d6508593e716e9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\d23629ba3da7bd96f85cd277dd495593b757df37\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_ee0b01d89358a161a12124d24171d6182bcd5419.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\f8108adad0a5df955a5f611e65a959b1552af185\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_d805405982a2d2a7d3ff1b8d828fabe72402a0c4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\AppData\Local\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\constraint-layout-solver-1.0.2_ba5347c6c6b58b58657f92763385df99f52456ee.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\0ec8484ae9eb9569ba658ba90f9cd3e534c0000e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_aa200d159e2eda83dfa822f19113f1f3ea82c2fa.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Tobi\.android\build-cache\152130233f63be20397a87ab66d92f737f79300b\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Tobi\Desktop\projects\androidGame\app\build\intermediates\pre-dexed\debug\classes_749e2e98c36c93d53fb1989af5f3b918cb761e11.jar" />
     </item>
 
 </items>
