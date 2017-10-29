@@ -3,11 +3,15 @@ package school.androidgame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 import school.androidgame.Entities.Player;
+import school.androidgame.manager.EnemyManager;
 
 /**
  * Created by Tobi on 18.09.2017.
@@ -15,21 +19,36 @@ import school.androidgame.Entities.Player;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
-    private MainThread thread;
-    private Context Context;
-    private school.androidgame.Entities.Player player;
+    public static float WIDTH;
+    public static float HEIGHT;
 
-    private boolean isAbleToMove = false;
+    private MainThread thread;
+    private Context context;
+    private Player player;
+    private EnemyManager enemyManager;
 
     public GamePanel(Context context) {
         super(context);
-        this.Context = context;
+        this.context = context;
         getHolder().addCallback(this);
+
+        this.setScreenSize();
+
         this.thread = new MainThread(getHolder(), this);
 
-        this.player = new Player(this.Context, 50,50, 64, 64);
+        this.player = new Player(this.context, 50, 50, 64, 64);
+        this.enemyManager = new EnemyManager(this.context, this.player);
 
         setFocusable(true);
+    }
+
+    private void setScreenSize() {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        GamePanel.WIDTH = size.x;
+        GamePanel.HEIGHT = size.y;
     }
 
     @Override
@@ -73,7 +92,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(float dt) {
-
+        dt = dt / 1000;
+        this.enemyManager.update(dt);
         this.player.update(dt);
     }
 
@@ -82,6 +102,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         canvas.drawColor(Color.WHITE);
 
+        this.enemyManager.draw(canvas);
         this.player.draw(canvas);
 
     }

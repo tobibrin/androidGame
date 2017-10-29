@@ -9,8 +9,8 @@ import java.util.UUID;
  */
 
 public abstract class GameObject {
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     private int width;
     private int height;
     private String name;
@@ -27,7 +27,7 @@ public abstract class GameObject {
         this.uuid = UUID.randomUUID();
     }
 
-    public GameObject(int newX, int newY, int newWidth, int newHeight){
+    public GameObject(float newX, float newY, int newWidth, int newHeight){
         this.name = "";
         this.x = newX;
         this.y = newY;
@@ -41,11 +41,11 @@ public abstract class GameObject {
 
     public abstract void draw(Canvas canvas);
 
-    public int getX(){
+    public float getX(){
         return this.x;
     }
 
-    public int getY(){
+    public float getY(){
         return this.y;
     }
 
@@ -69,11 +69,11 @@ public abstract class GameObject {
         return this.visible;
     }
 
-    public void setX(int newX){
+    public void setX(float newX){
         this.x = newX;
     }
 
-    public void setY(int newY){
+    public void setY(float newY){
         this.y = newY;
     }
 

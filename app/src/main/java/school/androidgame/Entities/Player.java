@@ -24,6 +24,7 @@ public class Player extends GameObject {
     public Player(Context context, int x, int y, int width, int height) {
         super();
         this.setX(x);
+
         this.setY(y);
         this.setWidth(width);
         this.setHeight(height);
@@ -44,8 +45,8 @@ public class Player extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        int xCenter = this.getX() - (this.getWidth() /  2);
-        int yCenter = this.getY() - (this.getHeight() / 2);
+        float xCenter = this.getX() - (this.getWidth() /  2);
+        float yCenter = this.getY() - (this.getHeight() / 2);
         canvas.drawBitmap(playerImage, xCenter, yCenter, this.playerPaint);
     }
 
@@ -62,8 +63,8 @@ public class Player extends GameObject {
     }
 
     private boolean intersectsPlayer(float clickedX, float clickedY) {
-        int playerPosX = this.getX();
-        int playerPosY = this.getY();
+        float playerPosX = this.getX();
+        float playerPosY = this.getY();
 
         int halfPlayerWidth = this.getWidth()/2;
         int halfPlayerHeight = this.getHeight()/2;
