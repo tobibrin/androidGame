@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.graphics.Rect;
 
 import school.androidgame.Core.GameObject;
 import school.androidgame.GamePanel;
@@ -16,25 +17,31 @@ import school.androidgame.R;
 
 public class Enemy extends GameObject {
 
+    private Player player;
+
     private Bitmap enemyBitmap;
     private PointF direction;
     private float speed;
 
-    private boolean isAlive;
+    private boolean isInScreen;
+    private boolean hitPlayer;
 
-
-    public Enemy(Context context, float x, float y) {
+    public Enemy(Context context, Player player, float x, float y) {
         this.setX(x);
         this.setY(y);
         this.setWidth(32);
         this.setHeight(32);
 
         this.speed = 300;
-        this.direction = new PointF(0 ,-0.5f);
-        this.isAlive = true;
+        this.direction = new PointF(0 ,0);
+
+        this.isInScreen = true;
+        this.hitPlayer = false;
 
         this.enemyBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball_enemy);
         this.enemyBitmap = Bitmap.createScaledBitmap(this.enemyBitmap, this.getWidth(), this.getHeight(), false);
+
+        this.player = player;
     }
 
     private boolean stillInScreen() {
@@ -50,9 +57,12 @@ public class Enemy extends GameObject {
         this.setY(this.getY() + (this.direction.y * dt * speed));
 
         if(!this.stillInScreen()) {
-            this.isAlive = false;
+            this.isInScreen = false;
         }
 
+        if(this.enemyPlayerCollisionCheck()) {
+            this.hitPlayer = true;
+        }
     }
 
     @Override
@@ -62,11 +72,39 @@ public class Enemy extends GameObject {
         canvas.drawBitmap(enemyBitmap, xCenter, yCenter, null);
     }
 
-    public boolean getIsAlive() {
-        return this.isAlive;
+    public boolean getIsInScreen() {
+        return this.isInScreen;
     }
+
+    public boolean getHitPlayer() { return this.hitPlayer;}
 
     public void setDirection(PointF direction) {
         this.direction = direction;
     }
+
+    private boolean enemyPlayerCollisionCheck() {
+        float playerX = this.player.getX();
+        float playerY = this.player.getY();
+
+        float playerHalfWidth = this.player.getWidth() / 2.0f;
+        float playerHalfHeight = this.player.getHeight() / 2.0f;
+
+        float enemyX = this.getX();
+        float enemyY = this.getY();
+
+        float enemyHalfWidth = this.getWidth() / 2.0f;
+        float enemyHalfHeight = this.getHeight() / 2.0f;
+
+        Rect enemyRect = new Rect((int)(enemyX - enemyHalfWidth) , (int)(enemyY - enemyHalfHeight), (int)(enemyX + enemyHalfWidth), (int)(enemyY + enemyHalfHeight));
+        Rect playerRect = new Rect( (int)(playerX - playerHalfWidth), (int)(playerY - playerHalfHeight), (int)(playerX + playerHalfWidth), (int)(playerY + playerHalfHeight));
+
+        //TODO tolerance?
+        return playerRect.intersect(enemyRect);
+    }
+
+    public void destroy() {
+        this.enemyBitmap.recycle();
+        this.enemyBitmap = null;
+    }
+
 }

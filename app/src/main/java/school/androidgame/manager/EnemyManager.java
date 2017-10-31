@@ -42,9 +42,13 @@ public class EnemyManager {
         for (Enemy enemy: enemyArrayList) {
             enemy.update(dt);
 
-            if (!enemy.getIsAlive()) {
+            if (!enemy.getIsInScreen()) {
+                this.enemiesToRemove.add(enemy);
+            } else if (enemy.getHitPlayer()) {
+                //TODO player gets dmg
                 this.enemiesToRemove.add(enemy);
             }
+
         }
 
         if (this.enemyArrayList.size() < this.maxEnemies && Math.random() < 0.05f) {
@@ -57,6 +61,7 @@ public class EnemyManager {
     private void cleanUpEnemies() {
 
         for (Enemy enemy: this.enemiesToRemove) {
+            enemy.destroy();
             this.enemyArrayList.remove(enemy);
         }
 
@@ -69,7 +74,7 @@ public class EnemyManager {
 
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
-        Enemy enemy = new Enemy(this.context, enemyPos.x, enemyPos.y);
+        Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y);
         enemy.setDirection(enemyDirection);
 
         this.enemyArrayList.add(enemy);
