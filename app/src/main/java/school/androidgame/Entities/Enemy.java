@@ -29,10 +29,13 @@ public class Enemy extends GameObject {
     public Enemy(Context context, Player player, float x, float y) {
         this.setX(x);
         this.setY(y);
-        this.setWidth(32);
-        this.setHeight(32);
 
-        this.speed = 300;
+        float width = this.initWidth();
+
+        this.setWidth((int)width);
+        this.setHeight((int)width);
+
+        this.speed = this.initSpeed();
         this.direction = new PointF(0 ,0);
 
         this.isInScreen = true;
@@ -42,6 +45,16 @@ public class Enemy extends GameObject {
         this.enemyBitmap = Bitmap.createScaledBitmap(this.enemyBitmap, this.getWidth(), this.getHeight(), false);
 
         this.player = player;
+    }
+
+    private float initSpeed() {
+        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
+        return 150 * (minValue / 1000) * (GamePanel.DENSITY);
+    }
+
+    private float initWidth() {
+        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
+        return minValue * 0.025f * GamePanel.DENSITY;
     }
 
     private boolean stillInScreen() {

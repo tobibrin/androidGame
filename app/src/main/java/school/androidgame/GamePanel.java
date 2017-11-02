@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -21,6 +22,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public static float WIDTH;
     public static float HEIGHT;
+    public static float DENSITY;
 
     private MainThread thread;
     private Context context;
@@ -32,23 +34,38 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         this.context = context;
         getHolder().addCallback(this);
 
-        this.setScreenSize();
+        this.getScreenSize();
+        this.getDensity();
 
         this.thread = new MainThread(getHolder(), this);
 
-        this.player = new Player(this.context, 50, 50, 64, 64);
+        float playerWidth = this.getPlayerSize();
+
+        this.player = new Player(this.context, 50, 50, (int)playerWidth, (int)playerWidth);
         this.enemyManager = new EnemyManager(this.context, this.player);
 
         setFocusable(true);
     }
 
-    private void setScreenSize() {
+    private float getPlayerSize() {
+        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
+        return minValue * 0.05f * GamePanel.DENSITY;
+    }
+
+    private void getDensity() {
+        GamePanel.DENSITY = context.getResources().getDisplayMetrics().density;
+    }
+
+    private void getScreenSize() {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
-        display.getSize(size);
-        GamePanel.WIDTH = size.x;
-        GamePanel.HEIGHT = size.y;
+        if (display != null) {
+            display.getSize(size);
+
+            GamePanel.WIDTH = size.x;
+            GamePanel.HEIGHT = size.y;
+        }
     }
 
     @Override
@@ -79,14 +96,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 this.player.onActionDown(event);
-//                this.isAbleToMove = this.player.GetRect().contains((int) event.getX(), (int) event.getY());
 
 
             case MotionEvent.ACTION_MOVE:
                 this.player.onActionMove(event);
-//                if(this.isAbleToMove) {
-//                    this.playerPos.set((int) event.getX(), (int) event.getY());
-//                }
         }
         return true;
     }
