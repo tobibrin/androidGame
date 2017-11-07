@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
@@ -19,6 +21,8 @@ public class Enemy extends GameObject {
 
     private Player player;
 
+    private Paint enemyPaint;
+    private Rect enemyRect;
     private Bitmap enemyBitmap;
     private PointF direction;
     private float speed;
@@ -45,6 +49,10 @@ public class Enemy extends GameObject {
         this.enemyBitmap = Bitmap.createScaledBitmap(this.enemyBitmap, this.getWidth(), this.getHeight(), false);
 
         this.player = player;
+        this.enemyRect = new Rect();
+        this.enemyPaint = new Paint();
+        this.enemyPaint.setColor(Color.BLACK);
+        this.updateRect();
     }
 
     private float initSpeed() {
@@ -69,6 +77,8 @@ public class Enemy extends GameObject {
         this.setX(this.getX() + (this.direction.x * dt * speed));
         this.setY(this.getY() + (this.direction.y * dt * speed));
 
+        this.updateRect();
+
         if(!this.stillInScreen()) {
             this.isInScreen = false;
         }
@@ -80,8 +90,8 @@ public class Enemy extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        float xCenter = this.getX() - (this.getWidth() /  2);
-        float yCenter = this.getY() - (this.getHeight() / 2);
+        float xCenter = this.getX() - (this.getWidth() /  2.0f);
+        float yCenter = this.getY() - (this.getHeight() / 2.0f);
         canvas.drawBitmap(enemyBitmap, xCenter, yCenter, null);
     }
 
@@ -96,28 +106,27 @@ public class Enemy extends GameObject {
     }
 
     private boolean enemyPlayerCollisionCheck() {
-        float playerX = this.player.getX();
-        float playerY = this.player.getY();
 
-        float playerHalfWidth = this.player.getWidth() / 2.0f;
-        float playerHalfHeight = this.player.getHeight() / 2.0f;
+        //TODO tolerance?
+        return Rect.intersects(this.player.getPlayerRect(), this.enemyRect);
+    }
 
+    public void destroy() {
+        this.enemyBitmap.recycle();
+        this.enemyBitmap = null;
+    }
+
+    private void updateRect(){
         float enemyX = this.getX();
         float enemyY = this.getY();
 
         float enemyHalfWidth = this.getWidth() / 2.0f;
         float enemyHalfHeight = this.getHeight() / 2.0f;
 
-        Rect enemyRect = new Rect((int)(enemyX - enemyHalfWidth) , (int)(enemyY - enemyHalfHeight), (int)(enemyX + enemyHalfWidth), (int)(enemyY + enemyHalfHeight));
-        Rect playerRect = new Rect( (int)(playerX - playerHalfWidth), (int)(playerY - playerHalfHeight), (int)(playerX + playerHalfWidth), (int)(playerY + playerHalfHeight));
-
-        //TODO tolerance?
-        return playerRect.intersect(enemyRect);
-    }
-
-    public void destroy() {
-        this.enemyBitmap.recycle();
-        this.enemyBitmap = null;
+        this.enemyRect.set((int)(enemyX - enemyHalfWidth),
+                (int)(enemyY - enemyHalfHeight),
+                (int)(enemyX + enemyHalfWidth),
+                (int)(enemyY + enemyHalfHeight));
     }
 
 }
