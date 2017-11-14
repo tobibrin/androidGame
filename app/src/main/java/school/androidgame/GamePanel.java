@@ -39,18 +39,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         this.thread = new MainThread(getHolder(), this);
 
-        float playerWidth = this.getPlayerSize();
 
-        this.player = new Player(this.context, 50, 50, (int)playerWidth, (int)playerWidth);
+        this.player = new Player(this.context, 50, 50);
         this.enemyManager = new EnemyManager(this.context, this.player);
 
         setFocusable(true);
     }
 
-    private float getPlayerSize() {
-        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
-        return minValue * 0.05f * GamePanel.DENSITY;
-    }
 
     private void getDensity() {
         GamePanel.DENSITY = context.getResources().getDisplayMetrics().density;

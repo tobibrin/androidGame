@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import school.androidgame.Core.GameObject;
+import school.androidgame.GamePanel;
 import school.androidgame.R;
 
 /**
@@ -25,13 +26,16 @@ public class Player extends GameObject {
 
     private boolean playerIsAbleToMove;
 
-    public Player(Context context, int x, int y, int width, int height) {
+    public Player(Context context, int x, int y) {
         super();
         this.setX(x);
-
         this.setY(y);
-        this.setWidth(width);
-        this.setHeight(height);
+
+        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
+        int size =(int)(minValue * 0.05f * GamePanel.DENSITY);
+
+        this.setWidth(size);
+        this.setHeight(size);
         this.setName("player");
         this.setVisible(true);
         this.playerIsAbleToMove = false;
@@ -46,8 +50,7 @@ public class Player extends GameObject {
 
     @Override
     public void update(float dt) {
-        System.out.println("test" + this.playerRect.width() +"/" + this.playerRect.height());
-    }
+         }
 
     @Override
     public void draw(Canvas canvas) {
