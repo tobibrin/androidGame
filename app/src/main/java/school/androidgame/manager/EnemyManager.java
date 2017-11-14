@@ -70,7 +70,7 @@ public class EnemyManager {
 
     private void spawnEnemy() {
         PointF playerPos = new PointF(this.player.getX(), this.player.getY());
-        Vector2D enemyPos = new Vector2D((float)(Math.random() * (GamePanel.WIDTH - 16)), GamePanel.HEIGHT - 16);
+        Vector2D enemyPos = this.getRandomEnemyPos();
 
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
@@ -78,6 +78,48 @@ public class EnemyManager {
         enemy.setDirection(enemyDirection);
 
         this.enemyArrayList.add(enemy);
+    }
+
+    private Vector2D getRandomEnemyPos() {
+        Vector2D resultEnemyPos;
+
+        double random = Math.random();
+
+        if (random < 0.25) {
+
+            resultEnemyPos = this.getRandomLeftPos();
+
+        } else if (random < 0.5) {
+
+            resultEnemyPos = this.getRandomTopPos();
+
+        } else if( random < 0.75) {
+
+            resultEnemyPos = this.getRandomRightPos();
+
+        } else {
+
+            resultEnemyPos = this.getRandomBottomPos();
+
+        }
+
+        return resultEnemyPos;
+    }
+
+    private Vector2D getRandomLeftPos() {
+            return new Vector2D(0, (float)(GamePanel.HEIGHT * Math.random()));
+    }
+
+    private Vector2D getRandomRightPos() {
+        return new Vector2D(GamePanel.WIDTH, (int)(GamePanel.HEIGHT * Math.random()));
+    }
+
+    private Vector2D getRandomTopPos() {
+        return new Vector2D((float)(GamePanel.WIDTH * Math.random()), 0);
+    }
+
+    private Vector2D getRandomBottomPos() {
+        return new Vector2D((float)(GamePanel.WIDTH * Math.random()), GamePanel.HEIGHT);
     }
 
 }
