@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 
 import java.util.UUID;
 
+import school.androidgame.GamePanel;
+
 /**
  * Created by kezab on 09.10.17.
  */
@@ -17,7 +19,7 @@ public abstract class GameObject {
     private boolean visible;
     private UUID uuid;
 
-    public GameObject(){
+    public GameObject() {
         this.name = "";
         this.x = 0;
         this.y = 0;
@@ -27,7 +29,7 @@ public abstract class GameObject {
         this.uuid = UUID.randomUUID();
     }
 
-    public GameObject(float newX, float newY, int newWidth, int newHeight){
+    public GameObject(float newX, float newY, int newWidth, int newHeight) {
         this.name = "";
         this.x = newX;
         this.y = newY;
@@ -41,55 +43,74 @@ public abstract class GameObject {
 
     public abstract void draw(Canvas canvas);
 
-    public float getX(){
+    public float getX() {
         return this.x;
     }
 
-    public float getY(){
+    public float getY() {
         return this.y;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return this.width;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return this.height;
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public UUID getUUID(){
+    public UUID getUUID() {
         return this.uuid;
     }
 
-    public boolean isVisible(){
+    public boolean isVisible() {
         return this.visible;
     }
 
-    public void setX(float newX){
+    public void setX(float newX) {
+
+        if (newX > GamePanel.WIDTH) {
+            newX = GamePanel.WIDTH;
+        }
+
+        if (newX < 0) {
+            newX = 0;
+        }
+
         this.x = newX;
     }
 
-    public void setY(float newY){
+    public void setY(float newY) {
+
+        if (newY > GamePanel.HEIGHT) {
+            newY = GamePanel.HEIGHT;
+        }
+
+        if (newY < 0) {
+            newY = 0;
+        }
+
+
         this.y = newY;
     }
 
-    public void setWidth(int newWidth){
+    public void setWidth(int newWidth) {
         this.width = newWidth;
     }
 
-    public void setHeight(int newHeight){
+    public void setHeight(int newHeight) {
         this.height = newHeight;
     }
 
-    public void setName(String newName){
+    public void setName(String newName) {
         this.name = newName;
     }
 
-    public void setVisible(boolean newVisible){
+    public void setVisible(boolean newVisible) {
         this.visible = newVisible;
     }
 }

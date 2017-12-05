@@ -3,6 +3,7 @@ package school.androidgame.manager;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PointF;
+
 import java.util.ArrayList;
 
 import school.androidgame.Entities.Enemy;
@@ -33,13 +34,14 @@ public class EnemyManager {
     }
 
     public void draw(Canvas canvas) {
-        for (Enemy enemy: enemyArrayList) {
+
+        for (Enemy enemy : enemyArrayList) {
             enemy.draw(canvas);
         }
     }
 
     public void update(float dt) {
-        for (Enemy enemy: enemyArrayList) {
+        for (Enemy enemy : enemyArrayList) {
             enemy.update(dt);
 
             if (!enemy.getIsInScreen()) {
@@ -60,7 +62,7 @@ public class EnemyManager {
 
     private void cleanUpEnemies() {
 
-        for (Enemy enemy: this.enemiesToRemove) {
+        for (Enemy enemy : this.enemiesToRemove) {
             enemy.destroy();
             this.enemyArrayList.remove(enemy);
         }
@@ -93,7 +95,7 @@ public class EnemyManager {
 
             resultEnemyPos = this.getRandomTopPos();
 
-        } else if( random < 0.75) {
+        } else if (random < 0.75) {
 
             resultEnemyPos = this.getRandomRightPos();
 
@@ -107,19 +109,19 @@ public class EnemyManager {
     }
 
     private Vector2D getRandomLeftPos() {
-            return new Vector2D(0, (float)(GamePanel.HEIGHT * Math.random()));
+        return new Vector2D(0, (float) (GamePanel.HEIGHT * Math.random()));
     }
 
     private Vector2D getRandomRightPos() {
-        return new Vector2D(GamePanel.WIDTH, (int)(GamePanel.HEIGHT * Math.random()));
+        return new Vector2D(GamePanel.WIDTH, (int) (GamePanel.HEIGHT * Math.random()));
     }
 
     private Vector2D getRandomTopPos() {
-        return new Vector2D((float)(GamePanel.WIDTH * Math.random()), 0);
+        return new Vector2D((float) (GamePanel.WIDTH * Math.random()), 0);
     }
 
     private Vector2D getRandomBottomPos() {
-        return new Vector2D((float)(GamePanel.WIDTH * Math.random()), GamePanel.HEIGHT);
+        return new Vector2D((float) (GamePanel.WIDTH * Math.random()), GamePanel.HEIGHT);
     }
 
 }

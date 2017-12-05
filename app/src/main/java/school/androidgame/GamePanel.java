@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -23,6 +22,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static float WIDTH;
     public static float HEIGHT;
     public static float DENSITY;
+    public static float MIN_WIDTH_HEIGHT;
 
     private MainThread thread;
     private Context context;
@@ -44,6 +44,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         this.enemyManager = new EnemyManager(this.context, this.player);
 
         setFocusable(true);
+
+
     }
 
 
@@ -60,6 +62,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
             GamePanel.WIDTH = size.x;
             GamePanel.HEIGHT = size.y;
+
+            GamePanel.MIN_WIDTH_HEIGHT = Math.min(GamePanel.WIDTH, GamePanel.HEIGHT);
         }
     }
 
@@ -101,6 +105,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(float dt) {
         dt = dt / 1000;
+
         this.enemyManager.update(dt);
         this.player.update(dt);
     }
