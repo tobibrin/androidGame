@@ -48,21 +48,25 @@ public class MainThread extends Thread{
             this.dt = System.currentTimeMillis() - lastFrameTime;
             this.lastFrameTime = System.currentTimeMillis();
 
-            try {
+            try
+            {
                 this.canvas = this.surfaceHolder.lockCanvas();
-                synchronized (this.surfaceHolder) {
+                synchronized (this.surfaceHolder)
+                {
                     this.gamePanel.update(this.dt);
                     this.gamePanel.draw(this.canvas);
                 }
-            } catch (Exception e){
-                e.printStackTrace();
-            } finally {
-                if(this.canvas != null) {
-                    try{
+            }
+            catch (Exception e){e.printStackTrace();}
+            finally
+            {
+                if(this.canvas != null)
+                {
+                    try
+                    {
                         this.surfaceHolder.unlockCanvasAndPost(canvas);
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                    catch (Exception e){e.printStackTrace();}
 
                     this.dt = System.currentTimeMillis();
                 }
@@ -71,12 +75,12 @@ public class MainThread extends Thread{
             this.timeMillis = (System.nanoTime() - this.startTime) / 1000000;
             this.waitTime = this.targetTime - this.timeMillis;
 
-            try {
-                if(this.waitTime > 0) {
+            try
+            {
+                if(this.waitTime > 0)
                     MainThread.sleep(this.waitTime);
-
-                }
-            } catch (Exception e){
+            }
+            catch (Exception e){
                 e.printStackTrace();
             }
 

@@ -113,4 +113,6 @@ public abstract class GameObject {
     public void setVisible(boolean newVisible) {
         this.visible = newVisible;
     }
+
+
 }

@@ -139,8 +139,8 @@ public class Player extends GameObject {
         float playerPosX = this.getX();
         float playerPosY = this.getY();
 
-        int halfPlayerWidth = this.getWidth() / 2;
-        int halfPlayerHeight = this.getHeight() / 2;
+        float halfPlayerWidth = this.getWidth() / 2;
+        float halfPlayerHeight = this.getHeight() / 2;
 
         boolean isInWidth = clickedX >= playerPosX - halfPlayerWidth && clickedX <= playerPosX + halfPlayerWidth;
         boolean isInHeight = clickedY >= playerPosY - halfPlayerHeight && clickedY <= playerPosY + halfPlayerHeight;

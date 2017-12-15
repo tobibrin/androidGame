@@ -12,6 +12,8 @@ import android.view.WindowManager;
 
 import school.androidgame.Entities.Player;
 import school.androidgame.manager.EnemyManager;
+import school.androidgame.manager.GuiManager;
+import school.androidgame.manager.TimeManager;
 
 /**
  * Created by Tobi on 18.09.2017.
@@ -27,7 +29,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private Context context;
     private Player player;
+    private GuiManager guiManager;
     private EnemyManager enemyManager;
+    private TimeManager timeManager;
 
     public GamePanel(Context context) {
         super(context);
@@ -40,12 +44,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         this.thread = new MainThread(getHolder(), this);
 
 
+        this.guiManager = new GuiManager(this.context);
         this.player = new Player(this.context, 50, 50);
+        this.timeManager = new TimeManager();
+        this.guiManager.setPlayer(this.player);
         this.enemyManager = new EnemyManager(this.context, this.player);
 
         setFocusable(true);
-
-
     }
 
 
@@ -108,6 +113,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         this.enemyManager.update(dt);
         this.player.update(dt);
+        this.guiManager.update(dt);
     }
 
     @Override
@@ -117,6 +123,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         this.enemyManager.draw(canvas);
         this.player.draw(canvas);
+        this.guiManager.draw(canvas);
 
     }
 }
