@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import school.androidgame.manager.GameManager;
+
 public class MainActivity extends Activity {
 
     @Override
@@ -16,6 +18,6 @@ public class MainActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(new GamePanel(this));
+        new GameManager(this);
     }
 }

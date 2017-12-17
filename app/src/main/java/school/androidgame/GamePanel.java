@@ -12,6 +12,7 @@ import android.view.WindowManager;
 
 import school.androidgame.Entities.Player;
 import school.androidgame.manager.EnemyManager;
+import school.androidgame.manager.GameManager;
 import school.androidgame.manager.GuiManager;
 import school.androidgame.manager.TimeManager;
 
@@ -26,40 +27,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static float DENSITY;
     public static float MIN_WIDTH_HEIGHT;
 
+    private GameManager game;
     private MainThread thread;
     private Context context;
-    private Player player;
-    private GuiManager guiManager;
-    private EnemyManager enemyManager;
-    private TimeManager timeManager;
 
-    public GamePanel(Context context) {
-        super(context);
-        this.context = context;
+
+    public GamePanel(GameManager game) {
+        super(game.context);
+        this.game = game;
+        this.context = game.context;
         getHolder().addCallback(this);
 
         this.getScreenSize();
         this.getDensity();
 
         this.thread = new MainThread(getHolder(), this);
-
-
-        this.guiManager = new GuiManager(this.context);
-        this.player = new Player(this.context, 50, 50);
-        this.timeManager = new TimeManager();
-        this.guiManager.setPlayer(this.player);
-        this.enemyManager = new EnemyManager(this.context, this.player);
-
         setFocusable(true);
     }
 
 
     private void getDensity() {
-        GamePanel.DENSITY = context.getResources().getDisplayMetrics().density;
+        GamePanel.DENSITY = this.context.getResources().getDisplayMetrics().density;
     }
 
     private void getScreenSize() {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) this.context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         if (display != null) {
@@ -99,32 +91,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                this.player.onActionDown(event);
+                this.game.player.onActionDown(event);
 
 
             case MotionEvent.ACTION_MOVE:
-                this.player.onActionMove(event);
+                this.game.player.onActionMove(event);
         }
         return true;
     }
 
     public void update(float dt) {
         dt = dt / 1000;
-
-        this.enemyManager.update(dt);
-        this.player.update(dt);
-        this.guiManager.update(dt);
+        this.game.update(dt);
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         canvas.drawColor(Color.WHITE);
-
-        this.enemyManager.draw(canvas);
-        this.player.draw(canvas);
-        this.guiManager.draw(canvas);
-
+        this.game.draw(canvas);
     }
 }
 

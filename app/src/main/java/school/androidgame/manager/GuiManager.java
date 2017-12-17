@@ -13,20 +13,23 @@ import school.androidgame.Gui.Health;
  */
 
 public class GuiManager {
+    private GameManager game;
     private Health health;
     private PlayTime playtime;
     private Player player;
     private Context context;
 
-    public GuiManager(Context context){
-        this.playtime = new PlayTime();
+    public GuiManager(GameManager game){
+        this.game = game;
+        this.player = game.player;
+        this.playtime = new PlayTime(this.game.timeManager);
         this.health = new Health();
-        this.context = context;
+        this.context = game.context;
+
+        this.playtime.setVisible(true);
+        this.health.setVisible(true);
     }
 
-    public void setPlayer(Player p){
-        this.player = p;
-    }
 
     private void updateHealth(int value){
         this.health.setValue(value);
@@ -40,6 +43,6 @@ public class GuiManager {
 
     public void update(float dt) {
         this.playtime.update(dt);
-        this.health.update(dt);
+        this.health.update(this.player.getHealth());
     }
 }

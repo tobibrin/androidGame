@@ -7,32 +7,39 @@ import java.util.Timer;
  */
 
 public class TimeManager {
-    private static long totalTime = 0;
-    private static long startTime = 0;
+    private long totalTime = 0;
+    private long startTime = 0;
 
-    public static void start(){
+    public GameManager game;
+
+    public TimeManager(GameManager game){
+        this.game = game;
+        this.start();
+    }
+
+    public void start(){
         startTime = System.currentTimeMillis();
     }
 
-    public static void stop()
+    public void stop()
     {
         totalTime += System.currentTimeMillis() - startTime;
     }
-    public static long getRelativeTime(){
+    public long getRelativeTime(){
         return System.currentTimeMillis() - startTime;
     }
 
-    public static long getCurrentTime(){
+    public long getCurrentTime(){
         return System.currentTimeMillis();
     }
 
-    private static long getTotalTime()
+    private long getTotalTime()
     {
         return System.currentTimeMillis() - startTime + totalTime;
     }
 
-    private static void reset(){
+    public void reset(){
         totalTime = 0;
-        startTime = 0;
+        this.start();
     }
 }

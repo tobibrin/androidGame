@@ -90,9 +90,11 @@ public class Enemy extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        float xCenter = this.getX() - (this.getWidth() /  2.0f);
-        float yCenter = this.getY() - (this.getHeight() / 2.0f);
-        canvas.drawBitmap(enemyBitmap, xCenter, yCenter, null);
+        if(this.isVisible()) {
+            float xCenter = this.getX() - (this.getWidth() / 2.0f);
+            float yCenter = this.getY() - (this.getHeight() / 2.0f);
+            canvas.drawBitmap(enemyBitmap, xCenter, yCenter, null);
+        }
     }
 
     public boolean getIsInScreen() {

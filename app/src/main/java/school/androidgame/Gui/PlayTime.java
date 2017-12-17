@@ -13,11 +13,12 @@ import school.androidgame.manager.TimeManager;
 
 public class PlayTime extends HudElement{
     private long time;
+    private TimeManager timer;
 
-    public PlayTime()
+    public PlayTime(TimeManager timer)
     {
-        TimeManager.start();
         this.time = 0;
+        this.timer = timer;
     }
 
     public PlayTime(long offset)
@@ -44,20 +45,22 @@ public class PlayTime extends HudElement{
 
     @Override
     public void draw(Canvas canvas){
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.GRAY);
-        paint.setTextSize(50);
-        paint.setAntiAlias(true);
-        paint.setFakeBoldText(true);
-        canvas.drawText("" + this.time, 100, 100, paint);
-        //canvas.drawText(String.valueOf(this.time), 0,0,new Paint());
+        if(this.getVisibility())
+        {
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.GRAY);
+            paint.setTextSize(50);
+            paint.setAntiAlias(true);
+            paint.setFakeBoldText(true);
+
+            canvas.drawText("" + this.time, 100, 100, paint);
+        }
     }
 
     @Override
     public void update(float dt){
-        this.time = TimeManager.getRelativeTime();
-
+            this.time = this.timer.getRelativeTime();
     }
 
 
