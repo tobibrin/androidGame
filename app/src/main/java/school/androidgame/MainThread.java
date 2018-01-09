@@ -97,5 +97,4 @@ public class MainThread extends Thread{
         this.running = running;
     }
 
-
 }

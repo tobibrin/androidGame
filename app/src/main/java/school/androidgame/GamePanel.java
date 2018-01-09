@@ -44,10 +44,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         this.enemyManager = new EnemyManager(this.context, this.player);
 
         setFocusable(true);
-
-
     }
-
 
     private void getDensity() {
         GamePanel.DENSITY = context.getResources().getDisplayMetrics().density;
@@ -81,7 +78,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        while (true) {
+        while (this.thread.isAlive()) {
             try {
                 this.thread.setRunning(false);
                 this.thread.join();
@@ -112,12 +109,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void draw(Canvas canvas) {
+
         super.draw(canvas);
         canvas.drawColor(Color.WHITE);
 
         this.enemyManager.draw(canvas);
         this.player.draw(canvas);
+    }
 
+    public void stopGame() {
+        if (this.thread != null) {
+
+            this.thread.setRunning(false);
+            this.thread.interrupt();
+        }
     }
 }
 

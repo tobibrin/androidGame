@@ -93,7 +93,6 @@ public class Player extends GameObject {
                 if (Math.abs(xDirection) > 0.1f || Math.abs(yDirection) > 0.1f) {
 
                     this.direction.set(xDirection, yDirection);
-                    System.out.println((xDirection + " / " + yDirection));
                 } else {
                     this.direction.set(0,0);
                 }
@@ -102,7 +101,7 @@ public class Player extends GameObject {
 
 
         float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
-        System.out.println(newX);
+
 
         this.setX(newX);
         this.setY(this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY));
