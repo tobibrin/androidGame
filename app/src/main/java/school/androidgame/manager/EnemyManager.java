@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import school.androidgame.Entities.Enemy;
 import school.androidgame.Entities.Player;
@@ -17,6 +18,7 @@ import school.androidgame.Utils.Vector2D;
 
 public class EnemyManager {
 
+    private GameManager game;
     private Player player;
 
     private int maxEnemies;
@@ -24,9 +26,10 @@ public class EnemyManager {
     private ArrayList<Enemy> enemyArrayList;
     private ArrayList<Enemy> enemiesToRemove;
 
-    public EnemyManager(Context context, Player player) {
-        this.context = context;
-        this.player = player;
+    public EnemyManager(GameManager game) {
+        this.game = game;
+        this.context = game.context;
+        this.player = game.player;
 
         this.enemyArrayList = new ArrayList<Enemy>();
         this.enemiesToRemove = new ArrayList<Enemy>();
@@ -46,8 +49,8 @@ public class EnemyManager {
 
             if (!enemy.getIsInScreen()) {
                 this.enemiesToRemove.add(enemy);
-            } else if (enemy.getHitPlayer()) {
-                //TODO player gets dmg
+            } else if (enemy.isVisible() && enemy.getHitPlayer()) {
+                this.player.damage(1);
                 this.enemiesToRemove.add(enemy);
             }
 
@@ -77,6 +80,7 @@ public class EnemyManager {
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
         Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y);
+        enemy.setVisible(true);
         enemy.setDirection(enemyDirection);
 
         this.enemyArrayList.add(enemy);
@@ -122,6 +126,14 @@ public class EnemyManager {
 
     private Vector2D getRandomBottomPos() {
         return new Vector2D((float) (GamePanel.WIDTH * Math.random()), GamePanel.HEIGHT);
+    }
+
+    public void killAll(){
+
+        Iterator<Enemy> i = this.enemyArrayList.iterator();
+        while(i.hasNext()){
+            i.next().setVisible(false);
+        }
     }
 
 }

@@ -12,6 +12,9 @@ import android.view.WindowManager;
 
 import school.androidgame.Entities.Player;
 import school.androidgame.manager.EnemyManager;
+import school.androidgame.manager.GameManager;
+import school.androidgame.manager.GuiManager;
+import school.androidgame.manager.TimeManager;
 
 /**
  * Created by Tobi on 18.09.2017.
@@ -24,34 +27,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static float DENSITY;
     public static float MIN_WIDTH_HEIGHT;
 
+    private GameManager game;
     private MainThread thread;
     private Context context;
-    private Player player;
-    private EnemyManager enemyManager;
 
-    public GamePanel(Context context) {
-        super(context);
-        this.context = context;
+
+    public GamePanel(GameManager game) {
+        super(game.context);
+        this.game = game;
+        this.context = game.context;
         getHolder().addCallback(this);
 
         this.getScreenSize();
         this.getDensity();
 
         this.thread = new MainThread(getHolder(), this);
-
-
-        this.player = new Player(this.context, 50, 50);
-        this.enemyManager = new EnemyManager(this.context, this.player);
-
         setFocusable(true);
     }
 
+
     private void getDensity() {
-        GamePanel.DENSITY = context.getResources().getDisplayMetrics().density;
+        GamePanel.DENSITY = this.context.getResources().getDisplayMetrics().density;
     }
 
     private void getScreenSize() {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) this.context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         if (display != null) {
@@ -91,30 +91,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                this.player.onActionDown(event);
+                this.game.player.onActionDown(event);
 
 
             case MotionEvent.ACTION_MOVE:
-                this.player.onActionMove(event);
+                this.game.player.onActionMove(event);
         }
         return true;
     }
 
     public void update(float dt) {
         dt = dt / 1000;
-
-        this.enemyManager.update(dt);
-        this.player.update(dt);
+        this.game.update(dt);
     }
 
     @Override
     public void draw(Canvas canvas) {
-
         super.draw(canvas);
         canvas.drawColor(Color.WHITE);
-
-        this.enemyManager.draw(canvas);
-        this.player.draw(canvas);
+        this.game.draw(canvas);
     }
 
     public void stopGame() {

@@ -16,6 +16,7 @@ import school.androidgame.Core.GameObject;
 import school.androidgame.GamePanel;
 import school.androidgame.R;
 import school.androidgame.Utils.Vector2D;
+import school.androidgame.manager.GameManager;
 import school.androidgame.manager.GyroscopicManager;
 
 /**
@@ -24,9 +25,12 @@ import school.androidgame.manager.GyroscopicManager;
 
 public class Player extends GameObject {
 
+    private GameManager game;
     private Rect playerRect;
     private Bitmap playerImage;
     private Paint playerPaint;
+
+    private int health;
 
     private Vector2D direction;
 
@@ -34,10 +38,12 @@ public class Player extends GameObject {
 
     private boolean playerIsAbleToMove;
 
-    public Player(Context context, int x, int y) {
+    public Player(GameManager game, int x, int y, int health) {
         super();
+        this.game = game;
         this.setX(x);
         this.setY(y);
+        this.health = health;
 
         float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
         int size = (int) (minValue * 0.05f * GamePanel.DENSITY);
@@ -48,14 +54,14 @@ public class Player extends GameObject {
         this.setVisible(true);
         this.playerIsAbleToMove = false;
 
-        this.playerImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
+        this.playerImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player);
         this.playerImage = Bitmap.createScaledBitmap(this.playerImage, this.getWidth(), this.getHeight(), false);
 
         this.playerPaint = new Paint();
         this.playerRect = new Rect();
         this.updatePlayerRect();
 
-        this.gyroscopicManager = new GyroscopicManager(context);
+        this.gyroscopicManager = new GyroscopicManager(this.game.context);
 
         this.direction = new Vector2D(0, 0);
     }
@@ -138,8 +144,8 @@ public class Player extends GameObject {
         float playerPosX = this.getX();
         float playerPosY = this.getY();
 
-        int halfPlayerWidth = this.getWidth() / 2;
-        int halfPlayerHeight = this.getHeight() / 2;
+        float halfPlayerWidth = this.getWidth() / 2;
+        float halfPlayerHeight = this.getHeight() / 2;
 
         boolean isInWidth = clickedX >= playerPosX - halfPlayerWidth && clickedX <= playerPosX + halfPlayerWidth;
         boolean isInHeight = clickedY >= playerPosY - halfPlayerHeight && clickedY <= playerPosY + halfPlayerHeight;
@@ -155,6 +161,26 @@ public class Player extends GameObject {
                 (int) (this.getY() - playerHalfHeight),
                 (int) (this.getX() + playerHalfWidth),
                 (int) (this.getY() + playerHalfHeight));
+    }
+
+    public int getHealth(){return this.health;}
+
+    public void setHealth(int amount){
+        this.health = amount;
+    }
+
+    public void damage(int damage){
+        this.health -= damage;
+
+        if(this.health <= 0)
+        {
+            this.health = 0;
+            this.game.gameOver();
+        }
+    }
+
+    public void heal(int amount){
+        this.health += amount;
     }
 
 }
