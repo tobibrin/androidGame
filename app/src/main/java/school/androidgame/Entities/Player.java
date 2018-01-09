@@ -1,15 +1,10 @@
 package school.androidgame.Entities;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.view.MotionEvent;
 
 import school.androidgame.Core.GameObject;
@@ -96,7 +91,7 @@ public class Player extends GameObject {
                     yDirection = 1.0f;
                 }
 
-                if (Math.abs(xDirection) > 0.1f || Math.abs(yDirection) > 0.1f) {
+                if ((Math.abs(xDirection) < 1.0f && Math.abs(xDirection) > 0.1f) || (Math.abs(yDirection) < 1.0f && Math.abs(yDirection) > 0.1f)) {
 
                     this.direction.set(xDirection, yDirection);
                 } else {
@@ -107,7 +102,6 @@ public class Player extends GameObject {
 
 
         float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
-
 
         this.setX(newX);
         this.setY(this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY));
@@ -172,10 +166,10 @@ public class Player extends GameObject {
     public void damage(int damage){
         this.health -= damage;
 
-        if(this.health <= 0)
-        {
+        if(this.health <= 0) {
+
             this.health = 0;
-            this.game.gameOver();
+//            this.game.gameOver();
         }
     }
 

@@ -1,16 +1,21 @@
 package school.androidgame.manager;
 
+import android.app.Dialog;
 import android.content.Context;
 
 import school.androidgame.Entities.Player;
 import school.androidgame.GamePanel;
 import school.androidgame.MainActivity;
-import school.androidgame.MainThread;
+import school.androidgame.MainMenu;
+import school.androidgame.R;
 
-import android.content.SharedPreferences;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
-
-import static android.content.Context.MODE_PRIVATE;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 
 /**
  * Created by tobijasp on 17.12.2017.
@@ -22,7 +27,7 @@ public class GameManager {
 
     private MainActivity activity;
     public Context context;
-    public GamePanel gamepanel;
+    public GamePanel gamePanel;
 
     public Player player;
     public GuiManager guiManager;
@@ -31,51 +36,86 @@ public class GameManager {
 
     public int defaultHealth;
 
-    public GameManager(MainActivity activity)
-    {
+    // TODO add overlay to start the game on touch...
+    public GameManager(final MainActivity activity) {
         this.defaultHealth = 5;
         this.stopped = false;
         this.activity = activity;
         this.context = activity;
-        this.gamepanel = new GamePanel(this);
-        this.activity.setContentView(this.gamepanel);
+        this.gamePanel = new GamePanel(this);
+        this.activity.setContentView(this.gamePanel);
         this.player = new Player(this, 50, 50, this.defaultHealth);
         this.timeManager = new TimeManager(this);
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
     }
 
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas) {
         this.enemyManager.draw(canvas);
         this.player.draw(canvas);
         this.guiManager.draw(canvas);
+
+        if (this.player.getHealth() == 0) {
+
+            this.gamePanel.stopGame();
+            this.showGameOverDialog();
+        }
     }
 
-    public void update(float dt){
+    public void showGameOverDialog() {
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final Dialog dialog = new Dialog(context);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                dialog.setContentView(R.layout.game_over_dialog);
+
+                Button backToMenuButton = dialog.findViewById(R.id.backToMenuButton);
+                Button restartGameButton = dialog.findViewById(R.id.restartGameButton);
+
+                backToMenuButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        Intent mainMenuIntent = new Intent( context, MainMenu.class);
+                        mainMenuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        activity.startActivity(mainMenuIntent);
+                    }
+                });
+
+                restartGameButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        Intent gameIntent = new Intent(context, MainActivity.class);
+                        gameIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        activity.startActivity(gameIntent);
+                    }
+                });
+
+                dialog.show();
+            }
+        });
+    }
+
+    public void update(float dt) {
         this.enemyManager.update(dt);
         this.player.update(dt);
         this.guiManager.update(dt);
     }
 
-    private void StoreHighScore(){
+    private void storeHighScore() {
 
     }
 
-    public void gameOver()
-    {
-        this.restart();
-    }
-    public void stop(){
+    public void stop() {
         this.stopped = true;
     }
 
-    public void resume(){
+    public void resume() {
         this.stopped = false;
     }
 
-    public void restart(){
-        this.player.setHealth(this.defaultHealth);
-        this.enemyManager.killAll();
-        this.timeManager.reset();
-    }
 }

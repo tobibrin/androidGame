@@ -1,5 +1,6 @@
 package school.androidgame;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,6 +10,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import school.androidgame.Entities.Player;
 import school.androidgame.manager.EnemyManager;
@@ -29,7 +33,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameManager game;
     private MainThread thread;
-    private Context context;
+    final private Context context;
 
 
     public GamePanel(GameManager game) {
@@ -63,6 +67,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             GamePanel.MIN_WIDTH_HEIGHT = Math.min(GamePanel.WIDTH, GamePanel.HEIGHT);
         }
     }
+
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
