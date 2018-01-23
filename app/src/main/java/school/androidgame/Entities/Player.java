@@ -25,6 +25,8 @@ public class Player extends GameObject {
     private Bitmap playerImage;
     private Paint playerPaint;
 
+    final private float sensorTolerance = 0.0f;
+
     private int health;
 
     private Vector2D direction;
@@ -91,11 +93,23 @@ public class Player extends GameObject {
                     yDirection = 1.0f;
                 }
 
-                if ((Math.abs(xDirection) < 1.0f && Math.abs(xDirection) > 0.1f) || (Math.abs(yDirection) < 1.0f && Math.abs(yDirection) > 0.1f)) {
 
-                    this.direction.set(xDirection, yDirection);
+                if (Math.abs(xDirection) > sensorTolerance) {
+
+                    this.direction.set(xDirection, this.direction.y);
+
                 } else {
-                    this.direction.set(0,0);
+
+                    this.direction.set(0, this.direction.y);
+                }
+
+                if (Math.abs(yDirection) > sensorTolerance) {
+
+                    this.direction.set(this.direction.x, yDirection);
+
+                } else {
+
+                    this.direction.set(this.direction.x, 0);
                 }
             }
         }

@@ -15,6 +15,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 /**
@@ -36,7 +37,6 @@ public class GameManager {
 
     public int defaultHealth;
 
-    // TODO add overlay to start the game on touch...
     public GameManager(final MainActivity activity) {
         this.defaultHealth = 5;
         this.stopped = false;
