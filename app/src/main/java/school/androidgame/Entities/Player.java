@@ -3,6 +3,7 @@ package school.androidgame.Entities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -10,9 +11,11 @@ import android.view.MotionEvent;
 import school.androidgame.Core.GameObject;
 import school.androidgame.GamePanel;
 import school.androidgame.R;
+import school.androidgame.Utils.Tools;
 import school.androidgame.Utils.Vector2D;
 import school.androidgame.manager.GameManager;
 import school.androidgame.manager.GyroscopicManager;
+import school.androidgame.manager.TimeManager;
 
 /**
  * Created by kezab on 10.10.17.
@@ -24,6 +27,7 @@ public class Player extends GameObject {
     private Rect playerRect;
     private Bitmap playerImage;
     private Paint playerPaint;
+    private int color;
 
     final private float sensorTolerance = 0.0f;
 
@@ -34,6 +38,7 @@ public class Player extends GameObject {
     private GyroscopicManager gyroscopicManager;
 
     private boolean playerIsAbleToMove;
+    private Color Color;
 
     public Player(GameManager game, int x, int y, int health) {
         super();
@@ -41,6 +46,7 @@ public class Player extends GameObject {
         this.setX(x);
         this.setY(y);
         this.health = health;
+        this.color = android.graphics.Color.BLUE;
 
         float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
         int size = (int) (minValue * 0.05f * GamePanel.DENSITY);
@@ -52,6 +58,7 @@ public class Player extends GameObject {
         this.playerIsAbleToMove = false;
 
         this.playerImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player);
+        this.playerImage = Tools.replaceColor(this.playerImage, android.graphics.Color.BLACK, this.color);
         this.playerImage = Bitmap.createScaledBitmap(this.playerImage, this.getWidth(), this.getHeight(), false);
 
         this.playerPaint = new Paint();
@@ -189,6 +196,18 @@ public class Player extends GameObject {
 
     public void heal(int amount){
         this.health += amount;
+    }
+
+    public void setColor(int color){
+
+        //this.playerImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player);
+        this.playerImage = Tools.replaceColor(this.playerImage, this.color, color);
+        this.color = color;
+        this.playerImage = Bitmap.createScaledBitmap(this.playerImage, this.getWidth(), this.getHeight(), false);
+    }
+
+    public int getColor(){
+        return this.color;
     }
 
 }

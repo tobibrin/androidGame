@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import school.androidgame.Core.GameObject;
 import school.androidgame.GamePanel;
 import school.androidgame.R;
+import school.androidgame.Utils.Tools;
 
 /**
  * Created by Tobi on 28.10.2017.
@@ -30,7 +31,7 @@ public class Enemy extends GameObject {
     private boolean isInScreen;
     private boolean hitPlayer;
 
-    public Enemy(Context context, Player player, float x, float y) {
+    public Enemy(Context context, Player player, float x, float y, int color) {
         this.setX(x);
         this.setY(y);
 
@@ -46,6 +47,9 @@ public class Enemy extends GameObject {
         this.hitPlayer = false;
 
         this.enemyBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball_enemy);
+
+        this.enemyBitmap = Tools.replaceColor(this.enemyBitmap, Color.BLACK, Color.RED);
+
         this.enemyBitmap = Bitmap.createScaledBitmap(this.enemyBitmap, this.getWidth(), this.getHeight(), false);
 
         this.player = player;

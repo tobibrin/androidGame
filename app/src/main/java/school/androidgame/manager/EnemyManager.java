@@ -2,6 +2,7 @@ package school.androidgame.manager;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.PointF;
 
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class EnemyManager {
 
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
-        Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y);
+        Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y, Color.RED);
         enemy.setVisible(true);
         enemy.setDirection(enemyDirection);
 

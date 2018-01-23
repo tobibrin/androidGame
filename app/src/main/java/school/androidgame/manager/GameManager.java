@@ -12,6 +12,7 @@ import school.androidgame.R;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
@@ -104,6 +105,13 @@ public class GameManager {
         this.enemyManager.update(dt);
         this.player.update(dt);
         this.guiManager.update(dt);
+
+        if(this.timeManager.getRelativeTime() / 1000 % 5 == 0){
+            if(this.player.getColor() == Color.BLUE)
+                this.player.setColor(Color.GREEN);
+            else
+                this.player.setColor(Color.BLUE);
+        }
     }
 
     private void storeHighScore() {
