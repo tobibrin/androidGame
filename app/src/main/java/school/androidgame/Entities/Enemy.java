@@ -10,6 +10,8 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 
 import school.androidgame.Core.GameObject;
+import school.androidgame.Core.IObjectColorState;
+import school.androidgame.Core.ObjectColorState;
 import school.androidgame.GamePanel;
 import school.androidgame.R;
 import school.androidgame.Utils.Tools;
@@ -18,9 +20,11 @@ import school.androidgame.Utils.Tools;
  * Created by Tobi on 28.10.2017.
  */
 
-public class Enemy extends GameObject {
+public class Enemy extends GameObject implements IObjectColorState {
 
     private Player player;
+
+    private ObjectColorState objectColorState;
 
     private Paint enemyPaint;
     private Rect enemyRect;
@@ -31,7 +35,7 @@ public class Enemy extends GameObject {
     private boolean isInScreen;
     private boolean hitPlayer;
 
-    public Enemy(Context context, Player player, float x, float y, int color) {
+    public Enemy(Context context, Player player, float x, float y, Bitmap enemyBitmap) {
         this.setX(x);
         this.setY(y);
 
@@ -46,11 +50,9 @@ public class Enemy extends GameObject {
         this.isInScreen = true;
         this.hitPlayer = false;
 
-        this.enemyBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ball_enemy);
+        this.objectColorState = ObjectColorState.COLOR_STATE_RED;
 
-        this.enemyBitmap = Tools.replaceColor(this.enemyBitmap, Color.BLACK, Color.RED);
-
-        this.enemyBitmap = Bitmap.createScaledBitmap(this.enemyBitmap, this.getWidth(), this.getHeight(), false);
+        this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmap, this.getWidth(), this.getHeight(), false);
 
         this.player = player;
         this.enemyRect = new Rect();
@@ -135,4 +137,18 @@ public class Enemy extends GameObject {
                 (int)(enemyY + enemyHalfHeight));
     }
 
+    @Override
+    public ObjectColorState getObjectColorState() {
+        return null;
+    }
+
+    @Override
+    public void nextObjectColorState() {
+
+    }
+
+    @Override
+    public int getObjectColorStateIndex() {
+        return 0;
+    }
 }

@@ -49,6 +49,7 @@ public class GameManager {
         this.timeManager = new TimeManager(this);
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
+        this.lastSecond = 0;
     }
 
     public void draw(Canvas canvas) {
@@ -101,17 +102,22 @@ public class GameManager {
         });
     }
 
+    //TODO fix it nice
+    private long lastSecond;
+
     public void update(float dt) {
         this.enemyManager.update(dt);
         this.player.update(dt);
         this.guiManager.update(dt);
 
-        if(this.timeManager.getRelativeTime() / 1000 % 5 == 0){
-            if(this.player.getColor() == Color.BLUE)
-                this.player.setColor(Color.GREEN);
-            else
-                this.player.setColor(Color.BLUE);
+        long actualTime = this.timeManager.getRelativeTime() / 1000;
+
+        if(this.lastSecond != actualTime && actualTime % 5 == 0){
+            this.player.nextObjectColorState();
+            System.out.println("color Changed at: " + actualTime);
         }
+
+        this.lastSecond = this.timeManager.getRelativeTime() / 1000;
     }
 
     private void storeHighScore() {

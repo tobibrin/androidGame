@@ -1,8 +1,9 @@
 package school.androidgame.manager;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PointF;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Iterator;
 import school.androidgame.Entities.Enemy;
 import school.androidgame.Entities.Player;
 import school.androidgame.GamePanel;
+import school.androidgame.R;
 import school.androidgame.Utils.Vector2D;
 
 /**
@@ -22,6 +24,8 @@ public class EnemyManager {
     private GameManager game;
     private Player player;
 
+    private Bitmap[] enemyBitmaps;
+
     private int maxEnemies;
     private Context context;
     private ArrayList<Enemy> enemyArrayList;
@@ -32,9 +36,26 @@ public class EnemyManager {
         this.context = game.context;
         this.player = game.player;
 
+        setupEnemyImages();
+
         this.enemyArrayList = new ArrayList<Enemy>();
         this.enemiesToRemove = new ArrayList<Enemy>();
         this.maxEnemies = 10;
+    }
+
+    private void setupEnemyImages() {
+
+        this.enemyBitmaps = new Bitmap[3];
+
+        Bitmap greenImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.enemy_green);
+        this.enemyBitmaps[0] = greenImage;
+
+        Bitmap blueImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.enemy_blue);
+        this.enemyBitmaps[1] = blueImage;
+
+        Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.enemy_red);
+        this.enemyBitmaps[2] = redImage;
+
     }
 
     public void draw(Canvas canvas) {
@@ -80,7 +101,8 @@ public class EnemyManager {
 
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
-        Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y, Color.RED);
+        //TODO zufall für enemyBitmaps index
+        Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y, enemyBitmaps[2]);
         enemy.setVisible(true);
         enemy.setDirection(enemyDirection);
 

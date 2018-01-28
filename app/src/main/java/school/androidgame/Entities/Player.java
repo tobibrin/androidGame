@@ -3,31 +3,32 @@ package school.androidgame.Entities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import school.androidgame.Core.GameObject;
+import school.androidgame.Core.IObjectColorState;
+import school.androidgame.Core.ObjectColorState;
 import school.androidgame.GamePanel;
 import school.androidgame.R;
-import school.androidgame.Utils.Tools;
 import school.androidgame.Utils.Vector2D;
 import school.androidgame.manager.GameManager;
 import school.androidgame.manager.GyroscopicManager;
-import school.androidgame.manager.TimeManager;
 
 /**
  * Created by kezab on 10.10.17.
  */
 
-public class Player extends GameObject {
+public class Player extends GameObject implements IObjectColorState {
 
     private GameManager game;
     private Rect playerRect;
-    private Bitmap playerImage;
+    private Bitmap[] playerImages;
+    private int currentImageIndex;
     private Paint playerPaint;
-    private int color;
+
+    private ObjectColorState objectColorState;
 
     final private float sensorTolerance = 0.0f;
 
@@ -38,7 +39,6 @@ public class Player extends GameObject {
     private GyroscopicManager gyroscopicManager;
 
     private boolean playerIsAbleToMove;
-    private Color Color;
 
     public Player(GameManager game, int x, int y, int health) {
         super();
@@ -46,7 +46,7 @@ public class Player extends GameObject {
         this.setX(x);
         this.setY(y);
         this.health = health;
-        this.color = android.graphics.Color.BLUE;
+        this.objectColorState = ObjectColorState.COLOR_STATE_GREEN;
 
         float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
         int size = (int) (minValue * 0.05f * GamePanel.DENSITY);
@@ -57,9 +57,8 @@ public class Player extends GameObject {
         this.setVisible(true);
         this.playerIsAbleToMove = false;
 
-        this.playerImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player);
-        this.playerImage = Tools.replaceColor(this.playerImage, android.graphics.Color.BLACK, this.color);
-        this.playerImage = Bitmap.createScaledBitmap(this.playerImage, this.getWidth(), this.getHeight(), false);
+        this.setupPlayerImages();
+        this.currentImageIndex = 0;
 
         this.playerPaint = new Paint();
         this.playerRect = new Rect();
@@ -68,6 +67,23 @@ public class Player extends GameObject {
         this.gyroscopicManager = new GyroscopicManager(this.game.context);
 
         this.direction = new Vector2D(0, 0);
+    }
+
+    private void setupPlayerImages() {
+
+        this.playerImages = new Bitmap[3];
+
+        Bitmap greenImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_green);
+        greenImage = Bitmap.createScaledBitmap(greenImage, this.getWidth(), this.getHeight(), false);
+        this.playerImages[0] = greenImage;
+
+        Bitmap blueImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_blue);
+        blueImage = Bitmap.createScaledBitmap(blueImage, this.getWidth(), this.getHeight(), false);
+        this.playerImages[1] = blueImage;
+
+        Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_red);
+        redImage = Bitmap.createScaledBitmap(redImage, this.getWidth(), this.getHeight(), false);
+        this.playerImages[2] = redImage;
     }
 
     @Override
@@ -134,7 +150,7 @@ public class Player extends GameObject {
     public void draw(Canvas canvas) {
         float xCenter = this.getX() - (this.getWidth() / 2.0f);
         float yCenter = this.getY() - (this.getHeight() / 2.0f);
-        canvas.drawBitmap(playerImage, xCenter, yCenter, this.playerPaint);
+        canvas.drawBitmap(this.playerImages[this.getObjectColorStateIndex()], xCenter, yCenter, this.playerPaint);
     }
 
     public void onActionMove(MotionEvent event) {
@@ -198,16 +214,26 @@ public class Player extends GameObject {
         this.health += amount;
     }
 
-    public void setColor(int color){
-
-        //this.playerImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player);
-        this.playerImage = Tools.replaceColor(this.playerImage, this.color, color);
-        this.color = color;
-        this.playerImage = Bitmap.createScaledBitmap(this.playerImage, this.getWidth(), this.getHeight(), false);
+    @Override
+    public ObjectColorState getObjectColorState() {
+        return this.objectColorState;
     }
 
-    public int getColor(){
-        return this.color;
+    @Override
+    public void nextObjectColorState() {
+
+        int enumIndex = this.getObjectColorStateIndex();
+
+        if (enumIndex == this.playerImages.length-1) {
+
+            this.objectColorState = ObjectColorState.values()[0];
+        } else {
+            this.objectColorState = ObjectColorState.values()[++enumIndex];
+        }
     }
 
+    @Override
+    public int getObjectColorStateIndex() {
+        return ObjectColorState.valueOf(this.objectColorState.name()).ordinal();
+    }
 }
