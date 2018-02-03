@@ -2,6 +2,7 @@ package school.androidgame.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import school.androidgame.Utils.bitmap.colors.BitmapColor;
 
@@ -11,11 +12,13 @@ import school.androidgame.Utils.bitmap.colors.BitmapColor;
 
 public class BitmapColorRepository {
 
+    private Random random;
     private List<BitmapColor> bitmapColors;
 
     private int index;
 
     public BitmapColorRepository() {
+        this.random = new Random();
         this.bitmapColors = new ArrayList<BitmapColor>();
         this.index = 0;
     }
@@ -31,6 +34,11 @@ public class BitmapColorRepository {
         }
     }
 
+    public void setRandomIndex() {
+        int maxIndex = this.bitmapColors.size();
+        this.index = random.nextInt(maxIndex);
+    }
+
     public int getIndex() {
         return index;
     }
@@ -39,7 +47,7 @@ public class BitmapColorRepository {
         this.index = index;
     }
 
-    public BitmapColor getBitmapAtIndex() {
+    public BitmapColor getBitmapAtCurrentIndex() {
         return this.bitmapColors.get(this.index);
     }
 

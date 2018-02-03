@@ -9,8 +9,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import java.util.ArrayList;
-
 import school.androidgame.Core.GameObject;
 import school.androidgame.R;
 import school.androidgame.Utils.bitmap.colors.BitmapColor;
@@ -24,6 +22,7 @@ import school.androidgame.repositories.BitmapColorRepository;
 
 public class Enemy extends GameObject {
 
+    private Context context;
     private Player player;
 
     private BitmapColorRepository bitmapColorRepository;
@@ -37,12 +36,15 @@ public class Enemy extends GameObject {
     private boolean isInScreen;
     private boolean hitPlayer;
 
-    public Enemy(Context context, Player player, float x, float y, Bitmap enemyBitmap) {
+    public Enemy(Context context, Player player, float x, float y) {
+        this.context = context;
+
         this.setX(x);
         this.setY(y);
 
         this.bitmapColorRepository = new BitmapColorRepository();
         this.setupEnemyImages();
+        this.bitmapColorRepository.setRandomIndex();
 
         float width = this.initWidth();
 
@@ -55,7 +57,8 @@ public class Enemy extends GameObject {
         this.isInScreen = true;
         this.hitPlayer = false;
 
-        this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmap, this.getWidth(), this.getHeight(), false);
+        BitmapColor enemyBitmapColor = this.bitmapColorRepository.getBitmapAtCurrentIndex();
+        this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmapColor.getBitmap(), this.getWidth(), this.getHeight(), false);
 
         this.player = player;
         this.enemyRect = new Rect();
@@ -75,7 +78,7 @@ public class Enemy extends GameObject {
         Bitmap redImage = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.enemy_red);
         BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
 
-        this.bitmapColorRepository.addBitmapColors(new BitmapColor[] {});
+        this.bitmapColorRepository.addBitmapColors(new BitmapColor[] {bitmapColorGreen, bitmapColorBlue, bitmapColorRed});
 
     }
 
@@ -153,20 +156,5 @@ public class Enemy extends GameObject {
                 (int)(enemyY - enemyHalfHeight),
                 (int)(enemyX + enemyHalfWidth),
                 (int)(enemyY + enemyHalfHeight));
-    }
-
-    @Override
-    public ObjectColorState getObjectColorState() {
-        return null;
-    }
-
-    @Override
-    public void nextObjectColorState() {
-
-    }
-
-    @Override
-    public int getObjectColorStateIndex() {
-        return 0;
     }
 }

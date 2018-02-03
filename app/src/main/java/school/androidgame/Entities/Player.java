@@ -41,6 +41,7 @@ public class Player extends GameObject {
 
     public Player(GameManager game, int x, int y, int health) {
         super();
+        this.bitmapColorRepository = new BitmapColorRepository();
         this.game = game;
         this.setX(x);
         this.setY(y);
@@ -60,7 +61,6 @@ public class Player extends GameObject {
         this.playerRect = new Rect();
 
         this.updatePlayerRect();
-        this.bitmapColorRepository = new BitmapColorRepository();
 
         this.gyroscopicManager = new GyroscopicManager(this.game.context);
         this.direction = new Vector2D(0, 0);
@@ -147,7 +147,7 @@ public class Player extends GameObject {
     @Override
     public void draw(Canvas canvas) {
 
-        BitmapColor playerBitmapColor = this.bitmapColorRepository.getBitmapAtIndex();
+        BitmapColor playerBitmapColor = this.bitmapColorRepository.getBitmapAtCurrentIndex();
 
         if (playerBitmapColor != null) {
             Bitmap bitmap = playerBitmapColor.getBitmap();
