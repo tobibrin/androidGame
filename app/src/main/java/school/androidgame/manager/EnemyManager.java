@@ -24,8 +24,6 @@ public class EnemyManager {
     private GameManager game;
     private Player player;
 
-    private Bitmap[] enemyBitmaps;
-
     private int maxEnemies;
     private Context context;
     private ArrayList<Enemy> enemyArrayList;
@@ -36,27 +34,12 @@ public class EnemyManager {
         this.context = game.context;
         this.player = game.player;
 
-        setupEnemyImages();
-
         this.enemyArrayList = new ArrayList<Enemy>();
         this.enemiesToRemove = new ArrayList<Enemy>();
         this.maxEnemies = 10;
     }
 
-    private void setupEnemyImages() {
 
-        this.enemyBitmaps = new Bitmap[3];
-
-        Bitmap greenImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.enemy_green);
-        this.enemyBitmaps[0] = greenImage;
-
-        Bitmap blueImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.enemy_blue);
-        this.enemyBitmaps[1] = blueImage;
-
-        Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.enemy_red);
-        this.enemyBitmaps[2] = redImage;
-
-    }
 
     public void draw(Canvas canvas) {
 
@@ -102,7 +85,7 @@ public class EnemyManager {
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
         //TODO zufall für enemyBitmaps index
-        Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y, enemyBitmaps[2]);
+        Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y);
         enemy.setVisible(true);
         enemy.setDirection(enemyDirection);
 

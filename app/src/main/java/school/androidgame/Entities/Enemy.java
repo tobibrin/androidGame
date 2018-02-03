@@ -9,22 +9,24 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
+import java.util.ArrayList;
+
 import school.androidgame.Core.GameObject;
-import school.androidgame.Core.IObjectColorState;
-import school.androidgame.Core.ObjectColorState;
-import school.androidgame.GamePanel;
 import school.androidgame.R;
-import school.androidgame.Utils.Tools;
+import school.androidgame.Utils.bitmap.colors.BitmapColor;
+import school.androidgame.Utils.bitmap.colors.ObjectColorState;
+import school.androidgame.GamePanel;
+import school.androidgame.repositories.BitmapColorRepository;
 
 /**
  * Created by Tobi on 28.10.2017.
  */
 
-public class Enemy extends GameObject implements IObjectColorState {
+public class Enemy extends GameObject {
 
     private Player player;
 
-    private ObjectColorState objectColorState;
+    private BitmapColorRepository bitmapColorRepository;
 
     private Paint enemyPaint;
     private Rect enemyRect;
@@ -39,6 +41,9 @@ public class Enemy extends GameObject implements IObjectColorState {
         this.setX(x);
         this.setY(y);
 
+        this.bitmapColorRepository = new BitmapColorRepository();
+        this.setupEnemyImages();
+
         float width = this.initWidth();
 
         this.setWidth((int)width);
@@ -50,8 +55,6 @@ public class Enemy extends GameObject implements IObjectColorState {
         this.isInScreen = true;
         this.hitPlayer = false;
 
-        this.objectColorState = ObjectColorState.COLOR_STATE_RED;
-
         this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmap, this.getWidth(), this.getHeight(), false);
 
         this.player = player;
@@ -59,6 +62,21 @@ public class Enemy extends GameObject implements IObjectColorState {
         this.enemyPaint = new Paint();
         this.enemyPaint.setColor(Color.BLACK);
         this.updateRect();
+    }
+
+    private void setupEnemyImages() {
+
+        Bitmap greenImage = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.enemy_green);
+        BitmapColor bitmapColorGreen = new BitmapColor(greenImage, ObjectColorState.COLOR_STATE_RED);
+
+        Bitmap blueImage = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.enemy_blue);
+        BitmapColor bitmapColorBlue = new BitmapColor(blueImage, ObjectColorState.COLOR_STATE_RED);
+
+        Bitmap redImage = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.enemy_red);
+        BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
+
+        this.bitmapColorRepository.addBitmapColors(new BitmapColor[] {});
+
     }
 
     private float initSpeed() {

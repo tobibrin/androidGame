@@ -8,27 +8,26 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import school.androidgame.Core.GameObject;
-import school.androidgame.Core.IObjectColorState;
-import school.androidgame.Core.ObjectColorState;
+import school.androidgame.Utils.bitmap.colors.BitmapColor;
+import school.androidgame.Utils.bitmap.colors.ObjectColorState;
 import school.androidgame.GamePanel;
 import school.androidgame.R;
 import school.androidgame.Utils.Vector2D;
 import school.androidgame.manager.GameManager;
 import school.androidgame.manager.GyroscopicManager;
+import school.androidgame.repositories.BitmapColorRepository;
 
 /**
  * Created by kezab on 10.10.17.
  */
 
-public class Player extends GameObject implements IObjectColorState {
+public class Player extends GameObject {
 
     private GameManager game;
     private Rect playerRect;
-    private Bitmap[] playerImages;
-    private int currentImageIndex;
     private Paint playerPaint;
 
-    private ObjectColorState objectColorState;
+    private BitmapColorRepository bitmapColorRepository;
 
     final private float sensorTolerance = 0.0f;
 
@@ -46,8 +45,6 @@ public class Player extends GameObject implements IObjectColorState {
         this.setX(x);
         this.setY(y);
         this.health = health;
-        this.objectColorState = ObjectColorState.COLOR_STATE_GREEN;
-
         float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
         int size = (int) (minValue * 0.05f * GamePanel.DENSITY);
 
@@ -58,32 +55,33 @@ public class Player extends GameObject implements IObjectColorState {
         this.playerIsAbleToMove = false;
 
         this.setupPlayerImages();
-        this.currentImageIndex = 0;
 
         this.playerPaint = new Paint();
         this.playerRect = new Rect();
+
         this.updatePlayerRect();
+        this.bitmapColorRepository = new BitmapColorRepository();
 
         this.gyroscopicManager = new GyroscopicManager(this.game.context);
-
         this.direction = new Vector2D(0, 0);
     }
 
     private void setupPlayerImages() {
 
-        this.playerImages = new Bitmap[3];
-
         Bitmap greenImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_green);
         greenImage = Bitmap.createScaledBitmap(greenImage, this.getWidth(), this.getHeight(), false);
-        this.playerImages[0] = greenImage;
 
         Bitmap blueImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_blue);
         blueImage = Bitmap.createScaledBitmap(blueImage, this.getWidth(), this.getHeight(), false);
-        this.playerImages[1] = blueImage;
 
         Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_red);
         redImage = Bitmap.createScaledBitmap(redImage, this.getWidth(), this.getHeight(), false);
-        this.playerImages[2] = redImage;
+
+        BitmapColor bitmapColorGreen = new BitmapColor(greenImage, ObjectColorState.COLOR_STATE_GREEN);
+        BitmapColor bitmapColorBlue = new BitmapColor(blueImage, ObjectColorState.COLOR_STATE_BLUE);
+        BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
+
+        this.bitmapColorRepository.addBitmapColors(new BitmapColor[]{bitmapColorBlue, bitmapColorGreen, bitmapColorRed});
     }
 
     @Override
@@ -148,9 +146,17 @@ public class Player extends GameObject implements IObjectColorState {
 
     @Override
     public void draw(Canvas canvas) {
-        float xCenter = this.getX() - (this.getWidth() / 2.0f);
-        float yCenter = this.getY() - (this.getHeight() / 2.0f);
-        canvas.drawBitmap(this.playerImages[this.getObjectColorStateIndex()], xCenter, yCenter, this.playerPaint);
+
+        BitmapColor playerBitmapColor = this.bitmapColorRepository.getBitmapAtIndex();
+
+        if (playerBitmapColor != null) {
+            Bitmap bitmap = playerBitmapColor.getBitmap();
+            if (bitmap != null) {
+                float xCenter = this.getX() - (this.getWidth() / 2.0f);
+                float yCenter = this.getY() - (this.getHeight() / 2.0f);
+                canvas.drawBitmap(bitmap,xCenter, yCenter, this.playerPaint);
+            }
+        }
     }
 
     public void onActionMove(MotionEvent event) {
@@ -194,46 +200,29 @@ public class Player extends GameObject implements IObjectColorState {
                 (int) (this.getY() + playerHalfHeight));
     }
 
-    public int getHealth(){return this.health;}
+    public int getHealth() {
+        return this.health;
+    }
 
-    public void setHealth(int amount){
+    public void setHealth(int amount) {
         this.health = amount;
     }
 
-    public void damage(int damage){
+    public void damage(int damage) {
         this.health -= damage;
 
-        if(this.health <= 0) {
+        if (this.health <= 0) {
 
             this.health = 0;
 //            this.game.gameOver();
         }
     }
 
-    public void heal(int amount){
+    public BitmapColorRepository getBitmapColorRepository() {
+        return this.bitmapColorRepository;
+    }
+
+    public void heal(int amount) {
         this.health += amount;
-    }
-
-    @Override
-    public ObjectColorState getObjectColorState() {
-        return this.objectColorState;
-    }
-
-    @Override
-    public void nextObjectColorState() {
-
-        int enumIndex = this.getObjectColorStateIndex();
-
-        if (enumIndex == this.playerImages.length-1) {
-
-            this.objectColorState = ObjectColorState.values()[0];
-        } else {
-            this.objectColorState = ObjectColorState.values()[++enumIndex];
-        }
-    }
-
-    @Override
-    public int getObjectColorStateIndex() {
-        return ObjectColorState.valueOf(this.objectColorState.name()).ordinal();
     }
 }

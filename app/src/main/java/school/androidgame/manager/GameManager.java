@@ -8,6 +8,7 @@ import school.androidgame.GamePanel;
 import school.androidgame.MainActivity;
 import school.androidgame.MainMenu;
 import school.androidgame.R;
+import school.androidgame.repositories.BitmapColorRepository;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -113,8 +114,10 @@ public class GameManager {
         long actualTime = this.timeManager.getRelativeTime() / 1000;
 
         if(this.lastSecond != actualTime && actualTime % 5 == 0){
-            this.player.nextObjectColorState();
-            System.out.println("color Changed at: " + actualTime);
+            BitmapColorRepository playerBitmapColorRepository = this.player.getBitmapColorRepository();
+            if (playerBitmapColorRepository != null) {
+                playerBitmapColorRepository.nextBitMapColor();
+            }
         }
 
         this.lastSecond = this.timeManager.getRelativeTime() / 1000;
