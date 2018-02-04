@@ -32,6 +32,7 @@ public class Player extends GameObject {
     final private float sensorTolerance = 0.0f;
 
     private int health;
+    private int points;
 
     private Vector2D direction;
 
@@ -46,6 +47,7 @@ public class Player extends GameObject {
         this.setX(x);
         this.setY(y);
         this.health = health;
+        this.points = 0;
         float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
         int size = (int) (minValue * 0.05f * GamePanel.DENSITY);
 
@@ -147,7 +149,7 @@ public class Player extends GameObject {
     @Override
     public void draw(Canvas canvas) {
 
-        BitmapColor playerBitmapColor = this.bitmapColorRepository.getBitmapAtCurrentIndex();
+        BitmapColor playerBitmapColor = this.bitmapColorRepository.getBitmapColorAtCurrentIndex();
 
         if (playerBitmapColor != null) {
             Bitmap bitmap = playerBitmapColor.getBitmap();
@@ -167,6 +169,10 @@ public class Player extends GameObject {
 
             this.updatePlayerRect();
         }
+    }
+
+    public int getPoints() {
+        return this.points;
     }
 
     public void onActionDown(MotionEvent event) {
@@ -204,8 +210,8 @@ public class Player extends GameObject {
         return this.health;
     }
 
-    public void setHealth(int amount) {
-        this.health = amount;
+    public void addPoint(int amount) {
+        this.points += amount;
     }
 
     public void damage(int damage) {
@@ -217,12 +223,7 @@ public class Player extends GameObject {
 //            this.game.gameOver();
         }
     }
-
     public BitmapColorRepository getBitmapColorRepository() {
         return this.bitmapColorRepository;
-    }
-
-    public void heal(int amount) {
-        this.health += amount;
     }
 }

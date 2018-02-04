@@ -52,7 +52,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private void getDensity() {
         GamePanel.DENSITY = (float)this.context.getResources().getDisplayMetrics().densityDpi / 320.0f;
-        System.out.println(GamePanel.DENSITY);
     }
 
     private void getScreenSize() {

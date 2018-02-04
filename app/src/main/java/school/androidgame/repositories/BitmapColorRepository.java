@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import school.androidgame.Utils.bitmap.colors.BitmapColor;
+import school.androidgame.Utils.bitmap.colors.ObjectColorState;
 
 /**
  * Created by tobi on 30.01.18.
@@ -39,6 +40,10 @@ public class BitmapColorRepository {
         this.index = random.nextInt(maxIndex);
     }
 
+    public ObjectColorState getCurrentColorState() {
+        return this.getBitmapColorAtCurrentIndex().getObjectColorState();
+    }
+
     public int getIndex() {
         return index;
     }
@@ -47,7 +52,7 @@ public class BitmapColorRepository {
         this.index = index;
     }
 
-    public BitmapColor getBitmapAtCurrentIndex() {
+    public BitmapColor getBitmapColorAtCurrentIndex() {
         return this.bitmapColors.get(this.index);
     }
 

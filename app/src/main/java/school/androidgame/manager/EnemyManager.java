@@ -14,6 +14,7 @@ import school.androidgame.Entities.Player;
 import school.androidgame.GamePanel;
 import school.androidgame.R;
 import school.androidgame.Utils.Vector2D;
+import school.androidgame.Utils.bitmap.colors.ObjectColorState;
 
 /**
  * Created by Tobi on 28.10.2017.
@@ -55,7 +56,16 @@ public class EnemyManager {
             if (!enemy.getIsInScreen()) {
                 this.enemiesToRemove.add(enemy);
             } else if (enemy.isVisible() && enemy.getHitPlayer()) {
-                this.player.damage(1);
+
+                ObjectColorState playerObjectColorState = this.player.getBitmapColorRepository().getCurrentColorState();
+                ObjectColorState enemyObjectColorState = enemy.getBitmapColorRepository().getCurrentColorState();
+
+                if (playerObjectColorState == enemyObjectColorState) {
+                    this.player.addPoint(1);
+                } else {
+                    this.player.damage(1);
+                }
+
                 this.enemiesToRemove.add(enemy);
             }
 

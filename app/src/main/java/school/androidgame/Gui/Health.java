@@ -11,29 +11,26 @@ import school.androidgame.Core.HudElement;
  */
 
 public class Health extends HudElement {
-    private int value;
-    private String health;
+
+    private StringBuilder health;
+    private int healthAmount;
 
     public Health(){
-        this.value = 5;
+        this.health = new StringBuilder();
+        this.healthAmount = 5;
+        this.setHealthString();
     }
 
-    public Health(int amount){
-        this.value = amount;
-    }
+    private void setHealthString() {
+        this.health.setLength(0);
 
-    public void setValue(int value){
-        this.value = value;
-    }
-
-    private String getHealthString()
-    {
-        String health = "";
-        for(int i=0; i < this.value; i++)
-        {
-            health += "♥";
+        for(int i = 0 ; i < this.healthAmount; i++) {
+             this.health.append("♥");
         }
-        return health;
+    }
+
+    private String getHealthString() {
+        return this.health.toString();
     }
 
 
@@ -42,9 +39,8 @@ public class Health extends HudElement {
     {
         if(this.getVisibility())
         {
-            int width = this.value * 50 + 75;
+            int width = this.healthAmount * 50 + 75;
             int x = canvas.getWidth() - width;
-            String health = this.getHealthString();
 
             Paint paint = new Paint();
             paint.setStyle(Paint.Style.FILL);
@@ -52,11 +48,12 @@ public class Health extends HudElement {
             paint.setTextSize(50);
             paint.setAntiAlias(true);
 
-            canvas.drawText(health, x, 100, paint);
+            canvas.drawText(this.getHealthString(), x, 100, paint);
         }
     }
 
-    public void update(int playerhealth){
-        this.value = playerhealth;
+    public void update(int playerHealth){
+        this.healthAmount = playerHealth;
+        this.setHealthString();
     }
 }

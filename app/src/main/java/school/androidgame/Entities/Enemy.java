@@ -57,7 +57,7 @@ public class Enemy extends GameObject {
         this.isInScreen = true;
         this.hitPlayer = false;
 
-        BitmapColor enemyBitmapColor = this.bitmapColorRepository.getBitmapAtCurrentIndex();
+        BitmapColor enemyBitmapColor = this.bitmapColorRepository.getBitmapColorAtCurrentIndex();
         this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmapColor.getBitmap(), this.getWidth(), this.getHeight(), false);
 
         this.player = player;
@@ -70,10 +70,10 @@ public class Enemy extends GameObject {
     private void setupEnemyImages() {
 
         Bitmap greenImage = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.enemy_green);
-        BitmapColor bitmapColorGreen = new BitmapColor(greenImage, ObjectColorState.COLOR_STATE_RED);
+        BitmapColor bitmapColorGreen = new BitmapColor(greenImage, ObjectColorState.COLOR_STATE_GREEN);
 
         Bitmap blueImage = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.enemy_blue);
-        BitmapColor bitmapColorBlue = new BitmapColor(blueImage, ObjectColorState.COLOR_STATE_RED);
+        BitmapColor bitmapColorBlue = new BitmapColor(blueImage, ObjectColorState.COLOR_STATE_BLUE);
 
         Bitmap redImage = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.enemy_red);
         BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
@@ -132,6 +132,10 @@ public class Enemy extends GameObject {
 
     public void setDirection(PointF direction) {
         this.direction = direction;
+    }
+
+    public BitmapColorRepository getBitmapColorRepository() {
+        return this.bitmapColorRepository;
     }
 
     private boolean enemyPlayerCollisionCheck() {
