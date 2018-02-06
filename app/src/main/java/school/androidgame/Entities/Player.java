@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
@@ -29,7 +30,7 @@ public class Player extends GameObject {
 
     private BitmapColorRepository bitmapColorRepository;
 
-    final private float sensorTolerance = 0.0f;
+    final private PointF spawnPoint;
 
     private int health;
     private int points;
@@ -40,12 +41,14 @@ public class Player extends GameObject {
 
     private boolean playerIsAbleToMove;
 
-    public Player(GameManager game, int x, int y, int health) {
+    public Player(GameManager game, int health) {
         super();
         this.bitmapColorRepository = new BitmapColorRepository();
         this.game = game;
-        this.setX(x);
-        this.setY(y);
+
+        this.spawnPoint = new PointF(100.0f, 100.0f);
+        this.spawnPlayer();
+
         this.health = health;
         this.points = 0;
         float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
@@ -117,7 +120,7 @@ public class Player extends GameObject {
                 }
 
 
-                if (Math.abs(xDirection) > sensorTolerance) {
+                if (Math.abs(xDirection) > 0) {
 
                     this.direction.set(xDirection, this.direction.y);
 
@@ -126,7 +129,7 @@ public class Player extends GameObject {
                     this.direction.set(0, this.direction.y);
                 }
 
-                if (Math.abs(yDirection) > sensorTolerance) {
+                if (Math.abs(yDirection) > 0) {
 
                     this.direction.set(this.direction.x, yDirection);
 
@@ -141,15 +144,23 @@ public class Player extends GameObject {
 
             if (Math.abs(this.direction.x) > 0) {
                 float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
-                this.setX(newX);
+
+                if (Math.abs(newX - this.getX()) < 50.0f) {
+                    this.setX(newX);
+                }
+
             }
 
             if (Math.abs(this.direction.y) > 0) {
                 float newY = this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
-                this.setY(newY);
+                if (Math.abs(newY - this.getY()) < 50.0f) {
+                    this.setY(newY);
+                }
             }
 
-            System.out.println(this.getX() +  "///" + this.getY());
+            System.out.println(this.getX() + "///" + this.getY());
+            System.out.println(dt + "=====");
+            System.out.println(this.direction);
 
             this.updatePlayerRect();
         }
@@ -165,7 +176,7 @@ public class Player extends GameObject {
             if (bitmap != null) {
                 float xCenter = this.getX() - (this.getWidth() / 2.0f);
                 float yCenter = this.getY() - (this.getHeight() / 2.0f);
-                canvas.drawBitmap(bitmap,xCenter, yCenter, this.playerPaint);
+                canvas.drawBitmap(bitmap, xCenter, yCenter, this.playerPaint);
             }
         }
     }
@@ -215,6 +226,11 @@ public class Player extends GameObject {
                 (int) (this.getY() + playerHalfHeight));
     }
 
+    private void spawnPlayer() {
+        this.setX(this.spawnPoint.x);
+        this.setY(this.spawnPoint.y);
+    }
+
     public int getHealth() {
         return this.health;
     }
@@ -222,6 +238,7 @@ public class Player extends GameObject {
     public void addPoint(int amount) {
         this.points += amount;
     }
+
 
     public void damage(int damage) {
         this.health -= damage;
@@ -231,6 +248,7 @@ public class Player extends GameObject {
             this.health = 0;
         }
     }
+
     public BitmapColorRepository getBitmapColorRepository() {
         return this.bitmapColorRepository;
     }

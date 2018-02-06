@@ -46,7 +46,7 @@ public class GameManager {
         this.context = activity;
         this.gamePanel = new GamePanel(this);
         this.activity.setContentView(this.gamePanel);
-        this.player = new Player(this, 50, 50, this.defaultHealth);
+        this.player = new Player(this, this.defaultHealth);
         this.timeManager = new TimeManager(this);
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
