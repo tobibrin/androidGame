@@ -137,13 +137,22 @@ public class Player extends GameObject {
             }
         }
 
+        if (dt != 0 && GamePanel.MIN_WIDTH_HEIGHT != 0 && GamePanel.DENSITY != 0) {
 
-        float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
+            if (Math.abs(this.direction.x) > 0) {
+                float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
+                this.setX(newX);
+            }
 
-        this.setX(newX);
-        this.setY(this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY));
+            if (Math.abs(this.direction.y) > 0) {
+                float newY = this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
+                this.setY(newY);
+            }
 
-        this.updatePlayerRect();
+            System.out.println(this.getX() +  "///" + this.getY());
+
+            this.updatePlayerRect();
+        }
     }
 
     @Override
@@ -220,7 +229,6 @@ public class Player extends GameObject {
         if (this.health <= 0) {
 
             this.health = 0;
-//            this.game.gameOver();
         }
     }
     public BitmapColorRepository getBitmapColorRepository() {
