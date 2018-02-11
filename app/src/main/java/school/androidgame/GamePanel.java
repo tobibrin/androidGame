@@ -31,6 +31,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static float DENSITY;
     public static float MIN_WIDTH_HEIGHT;
 
+
     private GameManager game;
     private MainThread thread;
     final private Context context;

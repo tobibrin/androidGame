@@ -50,6 +50,8 @@ public class GyroscopicManager implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
 
+
+
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
 
             this.outputMagneticField = event.values;

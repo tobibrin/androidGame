@@ -67,8 +67,12 @@ public class Player extends GameObject {
 
         this.updatePlayerRect();
 
-        this.gyroscopicManager = new GyroscopicManager(this.game.context);
+
+            this.gyroscopicManager = new GyroscopicManager(this.game.context);
+
         this.direction = new Vector2D(0, 0);
+
+        //    this.gyroscopicManager.unregisterListener();
     }
 
     private void setupPlayerImages() {
@@ -82,6 +86,8 @@ public class Player extends GameObject {
         Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_red);
         redImage = Bitmap.createScaledBitmap(redImage, this.getWidth(), this.getHeight(), false);
 
+
+
         BitmapColor bitmapColorGreen = new BitmapColor(greenImage, ObjectColorState.COLOR_STATE_GREEN);
         BitmapColor bitmapColorBlue = new BitmapColor(blueImage, ObjectColorState.COLOR_STATE_BLUE);
         BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
@@ -92,53 +98,54 @@ public class Player extends GameObject {
     @Override
     public void update(float dt) {
 
-        float[] orientation = gyroscopicManager.getOrientation();
-        float[] startOrientation = gyroscopicManager.getStartOrientation();
+        
+            float[] orientation = gyroscopicManager.getOrientation();
+            float[] startOrientation = gyroscopicManager.getStartOrientation();
 
-        if (orientation != null && startOrientation != null) {
-            float pitch = orientation[1];
-            float roll = orientation[2];
+            if (orientation != null && startOrientation != null) {
+                float pitch = orientation[1];
+                float roll = orientation[2];
 
-            if (Math.abs(pitch) < Math.PI && Math.abs(roll) < (Math.PI / 2)) {
+                if (Math.abs(pitch) < Math.PI && Math.abs(roll) < (Math.PI / 2)) {
 
-                float xDirection = (2.0f * roll * 4.0f) / (float) Math.PI;
-                xDirection = Math.round(xDirection * 100.0f) / 100.0f;
+                    float xDirection = (2.0f * roll * 4.0f) / (float) Math.PI;
+                    xDirection = Math.round(xDirection * 100.0f) / 100.0f;
 
-                float yDirection = (pitch * 4.0f) / (float) Math.PI * -1.0f;
-                yDirection = Math.round(yDirection * 100.0f) / 100.0f;
+                    float yDirection = (pitch * 4.0f) / (float) Math.PI * -1.0f;
+                    yDirection = Math.round(yDirection * 100.0f) / 100.0f;
 
-                if (xDirection < -1.0f) {
-                    xDirection = -1.0f;
-                } else if (xDirection > 1.0f) {
-                    xDirection = 1.0f;
-                }
+                    if (xDirection < -1.0f) {
+                        xDirection = -1.0f;
+                    } else if (xDirection > 1.0f) {
+                        xDirection = 1.0f;
+                    }
 
-                if (yDirection < -1.0f) {
-                    yDirection = -1.0f;
-                } else if (yDirection > 1.0f) {
-                    yDirection = 1.0f;
-                }
+                    if (yDirection < -1.0f) {
+                        yDirection = -1.0f;
+                    } else if (yDirection > 1.0f) {
+                        yDirection = 1.0f;
+                    }
 
 
-                if (Math.abs(xDirection) > 0) {
+                    if (Math.abs(xDirection) > 0) {
 
-                    this.direction.set(xDirection, this.direction.y);
+                        this.direction.set(xDirection, this.direction.y);
 
-                } else {
+                    } else {
 
-                    this.direction.set(0, this.direction.y);
-                }
+                        this.direction.set(0, this.direction.y);
+                    }
 
-                if (Math.abs(yDirection) > 0) {
+                    if (Math.abs(yDirection) > 0) {
 
-                    this.direction.set(this.direction.x, yDirection);
+                        this.direction.set(this.direction.x, yDirection);
 
-                } else {
+                    } else {
 
-                    this.direction.set(this.direction.x, 0);
+                        this.direction.set(this.direction.x, 0);
+                    }
                 }
             }
-        }
 
         if (dt != 0 && GamePanel.MIN_WIDTH_HEIGHT != 0 && GamePanel.DENSITY != 0) {
 
@@ -163,6 +170,7 @@ public class Player extends GameObject {
             System.out.println(this.direction);
 
             this.updatePlayerRect();
+
         }
     }
 

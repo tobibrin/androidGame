@@ -8,6 +8,7 @@ import school.androidgame.GamePanel;
 import school.androidgame.MainActivity;
 import school.androidgame.MainMenu;
 import school.androidgame.R;
+import school.androidgame.Utils.Config;
 import school.androidgame.repositories.BitmapColorRepository;
 
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import android.widget.Button;
 public class GameManager {
 
     public boolean stopped;
+    public Config config;
 
     private MainActivity activity;
     public Context context;
@@ -51,6 +53,7 @@ public class GameManager {
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
         this.lastSecond = 0;
+        this.config = MainActivity.config;
     }
 
     public void draw(Canvas canvas) {
