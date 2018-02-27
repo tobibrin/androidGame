@@ -1,6 +1,5 @@
 package school.androidgame;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,14 +10,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
-
-import school.androidgame.Entities.Player;
-import school.androidgame.manager.EnemyManager;
 import school.androidgame.manager.GameManager;
-import school.androidgame.manager.GuiManager;
-import school.androidgame.manager.TimeManager;
 
 /**
  * Created by Tobi on 18.09.2017.

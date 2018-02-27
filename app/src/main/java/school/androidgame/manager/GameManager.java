@@ -32,7 +32,7 @@ public class GameManager {
     public Player player;
     public GuiManager guiManager;
     public EnemyManager enemyManager;
-    public TimeManager timeManager;
+    public GameTimeEventManager gameTimeEventManager;
 
     public int defaultHealth;
 
@@ -44,9 +44,10 @@ public class GameManager {
         this.gamePanel = new GamePanel(this);
         this.activity.setContentView(this.gamePanel);
         this.player = new Player(this, this.defaultHealth);
-        this.timeManager = new TimeManager(this);
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
+        this.gameTimeEventManager = new GameTimeEventManager(this.player);
+
         this.lastSecond = 0;
     }
 
@@ -100,24 +101,12 @@ public class GameManager {
         });
     }
 
-    //TODO fix it nice
     private long lastSecond;
 
     public void update(float dt) {
         this.enemyManager.update(dt);
         this.player.update(dt);
         this.guiManager.update(dt);
-
-        long actualTime = this.timeManager.getPlayTimeInMillis() / 1000;
-
-        if(this.lastSecond != actualTime && actualTime % 5 == 0){
-            BitmapColorRepository playerBitmapColorRepository = this.player.getBitmapColorRepository();
-            if (playerBitmapColorRepository != null) {
-                playerBitmapColorRepository.nextBitMapColor();
-            }
-        }
-
-        this.lastSecond = this.timeManager.getPlayTimeInMillis() / 1000;
     }
 
     private void storeHighScore() {

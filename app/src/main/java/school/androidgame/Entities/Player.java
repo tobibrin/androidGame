@@ -245,6 +245,12 @@ public class Player extends GameObject {
         }
     }
 
+    public void nextBitmapColor() {
+        if (this.bitmapColorRepository != null) {
+            this.bitmapColorRepository.nextBitMapColor();
+        }
+    }
+
     public BitmapColorRepository getBitmapColorRepository() {
         return this.bitmapColorRepository;
     }

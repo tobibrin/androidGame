@@ -35,8 +35,8 @@ public class EnemyManager {
         this.context = game.context;
         this.player = game.player;
 
-        this.enemyArrayList = new ArrayList<Enemy>();
-        this.enemiesToRemove = new ArrayList<Enemy>();
+        this.enemyArrayList = new ArrayList<>();
+        this.enemiesToRemove = new ArrayList<>();
         this.maxEnemies = 10;
     }
 
