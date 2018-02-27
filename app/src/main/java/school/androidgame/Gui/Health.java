@@ -5,12 +5,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import school.androidgame.Core.HudElement;
+import school.androidgame.GamePanel;
 
 /**
  * Created by kezab on 28.11.17.
  */
 
 public class Health extends HudElement {
+
+    private final static int STRING_PADDING_LEFT = 10;
+    private final static int STRING_PADDING_TOP = 10;
 
     private StringBuilder health;
     private int healthAmount;
@@ -39,16 +43,14 @@ public class Health extends HudElement {
     {
         if(this.getVisibility())
         {
-            int width = this.healthAmount * 50 + 75;
-            int x = canvas.getWidth() - width;
-
             Paint paint = new Paint();
             paint.setStyle(Paint.Style.FILL);
             paint.setColor(Color.RED);
             paint.setTextSize(50);
             paint.setAntiAlias(true);
+            // TODO set text direction right to left
 
-            canvas.drawText(this.getHealthString(), x, 100, paint);
+            canvas.drawText(this.getHealthString(), Health.STRING_PADDING_LEFT, paint.getTextSize() + Health.STRING_PADDING_TOP, paint);
         }
     }
 

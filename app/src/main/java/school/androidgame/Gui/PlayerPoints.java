@@ -13,6 +13,8 @@ import school.androidgame.GamePanel;
 
 public class PlayerPoints extends HudElement {
 
+    private final static int STRING_PADDING_TOP = 10;
+
     private StringBuilder currentPointsStringBuilder;
     private int currentPoints;
 
@@ -41,7 +43,7 @@ public class PlayerPoints extends HudElement {
             paint.setAntiAlias(true);
             paint.setFakeBoldText(true);
 
-            canvas.drawText(this.currentPointsStringBuilder.toString(), (GamePanel.WIDTH/2), 100, paint);
+            canvas.drawText(this.currentPointsStringBuilder.toString(), (GamePanel.WIDTH/2), paint.getTextSize() + PlayerPoints.STRING_PADDING_TOP, paint);
         }
     }
 }

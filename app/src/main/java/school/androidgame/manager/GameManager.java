@@ -10,14 +10,11 @@ import school.androidgame.MainMenu;
 import school.androidgame.R;
 import school.androidgame.repositories.BitmapColorRepository;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 /**
@@ -111,7 +108,7 @@ public class GameManager {
         this.player.update(dt);
         this.guiManager.update(dt);
 
-        long actualTime = this.timeManager.getRelativeTime() / 1000;
+        long actualTime = this.timeManager.getPlayTimeInMillis() / 1000;
 
         if(this.lastSecond != actualTime && actualTime % 5 == 0){
             BitmapColorRepository playerBitmapColorRepository = this.player.getBitmapColorRepository();
@@ -120,7 +117,7 @@ public class GameManager {
             }
         }
 
-        this.lastSecond = this.timeManager.getRelativeTime() / 1000;
+        this.lastSecond = this.timeManager.getPlayTimeInMillis() / 1000;
     }
 
     private void storeHighScore() {
