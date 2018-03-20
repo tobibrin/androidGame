@@ -17,12 +17,11 @@ public class Config {
 
 
     public static void loadValues(){
-        if(context != null && isLoaded) {
+        if(context != null && !isLoaded) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             prefs.getBoolean("useSensors", useSensors);
             prefs.getInt("difficulty", difficulty);
             isLoaded = true;
-            System.out.println("UseSensors: " + useSensors);
         }
     }
 
