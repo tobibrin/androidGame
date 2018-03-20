@@ -165,10 +165,6 @@ public class Player extends GameObject {
                 }
             }
 
-            System.out.println(this.getX() + "///" + this.getY());
-            System.out.println(dt + "=====");
-            System.out.println(this.direction);
-
             this.updatePlayerRect();
 
         }
@@ -254,6 +250,12 @@ public class Player extends GameObject {
         if (this.health <= 0) {
 
             this.health = 0;
+        }
+    }
+
+    public void nextBitmapColor() {
+        if (this.bitmapColorRepository != null) {
+            this.bitmapColorRepository.nextBitMapColor();
         }
     }
 

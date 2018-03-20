@@ -11,14 +11,11 @@ import school.androidgame.R;
 import school.androidgame.Utils.Config;
 import school.androidgame.repositories.BitmapColorRepository;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 /**
@@ -36,7 +33,7 @@ public class GameManager {
     public Player player;
     public GuiManager guiManager;
     public EnemyManager enemyManager;
-    public TimeManager timeManager;
+    public GameTimeEventManager gameTimeEventManager;
 
     public int defaultHealth;
 
@@ -49,9 +46,10 @@ public class GameManager {
         this.gamePanel = new GamePanel(this);
         this.activity.setContentView(this.gamePanel);
         this.player = new Player(this, this.defaultHealth);
-        this.timeManager = new TimeManager(this);
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
+        this.gameTimeEventManager = new GameTimeEventManager(this.player);
+
         this.lastSecond = 0;
         Config.context = this.context;
         Config.loadValues();
@@ -107,24 +105,12 @@ public class GameManager {
         });
     }
 
-    //TODO fix it nice
     private long lastSecond;
 
     public void update(float dt) {
         this.enemyManager.update(dt);
         this.player.update(dt);
         this.guiManager.update(dt);
-
-        long actualTime = this.timeManager.getRelativeTime() / 1000;
-
-        if(this.lastSecond != actualTime && actualTime % 5 == 0){
-            BitmapColorRepository playerBitmapColorRepository = this.player.getBitmapColorRepository();
-            if (playerBitmapColorRepository != null) {
-                playerBitmapColorRepository.nextBitMapColor();
-            }
-        }
-
-        this.lastSecond = this.timeManager.getRelativeTime() / 1000;
     }
 
     private void storeHighScore() {
