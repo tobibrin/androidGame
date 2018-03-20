@@ -6,6 +6,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import school.androidgame.Utils.Config;
+
 /**
  * Created by tobi on 04.12.17.
  */
@@ -30,7 +32,7 @@ public class GyroscopicManager implements SensorEventListener {
 
         this.sensorManager = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
 
-        if (this.sensorManager != null) {
+        if (this.sensorManager != null && Config.useSensors) {
 
             this.sensorMagneticField = this.sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
             this.sensorAccelerometer = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);

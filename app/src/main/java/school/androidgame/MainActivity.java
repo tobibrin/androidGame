@@ -10,8 +10,6 @@ import school.androidgame.manager.GameManager;
 
 public class MainActivity extends Activity {
 
-    public static Config config;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

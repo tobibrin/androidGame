@@ -17,8 +17,6 @@ import school.androidgame.Utils.Config;
 
 public class MainMenu extends Activity {
 
-    public Config config;
-
     public void openMainMenu()
     {
         setContentView(R.layout.activity_main_menu);
@@ -27,7 +25,6 @@ public class MainMenu extends Activity {
         final Button exitButton = (Button)this.findViewById(R.id.exitButton);
         final Button settingsButton = (Button)this.findViewById(R.id.settingsButton);
         final Button scoresButton = (Button)this.findViewById(R.id.scoresButton);
-        MainActivity.config = this.config;
 
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -70,10 +67,12 @@ public class MainMenu extends Activity {
 
         final Button backButton = (Button)this.findViewById(R.id.backButton);
         final Switch useSensorsSwitch = (Switch)this.findViewById(R.id.useSensorsSwitch);
+        useSensorsSwitch.setChecked(Config.useSensors);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Config.saveValues();
                 openMainMenu();
             }
         });
@@ -81,7 +80,7 @@ public class MainMenu extends Activity {
         useSensorsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                config.setUseSensors(isChecked);
+                Config.useSensors = isChecked;
             }
         });
     }
@@ -103,14 +102,10 @@ public class MainMenu extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Config.loadValues();
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-        this.config = new Config();
-        this.config.loadValues();
-
         openMainMenu();
     }
 }

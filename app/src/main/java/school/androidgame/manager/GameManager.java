@@ -28,7 +28,6 @@ import android.widget.Button;
 public class GameManager {
 
     public boolean stopped;
-    public Config config;
 
     private MainActivity activity;
     public Context context;
@@ -42,6 +41,7 @@ public class GameManager {
     public int defaultHealth;
 
     public GameManager(final MainActivity activity) {
+
         this.defaultHealth = 5;
         this.stopped = false;
         this.activity = activity;
@@ -53,7 +53,8 @@ public class GameManager {
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
         this.lastSecond = 0;
-        this.config = MainActivity.config;
+        Config.context = this.context;
+        Config.loadValues();
     }
 
     public void draw(Canvas canvas) {
