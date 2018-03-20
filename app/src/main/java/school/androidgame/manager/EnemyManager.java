@@ -94,7 +94,6 @@ public class EnemyManager {
 
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
-        //TODO zufall für enemyBitmaps index
         Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y);
         enemy.setVisible(true);
         enemy.setDirection(enemyDirection);
@@ -142,14 +141,6 @@ public class EnemyManager {
 
     private Vector2D getRandomBottomPos() {
         return new Vector2D((float) (GamePanel.WIDTH * Math.random()), GamePanel.HEIGHT);
-    }
-
-    public void killAll(){
-
-        Iterator<Enemy> i = this.enemyArrayList.iterator();
-        while(i.hasNext()){
-            i.next().setVisible(false);
-        }
     }
 
 }
