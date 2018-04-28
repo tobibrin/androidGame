@@ -27,4 +27,9 @@ public class MainActivity extends Activity {
         return config;
     }
 
+    @Override
+    protected void onStop() {
+        this.getConfig().saveValues();
+        super.onStop();
+    }
 }
