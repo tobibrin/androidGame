@@ -1,4 +1,4 @@
-package school.androidgame.Utils;
+package school.androidgame.utils;
 
 import android.graphics.PointF;
 

@@ -3,13 +3,12 @@ package school.androidgame.manager;
 import android.app.Dialog;
 import android.content.Context;
 
-import school.androidgame.Entities.Player;
+import school.androidgame.entities.Player;
 import school.androidgame.GamePanel;
 import school.androidgame.MainActivity;
 import school.androidgame.MainMenu;
 import school.androidgame.R;
-import school.androidgame.Utils.Config;
-import school.androidgame.repositories.BitmapColorRepository;
+import school.androidgame.utils.Config;
 
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -17,6 +16,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+
+import junit.framework.Assert;
 
 /**
  * Created by tobijasp on 17.12.2017.
@@ -29,6 +30,7 @@ public class GameManager {
     private MainActivity activity;
     public Context context;
     public GamePanel gamePanel;
+    public Config config;
 
     public Player player;
     public GuiManager guiManager;
@@ -43,6 +45,7 @@ public class GameManager {
         this.stopped = false;
         this.activity = activity;
         this.context = activity;
+        this.config = activity.getConfig();
         this.gamePanel = new GamePanel(this);
         this.activity.setContentView(this.gamePanel);
         this.player = new Player(this, this.defaultHealth);
@@ -51,8 +54,6 @@ public class GameManager {
         this.gameTimeEventManager = new GameTimeEventManager(this.player);
 
         this.lastSecond = 0;
-        Config.context = this.context;
-        Config.loadValues();
     }
 
     public void draw(Canvas canvas) {
@@ -103,6 +104,8 @@ public class GameManager {
                 dialog.show();
             }
         });
+        this.config.addScore(this.player.getPoints());
+        this.config.saveValues();
     }
 
     private long lastSecond;

@@ -1,4 +1,4 @@
-package school.androidgame.Entities;
+package school.androidgame.entities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,12 +8,12 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import school.androidgame.Core.GameObject;
-import school.androidgame.Utils.bitmap.colors.BitmapColor;
-import school.androidgame.Utils.bitmap.colors.ObjectColorState;
+import school.androidgame.core.GameObject;
+import school.androidgame.utils.bitmap.colors.BitmapColor;
+import school.androidgame.utils.bitmap.colors.ObjectColorState;
 import school.androidgame.GamePanel;
 import school.androidgame.R;
-import school.androidgame.Utils.Vector2D;
+import school.androidgame.utils.Vector2D;
 import school.androidgame.manager.GameManager;
 import school.androidgame.manager.GyroscopicManager;
 import school.androidgame.repositories.BitmapColorRepository;
@@ -66,9 +66,7 @@ public class Player extends GameObject {
         this.playerRect = new Rect();
 
         this.updatePlayerRect();
-
-
-            this.gyroscopicManager = new GyroscopicManager(this.game.context);
+        this.gyroscopicManager = new GyroscopicManager(this.game);
 
         this.direction = new Vector2D(0, 0);
 

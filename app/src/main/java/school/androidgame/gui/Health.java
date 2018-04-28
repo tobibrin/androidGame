@@ -1,11 +1,10 @@
-package school.androidgame.Gui;
+package school.androidgame.gui;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import school.androidgame.Core.HudElement;
-import school.androidgame.GamePanel;
+import school.androidgame.core.HudElement;
 
 /**
  * Created by kezab on 28.11.17.

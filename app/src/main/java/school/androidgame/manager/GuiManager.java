@@ -3,9 +3,9 @@ package school.androidgame.manager;
 import android.content.Context;
 import android.graphics.Canvas;
 
-import school.androidgame.Entities.Player;
-import school.androidgame.Gui.Health;
-import school.androidgame.Gui.PlayerPoints;
+import school.androidgame.entities.Player;
+import school.androidgame.gui.Health;
+import school.androidgame.gui.PlayerPoints;
 
 /**
  * Created by kezab on 28.11.17.

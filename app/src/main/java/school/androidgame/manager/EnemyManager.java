@@ -1,20 +1,16 @@
 package school.androidgame.manager;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import school.androidgame.Entities.Enemy;
-import school.androidgame.Entities.Player;
+import school.androidgame.entities.Enemy;
+import school.androidgame.entities.Player;
 import school.androidgame.GamePanel;
-import school.androidgame.R;
-import school.androidgame.Utils.Vector2D;
-import school.androidgame.Utils.bitmap.colors.ObjectColorState;
+import school.androidgame.utils.Vector2D;
+import school.androidgame.utils.bitmap.colors.ObjectColorState;
 
 /**
  * Created by Tobi on 28.10.2017.

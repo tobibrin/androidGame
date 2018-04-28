@@ -1,7 +1,6 @@
-package school.androidgame.Utils;
+package school.androidgame.utils;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 
 /**
  * Created by kezab on 16.01.18.

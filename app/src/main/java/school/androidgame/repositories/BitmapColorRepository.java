@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import school.androidgame.Utils.bitmap.colors.BitmapColor;
-import school.androidgame.Utils.bitmap.colors.ObjectColorState;
+import school.androidgame.utils.bitmap.colors.BitmapColor;
+import school.androidgame.utils.bitmap.colors.ObjectColorState;
 
 /**
  * Created by tobi on 30.01.18.

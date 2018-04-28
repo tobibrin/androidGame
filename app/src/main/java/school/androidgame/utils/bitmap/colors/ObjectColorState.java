@@ -1,4 +1,4 @@
-package school.androidgame.Utils.bitmap.colors;
+package school.androidgame.utils.bitmap.colors;
 
 /**
  * Created by Tobi on 28.01.2018.
