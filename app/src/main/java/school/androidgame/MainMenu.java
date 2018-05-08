@@ -118,4 +118,10 @@ public class MainMenu extends Activity {
         this.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         openMainMenu();
     }
+
+    @Override
+    protected void onStop() {
+        this.config.saveValues();
+        super.onStop();
+    }
 }
