@@ -12,10 +12,12 @@ import school.androidgame.utils.Config;
 
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 
 import junit.framework.Assert;
 
@@ -69,6 +71,21 @@ public class GameManager {
     }
 
     public void showGameOverDialog() {
+
+        int points = this.player.getPoints();
+        int textColor = Color.YELLOW;
+        String pointsString = "SCORE: " + points;
+
+        if(this.config.isNewHighscore(points))
+        {
+            textColor = Color.RED;
+            pointsString += "!";
+        }
+
+        final int textColorFinal = textColor;
+        final String pointsStringFinal = pointsString;
+
+
         this.activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -80,6 +97,11 @@ public class GameManager {
 
                 Button backToMenuButton = dialog.findViewById(R.id.backToMenuButton);
                 Button restartGameButton = dialog.findViewById(R.id.restartGameButton);
+                TextView gameOverScoreView = dialog.findViewById(R.id.gameOverScoreView);
+
+                gameOverScoreView.setTextColor(textColorFinal);
+                gameOverScoreView.setText(pointsStringFinal);
+
 
                 backToMenuButton.setOnClickListener(new View.OnClickListener() {
                     @Override

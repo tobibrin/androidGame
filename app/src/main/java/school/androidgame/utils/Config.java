@@ -97,4 +97,9 @@ public class Config {
             }
         }
     }
+
+    public boolean isNewHighscore(int score)
+    {
+        return this.scores.iterator().next() < score;
+    }
 }
