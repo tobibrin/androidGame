@@ -54,8 +54,6 @@ public class GameManager {
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
         this.gameTimeEventManager = new GameTimeEventManager(this.player);
-
-        this.lastSecond = 0;
     }
 
     public void draw(Canvas canvas) {
@@ -76,8 +74,7 @@ public class GameManager {
         int textColor = Color.YELLOW;
         String pointsString = "SCORE: " + points;
 
-        if(this.config.isNewHighscore(points))
-        {
+        if(this.config.isNewHighscore(points)){
             textColor = Color.RED;
             pointsString += "!";
         }
@@ -126,20 +123,15 @@ public class GameManager {
                 dialog.show();
             }
         });
+
         this.config.addScore(this.player.getPoints());
         this.config.saveValues();
     }
-
-    private long lastSecond;
 
     public void update(float dt) {
         this.enemyManager.update(dt);
         this.player.update(dt);
         this.guiManager.update(dt);
-    }
-
-    private void storeHighScore() {
-
     }
 
     public void stop() {

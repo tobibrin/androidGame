@@ -46,7 +46,8 @@ public class Player extends GameObject {
         this.bitmapColorRepository = new BitmapColorRepository();
         this.game = game;
 
-        this.spawnPoint = new PointF(100.0f, 100.0f);
+        this.spawnPoint = new PointF(GamePanel.WIDTH / 2, GamePanel.HEIGHT / 2.0f);
+        this.direction = new Vector2D(0, 0);
         this.spawnPlayer();
 
         this.health = health;
@@ -67,10 +68,6 @@ public class Player extends GameObject {
 
         this.updatePlayerRect();
         this.gyroscopicManager = new GyroscopicManager(this.game);
-
-        this.direction = new Vector2D(0, 0);
-
-        //    this.gyroscopicManager.unregisterListener();
     }
 
     private void setupPlayerImages() {
@@ -84,8 +81,6 @@ public class Player extends GameObject {
         Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_red);
         redImage = Bitmap.createScaledBitmap(redImage, this.getWidth(), this.getHeight(), false);
 
-
-
         BitmapColor bitmapColorGreen = new BitmapColor(greenImage, ObjectColorState.COLOR_STATE_GREEN);
         BitmapColor bitmapColorBlue = new BitmapColor(blueImage, ObjectColorState.COLOR_STATE_BLUE);
         BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
@@ -95,82 +90,56 @@ public class Player extends GameObject {
 
     @Override
     public void update(float dt) {
+        float[] orientation = gyroscopicManager.getOrientation();
+        float[] startOrientation = gyroscopicManager.getStartOrientation();
 
-        
-            float[] orientation = gyroscopicManager.getOrientation();
-            float[] startOrientation = gyroscopicManager.getStartOrientation();
+        if (orientation != null && startOrientation != null) {
+            float pitch = orientation[1];
+            float roll = orientation[2];
 
-            if (orientation != null && startOrientation != null) {
-                float pitch = orientation[1];
-                float roll = orientation[2];
+            if (Math.abs(pitch) < Math.PI && Math.abs(roll) < (Math.PI / 2)) {
+                float xDirection = (roll * 8.0f) / (float) Math.PI;
+                xDirection = Math.round(xDirection * 100.0f) / 100.0f;
 
-                if (Math.abs(pitch) < Math.PI && Math.abs(roll) < (Math.PI / 2)) {
+                float yDirection = (pitch * 4.0f) / (float) Math.PI * -1.0f;
+                yDirection = Math.round(yDirection * 100.0f) / 100.0f;
 
-                    float xDirection = (2.0f * roll * 4.0f) / (float) Math.PI;
-                    xDirection = Math.round(xDirection * 100.0f) / 100.0f;
+                if (xDirection < -1.0f)
+                    xDirection = -1.0f;
+                else if (xDirection > 1.0f)
+                    xDirection = 1.0f;
 
-                    float yDirection = (pitch * 4.0f) / (float) Math.PI * -1.0f;
-                    yDirection = Math.round(yDirection * 100.0f) / 100.0f;
+                if (yDirection < -1.0f)
+                    yDirection = -1.0f;
+                else if (yDirection > 1.0f)
+                    yDirection = 1.0f;
 
-                    if (xDirection < -1.0f) {
-                        xDirection = -1.0f;
-                    } else if (xDirection > 1.0f) {
-                        xDirection = 1.0f;
-                    }
-
-                    if (yDirection < -1.0f) {
-                        yDirection = -1.0f;
-                    } else if (yDirection > 1.0f) {
-                        yDirection = 1.0f;
-                    }
-
-
-                    if (Math.abs(xDirection) > 0) {
-
-                        this.direction.set(xDirection, this.direction.y);
-
-                    } else {
-
-                        this.direction.set(0, this.direction.y);
-                    }
-
-                    if (Math.abs(yDirection) > 0) {
-
-                        this.direction.set(this.direction.x, yDirection);
-
-                    } else {
-
-                        this.direction.set(this.direction.x, 0);
-                    }
-                }
+                this.direction.set((Math.abs(xDirection) > 0)? xDirection : 0, this.direction.y);
+                this.direction.set(this.direction.x, (Math.abs(yDirection) > 0)? yDirection : 0);
             }
+        }
 
         if (dt != 0 && GamePanel.MIN_WIDTH_HEIGHT != 0 && GamePanel.DENSITY != 0) {
-
             if (Math.abs(this.direction.x) > 0) {
                 float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
 
-                if (Math.abs(newX - this.getX()) < 50.0f) {
+                if (Math.abs(newX - this.getX()) < 50.0f)
                     this.setX(newX);
-                }
-
             }
 
             if (Math.abs(this.direction.y) > 0) {
                 float newY = this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
-                if (Math.abs(newY - this.getY()) < 50.0f) {
+
+                if (Math.abs(newY - this.getY()) < 50.0f)
                     this.setY(newY);
-                }
             }
 
             this.updatePlayerRect();
-
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-
         BitmapColor playerBitmapColor = this.bitmapColorRepository.getBitmapColorAtCurrentIndex();
 
         if (playerBitmapColor != null) {
@@ -184,11 +153,9 @@ public class Player extends GameObject {
     }
 
     public void onActionMove(MotionEvent event) {
-
         if (this.playerIsAbleToMove) {
             this.setX((int) event.getX());
             this.setY((int) event.getY());
-
             this.updatePlayerRect();
         }
     }
@@ -245,16 +212,13 @@ public class Player extends GameObject {
     public void damage(int damage) {
         this.health -= damage;
 
-        if (this.health <= 0) {
-
+        if (this.health <= 0)
             this.health = 0;
-        }
     }
 
     public void nextBitmapColor() {
-        if (this.bitmapColorRepository != null) {
+        if (this.bitmapColorRepository != null)
             this.bitmapColorRepository.nextBitMapColor();
-        }
     }
 
     public BitmapColorRepository getBitmapColorRepository() {

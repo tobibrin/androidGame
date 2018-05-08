@@ -20,10 +20,9 @@ public class PlayerChangeColorTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        if (this.shouldRun && player != null) {
+        if (this.shouldRun && player != null)
             this.player.nextBitmapColor();
-        } else {
+        else
             System.exit(0);
-        }
     }
 }

@@ -36,8 +36,6 @@ public class EnemyManager {
         this.maxEnemies = 10;
     }
 
-
-
     public void draw(Canvas canvas) {
 
         for (Enemy enemy : enemyArrayList) {
@@ -49,33 +47,28 @@ public class EnemyManager {
         for (Enemy enemy : enemyArrayList) {
             enemy.update(dt);
 
-            if (!enemy.getIsInScreen()) {
+            if (!enemy.getIsInScreen())
                 this.enemiesToRemove.add(enemy);
-            } else if (enemy.isVisible() && enemy.getHitPlayer()) {
-
+            else if (enemy.isVisible() && enemy.getHitPlayer()) {
                 ObjectColorState playerObjectColorState = this.player.getBitmapColorRepository().getCurrentColorState();
                 ObjectColorState enemyObjectColorState = enemy.getBitmapColorRepository().getCurrentColorState();
 
-                if (playerObjectColorState == enemyObjectColorState) {
+                if (playerObjectColorState == enemyObjectColorState)
                     this.player.addPoint(1);
-                } else {
+                else
                     this.player.damage(1);
-                }
 
                 this.enemiesToRemove.add(enemy);
             }
-
         }
 
-        if (this.enemyArrayList.size() < this.maxEnemies && Math.random() < 0.05f) {
+        if (this.enemyArrayList.size() < this.maxEnemies && Math.random() < 0.05f)
             this.spawnEnemy();
-        }
 
         this.cleanUpEnemies();
     }
 
     private void cleanUpEnemies() {
-
         for (Enemy enemy : this.enemiesToRemove) {
             enemy.destroy();
             this.enemyArrayList.remove(enemy);
@@ -99,26 +92,16 @@ public class EnemyManager {
 
     private Vector2D getRandomEnemyPos() {
         Vector2D resultEnemyPos;
-
         double random = Math.random();
 
-        if (random < 0.25) {
-
+        if (random < 0.25)
             resultEnemyPos = this.getRandomLeftPos();
-
-        } else if (random < 0.5) {
-
+        else if (random < 0.5)
             resultEnemyPos = this.getRandomTopPos();
-
-        } else if (random < 0.75) {
-
+        else if (random < 0.75)
             resultEnemyPos = this.getRandomRightPos();
-
-        } else {
-
+        else
             resultEnemyPos = this.getRandomBottomPos();
-
-        }
 
         return resultEnemyPos;
     }

@@ -90,8 +90,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 this.game.player.onActionDown(event);
-
-
             case MotionEvent.ACTION_MOVE:
                 this.game.player.onActionMove(event);
         }
@@ -112,7 +110,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public void stopGame() {
         if (this.thread != null) {
-
             this.thread.setRunning(false);
             this.thread.interrupt();
         }

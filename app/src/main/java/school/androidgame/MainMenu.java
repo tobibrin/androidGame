@@ -91,6 +91,7 @@ public class MainMenu extends Activity {
         setContentView(R.layout.activity_main_menu_scores);
 
         final Button backButton = (Button)this.findViewById(R.id.backButtonScores);
+        final ListView scoreListView = (ListView)this.findViewById(R.id.scoreList);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,14 +99,8 @@ public class MainMenu extends Activity {
                 openMainMenu();
             }
         });
-
-        final ListView scoreListView = (ListView)this.findViewById(R.id.scoreList);
-        System.out.println("SCORECOUNT: " + this.config.getScores().size());
-
-        ArrayList<Integer> scores = this.config.getScores();
-        ArrayAdapter adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1,this.config.getScores());
+        ArrayAdapter adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, this.config.getScores());
         scoreListView.setAdapter(adapter);
-
     }
 
     @Override

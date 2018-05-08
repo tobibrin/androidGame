@@ -56,16 +56,10 @@ public class GyroscopicManager implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-
-
-        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-
+        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
             this.outputMagneticField = event.values;
-
-        } else if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-
+        else if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
             this.outputAccelerometer = event.values;
-        }
 
         if (outputMagneticField != null && outputAccelerometer != null) {
 
@@ -84,7 +78,6 @@ public class GyroscopicManager implements SensorEventListener {
         }
 
     }
-
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
