@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import school.androidgame.core.GameObject;
@@ -173,16 +174,18 @@ public class Player extends GameObject {
     }
 
     private boolean intersectsPlayer(float clickedX, float clickedY) {
-        float playerPosX = this.getX();
-        float playerPosY = this.getY();
+        float halfPlayerWidth = this.getWidth()/2,
+        halfPlayerHeight = this.getHeight()/2,
+        playerPosX = this.getX(),
+        playerPosY = this.getY();
 
-        float halfPlayerWidth = this.getWidth() / 2;
-        float halfPlayerHeight = this.getHeight() / 2;
+        RectF r = new RectF(
+                playerPosX-halfPlayerWidth,
+                playerPosY-halfPlayerHeight,
+                playerPosX+halfPlayerWidth,
+                playerPosY+halfPlayerHeight);
 
-        boolean isInWidth = clickedX >= playerPosX - halfPlayerWidth && clickedX <= playerPosX + halfPlayerWidth;
-        boolean isInHeight = clickedY >= playerPosY - halfPlayerHeight && clickedY <= playerPosY + halfPlayerHeight;
-
-        return isInWidth && isInHeight;
+        return r.contains(clickedX, clickedY);
     }
 
     private void updatePlayerRect() {
