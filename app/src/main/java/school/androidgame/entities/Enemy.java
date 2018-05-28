@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import school.androidgame.core.GameObject;
 import school.androidgame.R;
@@ -28,7 +29,7 @@ public class Enemy extends GameObject {
     private BitmapColorRepository bitmapColorRepository;
 
     private Paint enemyPaint;
-    private Rect enemyRect;
+    private RectF enemyRect;
     private Bitmap enemyBitmap;
     private PointF direction;
     private float speed;
@@ -61,7 +62,7 @@ public class Enemy extends GameObject {
         this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmapColor.getBitmap(), this.getWidth(), this.getHeight(), false);
 
         this.player = player;
-        this.enemyRect = new Rect();
+        this.enemyRect = new RectF();
         this.enemyPaint = new Paint();
         this.enemyPaint.setColor(Color.BLACK);
         this.updateRect();
@@ -141,7 +142,7 @@ public class Enemy extends GameObject {
     private boolean enemyPlayerCollisionCheck() {
 
         //TODO tolerance?
-        return Rect.intersects(this.player.getPlayerRect(), this.enemyRect);
+        return RectF.intersects(this.player.getPlayerRect(), this.enemyRect);
     }
 
     public void destroy() {

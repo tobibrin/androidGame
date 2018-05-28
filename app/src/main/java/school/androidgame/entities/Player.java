@@ -26,7 +26,7 @@ import school.androidgame.repositories.BitmapColorRepository;
 public class Player extends GameObject {
 
     private GameManager game;
-    private Rect playerRect;
+    private RectF playerRect;
     private Paint playerPaint;
 
     private BitmapColorRepository bitmapColorRepository;
@@ -65,7 +65,7 @@ public class Player extends GameObject {
         this.setupPlayerImages();
 
         this.playerPaint = new Paint();
-        this.playerRect = new Rect();
+        this.playerRect = new RectF();
 
         this.updatePlayerRect();
         this.gyroscopicManager = new GyroscopicManager(this.game);
@@ -169,33 +169,23 @@ public class Player extends GameObject {
         this.playerIsAbleToMove = this.intersectsPlayer(event.getX(), event.getY());
     }
 
-    public Rect getPlayerRect() {
+    public RectF getPlayerRect() {
         return this.playerRect;
     }
 
     private boolean intersectsPlayer(float clickedX, float clickedY) {
-        float halfPlayerWidth = this.getWidth()/2,
-        halfPlayerHeight = this.getHeight()/2,
-        playerPosX = this.getX(),
-        playerPosY = this.getY();
-
-        RectF r = new RectF(
-                playerPosX-halfPlayerWidth,
-                playerPosY-halfPlayerHeight,
-                playerPosX+halfPlayerWidth,
-                playerPosY+halfPlayerHeight);
-
-        return r.contains(clickedX, clickedY);
+        return this.getPlayerRect().contains(clickedX, clickedY);
     }
 
     private void updatePlayerRect() {
         float playerHalfWidth = this.getWidth() / 2.0f;
         float playerHalfHeight = this.getHeight() / 2.0f;
 
-        this.playerRect.set((int) (this.getX() - playerHalfWidth),
-                (int) (this.getY() - playerHalfHeight),
-                (int) (this.getX() + playerHalfWidth),
-                (int) (this.getY() + playerHalfHeight));
+        this.playerRect.set(
+                this.getX() - playerHalfWidth,
+                this.getY() - playerHalfHeight,
+                this.getX() + playerHalfWidth,
+                this.getY() + playerHalfHeight);
     }
 
     private void spawnPlayer() {
