@@ -8,7 +8,7 @@ import java.util.UUID;
  * Created by kezab on 14.11.17.
  */
 
-public class HudElement {
+public abstract class HudElement {
 
     private float x;
     private float y;
