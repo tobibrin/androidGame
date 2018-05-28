@@ -28,7 +28,6 @@ public class Enemy extends GameObject {
 
     private BitmapColorRepository bitmapColorRepository;
 
-    private Paint enemyPaint;
     private RectF enemyRect;
     private Bitmap enemyBitmap;
     private PointF direction;
@@ -63,8 +62,6 @@ public class Enemy extends GameObject {
 
         this.player = player;
         this.enemyRect = new RectF();
-        this.enemyPaint = new Paint();
-        this.enemyPaint.setColor(Color.BLACK);
         this.updateRect();
     }
 
