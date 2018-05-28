@@ -26,7 +26,7 @@ public class EnemyManager {
     private ArrayList<Enemy> enemyArrayList;
     private ArrayList<Enemy> enemiesToRemove;
 
-    public EnemyManager(GameManager game) {
+    EnemyManager(GameManager game) {
         this.game = game;
         this.context = game.context;
         this.player = game.player;
