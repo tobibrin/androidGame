@@ -21,7 +21,7 @@ public class GuiManager {
     public GuiManager(GameManager game){
         this.game = game;
         this.player = game.player;
-        this.health = new Health();
+        this.health = new Health(game.defaultHealth);
         this.playerPoints = new PlayerPoints();
         this.context = game.context;
 

@@ -18,9 +18,9 @@ public class Health extends HudElement {
     private StringBuilder health;
     private int healthAmount;
 
-    public Health(){
+    public Health(int initialHealth){
         this.health = new StringBuilder();
-        this.healthAmount = 5;
+        this.healthAmount = initialHealth;
         this.setHealthString();
     }
 
