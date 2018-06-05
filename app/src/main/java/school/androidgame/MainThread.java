@@ -26,7 +26,7 @@ public class MainThread extends Thread{
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;
 
-        this.timeMillis = 1000/MainThread.MAX_FPS;
+        this.timeMillis = 1000 / MainThread.MAX_FPS;
         this.targetTime = timeMillis;
         this.frameCount = 0;
         this.totalTime = 0;

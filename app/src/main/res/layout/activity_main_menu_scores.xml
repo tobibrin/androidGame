@@ -18,6 +18,17 @@
         android:layout_gravity="center_horizontal"
         />
 
+
+    <ListView
+        android:id="@+id/scoreList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="false"
+        android:divider="#555"
+        android:dividerHeight="1dp"
+        android:layout_gravity="center"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -25,15 +36,17 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/backButton"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
+        android:id="@+id/backButtonScores"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="BACK"
         android:textSize="20sp"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         android:background="#9E9E9E"
-        android:text="Back"
         />
+
+
 
 </LinearLayout>

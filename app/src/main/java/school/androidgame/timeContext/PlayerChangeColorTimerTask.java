@@ -2,7 +2,7 @@ package school.androidgame.timeContext;
 
 import java.util.TimerTask;
 
-import school.androidgame.Entities.Player;
+import school.androidgame.entities.Player;
 
 /**
  * Created by tobi on 27.02.18.
@@ -20,10 +20,9 @@ public class PlayerChangeColorTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        if (this.shouldRun && player != null) {
+        if (this.shouldRun && player != null)
             this.player.nextBitmapColor();
-        } else {
+        else
             System.exit(0);
-        }
     }
 }

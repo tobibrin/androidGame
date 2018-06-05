@@ -22,7 +22,7 @@
         android:id="@+id/useSensorsSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Use Sensors "
+        android:text="Sensors"
         android:textStyle="bold"
         android:textSize="35sp"
         android:textColor="@android:color/white"

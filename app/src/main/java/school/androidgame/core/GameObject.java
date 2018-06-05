@@ -1,4 +1,4 @@
-package school.androidgame.Core;
+package school.androidgame.core;
 
 import android.graphics.Canvas;
 

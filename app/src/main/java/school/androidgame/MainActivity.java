@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import school.androidgame.Utils.Config;
+import school.androidgame.utils.Config;
 
 import school.androidgame.manager.GameManager;
 
 public class MainActivity extends Activity {
+
+    public static Config config;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,4 +22,14 @@ public class MainActivity extends Activity {
         new GameManager(this);
     }
 
+    public Config getConfig()
+    {
+        return config;
+    }
+
+    @Override
+    protected void onStop() {
+        this.getConfig().saveValues();
+        super.onStop();
+    }
 }

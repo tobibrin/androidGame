@@ -6,7 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import school.androidgame.Utils.Config;
+import school.androidgame.utils.Config;
 
 /**
  * Created by tobi on 04.12.17.
@@ -25,14 +25,18 @@ public class GyroscopicManager implements SensorEventListener {
     private Sensor sensorMagneticField;
     private Sensor sensorAccelerometer;
 
-    public GyroscopicManager(Context context) {
+    private GameManager game;
 
+    public GyroscopicManager(GameManager game) {
+
+        this.game = game;
         this.orientation = new float[3];
         this.startOrientation = null;
+        Context context = this.game.context;
 
         this.sensorManager = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
 
-        if (this.sensorManager != null && Config.useSensors) {
+        if (this.sensorManager != null && game.config.getUseSensors()) {
 
             this.sensorMagneticField = this.sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
             this.sensorAccelerometer = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -52,16 +56,10 @@ public class GyroscopicManager implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-
-
-        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-
+        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
             this.outputMagneticField = event.values;
-
-        } else if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-
+        else if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
             this.outputAccelerometer = event.values;
-        }
 
         if (outputMagneticField != null && outputAccelerometer != null) {
 
@@ -80,7 +78,6 @@ public class GyroscopicManager implements SensorEventListener {
         }
 
     }
-
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {

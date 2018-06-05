@@ -6,11 +6,11 @@ import android.graphics.PointF;
 
 import java.util.ArrayList;
 
-import school.androidgame.Entities.Enemy;
-import school.androidgame.Entities.Player;
+import school.androidgame.entities.Enemy;
+import school.androidgame.entities.Player;
 import school.androidgame.GamePanel;
-import school.androidgame.Utils.Vector2D;
-import school.androidgame.Utils.bitmap.colors.ObjectColorState;
+import school.androidgame.utils.Vector2D;
+import school.androidgame.utils.bitmap.colors.ObjectColorState;
 
 /**
  * Created by Tobi on 28.10.2017.
@@ -59,6 +59,7 @@ public class EnemyManager {
         }
     }
 
+
     public void update(float dt) {
         for (Enemy enemy : enemyArrayList) {
             enemy.update(dt);
@@ -100,26 +101,16 @@ public class EnemyManager {
 
     private Vector2D getRandomEnemyPos() {
         Vector2D resultEnemyPos;
-
         double random = Math.random();
 
-        if (random < 0.25) {
-
+        if (random < 0.25)
             resultEnemyPos = this.getRandomLeftPos();
-
-        } else if (random < 0.5) {
-
+        else if (random < 0.5)
             resultEnemyPos = this.getRandomTopPos();
-
-        } else if (random < 0.75) {
-
+        else if (random < 0.75)
             resultEnemyPos = this.getRandomRightPos();
-
-        } else {
-
+        else
             resultEnemyPos = this.getRandomBottomPos();
-
-        }
 
         return resultEnemyPos;
     }

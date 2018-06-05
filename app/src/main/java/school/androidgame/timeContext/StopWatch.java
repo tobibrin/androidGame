@@ -28,9 +28,8 @@ public class StopWatch {
 
         long now = System.currentTimeMillis();
 
-        if (this.isRunning) {
+        if (this.isRunning)
             passedMilliseconds = this.startTime - now;
-        }
 
         return this.passedMilliseconds;
     }

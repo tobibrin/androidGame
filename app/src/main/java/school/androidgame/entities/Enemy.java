@@ -1,4 +1,4 @@
-package school.androidgame.Entities;
+package school.androidgame.entities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,10 +9,10 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import school.androidgame.Core.GameObject;
+import school.androidgame.core.GameObject;
 import school.androidgame.R;
-import school.androidgame.Utils.bitmap.colors.BitmapColor;
-import school.androidgame.Utils.bitmap.colors.ObjectColorState;
+import school.androidgame.utils.bitmap.colors.BitmapColor;
+import school.androidgame.utils.bitmap.colors.ObjectColorState;
 import school.androidgame.GamePanel;
 import school.androidgame.repositories.BitmapColorRepository;
 

@@ -4,14 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import school.androidgame.Entities.Player;
 import school.androidgame.GamePanel;
-import school.androidgame.Gui.Health;
 import school.androidgame.Gui.NextPlayerColorHudElement;
-import school.androidgame.Gui.PlayerPoints;
-import school.androidgame.Gui.ToolbarTop;
-import school.androidgame.Utils.Vector2D;
-import school.androidgame.Utils.bitmap.colors.BitmapColor;
+import school.androidgame.entities.Player;
+import school.androidgame.gui.Health;
+import school.androidgame.gui.PlayerPoints;
 
 /**
  * Created by kezab on 28.11.17.
@@ -25,7 +22,7 @@ public class GuiManager {
     private ToolbarTop toolbarTop;
     private NextPlayerColorHudElement nextPlayerColorHudElement;
 
-    public GuiManager(GameManager game) {
+    public GuiManager(GameManager game){
         this.game = game;
         this.player = game.player;
         this.toolbarTop = new ToolbarTop();

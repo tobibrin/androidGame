@@ -1,4 +1,4 @@
-package school.androidgame.Core;
+package school.androidgame.core;
 
 /**
  * Created by kezab on 10.10.17.
