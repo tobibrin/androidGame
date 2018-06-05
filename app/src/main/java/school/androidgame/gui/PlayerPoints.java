@@ -5,8 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import school.androidgame.core.HudElement;
-import school.androidgame.GamePanel;
-import school.androidgame.Utils.Vector2D;
+import school.androidgame.utils.Vector2D;
 
 /**
  * Created by Tobi on 04.02.2018.

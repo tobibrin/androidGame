@@ -7,8 +7,8 @@ import android.graphics.Paint;
 
 import java.util.concurrent.TimeUnit;
 
-import school.androidgame.Core.HudElement;
-import school.androidgame.Utils.Vector2D;
+import school.androidgame.core.HudElement;
+import school.androidgame.utils.Vector2D;
 
 /**
  * Created by tobi on 24.04.18.

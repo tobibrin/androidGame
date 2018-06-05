@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import school.androidgame.core.HudElement;
+import school.androidgame.utils.Vector2D;
 
 /**
  * Created by kezab on 28.11.17.

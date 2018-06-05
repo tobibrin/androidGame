@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 
 import java.util.UUID;
 
-import school.androidgame.Utils.Vector2D;
+import school.androidgame.utils.Vector2D;
 
 /**
  * Created by kezab on 14.11.17.

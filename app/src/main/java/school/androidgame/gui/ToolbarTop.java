@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import school.androidgame.Core.HudElement;
+import school.androidgame.core.HudElement;
 import school.androidgame.GamePanel;
 
 /**

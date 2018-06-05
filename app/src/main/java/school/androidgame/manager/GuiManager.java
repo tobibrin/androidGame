@@ -1,14 +1,15 @@
 package school.androidgame.manager;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import school.androidgame.GamePanel;
-import school.androidgame.Gui.NextPlayerColorHudElement;
+import school.androidgame.gui.NextPlayerColorHudElement;
 import school.androidgame.entities.Player;
 import school.androidgame.gui.Health;
 import school.androidgame.gui.PlayerPoints;
+import school.androidgame.gui.ToolbarTop;
+import school.androidgame.utils.Vector2D;
+import school.androidgame.utils.bitmap.colors.BitmapColor;
 
 /**
  * Created by kezab on 28.11.17.
