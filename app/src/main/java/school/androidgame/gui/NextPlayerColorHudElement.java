@@ -96,6 +96,7 @@ public class NextPlayerColorHudElement extends HudElement {
             this.millis = this.timeForNextBitmap;
         }
 
-        this.timeString = Integer.toString(this.millis / 1000) + "." + Integer.toString(this.millis / 100);
+        float seconds = this.millis / 1000.0f;
+        this.timeString = String.format("%.2f", seconds);
     }
 }
