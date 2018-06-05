@@ -11,6 +11,7 @@ import school.androidgame.GamePanel;
  */
 
 public abstract class GameObject {
+    //TODO x und y mit der Vector2D-Klasse ersetzen
     private float x;
     private float y;
     private int width;

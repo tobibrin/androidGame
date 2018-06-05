@@ -56,6 +56,18 @@ public class BitmapColorRepository {
         return this.bitmapColors.get(this.index);
     }
 
+    public BitmapColor getBitmapColorAtNextIndex() {
+
+        int nextIndex = this.index;
+        if (nextIndex == this.bitmapColors.size() - 1) {
+           nextIndex = 0;
+        } else {
+            nextIndex += 1;
+        }
+
+        return this.bitmapColors.get(nextIndex);
+    }
+
     public void nextBitMapColor() {
 
         if (this.index == this.bitmapColors.size() - 1) {

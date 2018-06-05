@@ -6,6 +6,7 @@ import android.graphics.Paint;
 
 import school.androidgame.Core.HudElement;
 import school.androidgame.GamePanel;
+import school.androidgame.Utils.Vector2D;
 
 /**
  * Created by Tobi on 04.02.2018.
@@ -13,15 +14,26 @@ import school.androidgame.GamePanel;
 
 public class PlayerPoints extends HudElement {
 
-    private final static int STRING_PADDING_TOP = 10;
-
     private StringBuilder currentPointsStringBuilder;
     private int currentPoints;
+    private Paint paint;
 
-    public PlayerPoints() {
+    public PlayerPoints(float x, float y) {
         this.currentPointsStringBuilder = new StringBuilder();
         this.currentPoints = 0;
+        this.createPaint();
         this.setString();
+        this.position = new Vector2D(x,y + (this.paint.getTextSize()/2));
+    }
+
+
+    private void createPaint() {
+        this.paint = new Paint();
+        this.paint.setStyle(Paint.Style.FILL);
+        this.paint.setColor(Color.WHITE);
+        this.paint.setTextSize(50);
+        this.paint.setAntiAlias(true);
+        this.paint.setFakeBoldText(true);
     }
 
     private void setString() {
@@ -36,14 +48,7 @@ public class PlayerPoints extends HudElement {
 
     public void draw(Canvas canvas) {
         if (this.getVisibility()) {
-            Paint paint = new Paint();
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(Color.GRAY);
-            paint.setTextSize(50);
-            paint.setAntiAlias(true);
-            paint.setFakeBoldText(true);
-
-            canvas.drawText(this.currentPointsStringBuilder.toString(), (GamePanel.WIDTH/2), paint.getTextSize() + PlayerPoints.STRING_PADDING_TOP, paint);
+            canvas.drawText(this.currentPointsStringBuilder.toString(), this.position.x, this.position.y , this.paint);
         }
     }
 }

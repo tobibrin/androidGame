@@ -117,6 +117,7 @@ public class GameManager {
 
     }
 
+
     public void stop() {
         this.stopped = true;
     }

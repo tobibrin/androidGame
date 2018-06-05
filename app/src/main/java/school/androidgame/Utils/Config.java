@@ -19,8 +19,8 @@ public class Config {
     public static void loadValues(){
         if(context != null && !isLoaded) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            prefs.getBoolean("useSensors", useSensors);
-            prefs.getInt("difficulty", difficulty);
+            useSensors = prefs.getBoolean("useSensors", true);
+            difficulty = prefs.getInt("difficulty", 0);
             isLoaded = true;
         }
     }
@@ -31,7 +31,7 @@ public class Config {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("useSensors", useSensors);
             editor.putInt("difficulty", difficulty);
-            editor.commit();
+            editor.apply();
         }
     }
 }

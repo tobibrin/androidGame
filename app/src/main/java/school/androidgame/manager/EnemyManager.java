@@ -1,18 +1,14 @@
 package school.androidgame.manager;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import school.androidgame.Entities.Enemy;
 import school.androidgame.Entities.Player;
 import school.androidgame.GamePanel;
-import school.androidgame.R;
 import school.androidgame.Utils.Vector2D;
 import school.androidgame.Utils.bitmap.colors.ObjectColorState;
 
@@ -40,12 +36,26 @@ public class EnemyManager {
         this.maxEnemies = 10;
     }
 
-
-
     public void draw(Canvas canvas) {
 
         for (Enemy enemy : enemyArrayList) {
             enemy.draw(canvas);
+        }
+    }
+
+    private void playerEnemyCollision(Enemy enemy) {
+        if (enemy.isVisible() && enemy.rectCollisionCheck(player.getPlayerRect())) {
+
+            ObjectColorState playerObjectColorState = this.player.getBitmapColorRepository().getCurrentColorState();
+            ObjectColorState enemyObjectColorState = enemy.getBitmapColorRepository().getCurrentColorState();
+
+            if (playerObjectColorState == enemyObjectColorState) {
+                this.player.addPoint(1);
+            } else {
+                this.player.damage(1);
+            }
+
+            this.enemiesToRemove.add(enemy);
         }
     }
 
@@ -55,20 +65,9 @@ public class EnemyManager {
 
             if (!enemy.getIsInScreen()) {
                 this.enemiesToRemove.add(enemy);
-            } else if (enemy.isVisible() && enemy.getHitPlayer()) {
-
-                ObjectColorState playerObjectColorState = this.player.getBitmapColorRepository().getCurrentColorState();
-                ObjectColorState enemyObjectColorState = enemy.getBitmapColorRepository().getCurrentColorState();
-
-                if (playerObjectColorState == enemyObjectColorState) {
-                    this.player.addPoint(1);
-                } else {
-                    this.player.damage(1);
-                }
-
-                this.enemiesToRemove.add(enemy);
+            } else {
+                this.playerEnemyCollision(enemy);
             }
-
         }
 
         if (this.enemyArrayList.size() < this.maxEnemies && Math.random() < 0.05f) {
@@ -79,12 +78,10 @@ public class EnemyManager {
     }
 
     private void cleanUpEnemies() {
-
         for (Enemy enemy : this.enemiesToRemove) {
             enemy.destroy();
             this.enemyArrayList.remove(enemy);
         }
-
         this.enemiesToRemove.clear();
     }
 
@@ -94,8 +91,7 @@ public class EnemyManager {
 
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
-        //TODO zufall für enemyBitmaps index
-        Enemy enemy = new Enemy(this.context, this.player, enemyPos.x, enemyPos.y);
+        Enemy enemy = new Enemy(this.context, enemyPos.x, enemyPos.y);
         enemy.setVisible(true);
         enemy.setDirection(enemyDirection);
 
@@ -142,14 +138,6 @@ public class EnemyManager {
 
     private Vector2D getRandomBottomPos() {
         return new Vector2D((float) (GamePanel.WIDTH * Math.random()), GamePanel.HEIGHT);
-    }
-
-    public void killAll(){
-
-        Iterator<Enemy> i = this.enemyArrayList.iterator();
-        while(i.hasNext()){
-            i.next().setVisible(false);
-        }
     }
 
 }

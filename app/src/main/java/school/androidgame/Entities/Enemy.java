@@ -23,10 +23,10 @@ import school.androidgame.repositories.BitmapColorRepository;
 public class Enemy extends GameObject {
 
     private Context context;
-    private Player player;
 
     private BitmapColorRepository bitmapColorRepository;
 
+    private boolean isAlive;
     private Paint enemyPaint;
     private Rect enemyRect;
     private Bitmap enemyBitmap;
@@ -34,11 +34,10 @@ public class Enemy extends GameObject {
     private float speed;
 
     private boolean isInScreen;
-    private boolean hitPlayer;
 
-    public Enemy(Context context, Player player, float x, float y) {
+    public Enemy(Context context, float x, float y) {
         this.context = context;
-
+        this.isAlive = true;
         this.setX(x);
         this.setY(y);
 
@@ -55,12 +54,10 @@ public class Enemy extends GameObject {
         this.direction = new PointF(0 ,0);
 
         this.isInScreen = true;
-        this.hitPlayer = false;
 
         BitmapColor enemyBitmapColor = this.bitmapColorRepository.getBitmapColorAtCurrentIndex();
         this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmapColor.getBitmap(), this.getWidth(), this.getHeight(), false);
 
-        this.player = player;
         this.enemyRect = new Rect();
         this.enemyPaint = new Paint();
         this.enemyPaint.setColor(Color.BLACK);
@@ -109,10 +106,6 @@ public class Enemy extends GameObject {
         if(!this.stillInScreen()) {
             this.isInScreen = false;
         }
-
-        if(this.enemyPlayerCollisionCheck()) {
-            this.hitPlayer = true;
-        }
     }
 
     @Override
@@ -128,8 +121,6 @@ public class Enemy extends GameObject {
         return this.isInScreen;
     }
 
-    public boolean getHitPlayer() { return this.hitPlayer;}
-
     public void setDirection(PointF direction) {
         this.direction = direction;
     }
@@ -138,10 +129,8 @@ public class Enemy extends GameObject {
         return this.bitmapColorRepository;
     }
 
-    private boolean enemyPlayerCollisionCheck() {
-
-        //TODO tolerance?
-        return Rect.intersects(this.player.getPlayerRect(), this.enemyRect);
+    public boolean rectCollisionCheck(Rect rect) {
+        return Rect.intersects(rect, this.enemyRect);
     }
 
     public void destroy() {

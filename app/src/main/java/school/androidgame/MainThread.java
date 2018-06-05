@@ -45,9 +45,10 @@ public class MainThread extends Thread{
         while(running) {
             this.startTime = System.nanoTime();
             this.canvas = null;
-            this.dt = System.currentTimeMillis() - lastFrameTime;
+            if (lastFrameTime != 0) {
+                this.dt = System.currentTimeMillis() - lastFrameTime;
+            }
             this.lastFrameTime = System.currentTimeMillis();
-
             try
             {
                 this.canvas = this.surfaceHolder.lockCanvas();

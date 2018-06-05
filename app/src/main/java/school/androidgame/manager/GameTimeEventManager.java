@@ -15,11 +15,13 @@ public class GameTimeEventManager {
     private StopWatch stopWatch;
     private Timer playerChangeColorTimer;
 
+    private int playerChangeColorTime = 3000;
+
     public GameTimeEventManager(Player player) {
         this.stopWatch = new StopWatch();
         this.stopWatch.start();
         this.playerChangeColorTimer = new Timer();
-        this.playerChangeColorTimer.schedule(new PlayerChangeColorTimerTask(player), 0, 3000);
+        this.playerChangeColorTimer.scheduleAtFixedRate(new PlayerChangeColorTimerTask(player), 0, this.playerChangeColorTime);
     }
 
     public void stopGameTime() {
@@ -28,5 +30,9 @@ public class GameTimeEventManager {
 
     public long getPassedMilliseconds() {
         return this.stopWatch.getPassedMilliseconds();
+    }
+
+    public Timer getPlayerChangeColorTimer() {
+        return this.playerChangeColorTimer;
     }
 }

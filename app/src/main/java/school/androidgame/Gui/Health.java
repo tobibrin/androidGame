@@ -6,6 +6,7 @@ import android.graphics.Paint;
 
 import school.androidgame.Core.HudElement;
 import school.androidgame.GamePanel;
+import school.androidgame.Utils.Vector2D;
 
 /**
  * Created by kezab on 28.11.17.
@@ -13,21 +14,28 @@ import school.androidgame.GamePanel;
 
 public class Health extends HudElement {
 
-    private final static int STRING_PADDING_LEFT = 10;
-    private final static int STRING_PADDING_TOP = 10;
-
     private StringBuilder health;
     private int healthAmount;
+    private Paint paint;
 
-    public Health(){
+    public Health(float x, float y){
         this.health = new StringBuilder();
         this.healthAmount = 5;
         this.setHealthString();
+        this.createPaint();
+        this.position = new Vector2D(x, (float)(y + Math.floor(this.paint.getTextSize() / 2.0f)));
+    }
+
+    private void createPaint() {
+        this.paint = new Paint();
+        this.paint.setStyle(Paint.Style.FILL);
+        this.paint.setColor(Color.RED);
+        this.paint.setTextSize(50);
+        this.paint.setAntiAlias(true);
     }
 
     private void setHealthString() {
         this.health.setLength(0);
-
         for(int i = 0 ; i < this.healthAmount; i++) {
              this.health.append("♥");
         }
@@ -43,14 +51,7 @@ public class Health extends HudElement {
     {
         if(this.getVisibility())
         {
-            Paint paint = new Paint();
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(Color.RED);
-            paint.setTextSize(50);
-            paint.setAntiAlias(true);
-            // TODO set text direction right to left
-
-            canvas.drawText(this.getHealthString(), Health.STRING_PADDING_LEFT, paint.getTextSize() + Health.STRING_PADDING_TOP, paint);
+            canvas.drawText(this.getHealthString(), this.position.x, this.position.y, paint);
         }
     }
 
