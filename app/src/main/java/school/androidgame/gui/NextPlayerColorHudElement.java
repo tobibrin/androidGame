@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import java.util.concurrent.TimeUnit;
-
 import school.androidgame.core.HudElement;
 import school.androidgame.utils.Vector2D;
 
@@ -23,11 +21,11 @@ public class NextPlayerColorHudElement extends HudElement {
     private Paint previewColorPaint;
 
     private Paint timeStringPaint;
-    private int textPaddingLeft = 20;
+
+    private final int textPaddingLeft = 20;
 
     private int millis;
-    private int bitmapSizeToUse;
-    private int halfBitmapSize;
+    private int bitmapSize;
     private int timeForNextBitmap;
 
     public NextPlayerColorHudElement(Vector2D position, Bitmap previewColorBitmap, int timeForNextBitmap) {
@@ -43,11 +41,8 @@ public class NextPlayerColorHudElement extends HudElement {
     }
 
 
-
     private void setupPreviewColorPaint() {
         this.previewColorPaint = new Paint();
-        this.previewColorPaint.setColor(Color.RED);
-        this.previewColorPaint.setAlpha(255);
     }
 
     private void setupPaint() {
@@ -59,29 +54,28 @@ public class NextPlayerColorHudElement extends HudElement {
         this.timeStringPaint.setAntiAlias(true);
         this.timeStringPaint.setFakeBoldText(true);
 
-        this.bitmapSizeToUse = textSize;
-        this.halfBitmapSize = (int) textSize/2;
+        this.bitmapSize = textSize;
     }
 
-    public void draw(Canvas canvas) {
 
+    public void draw(Canvas canvas) {
         if (this.previewColorBitmap != null) {
             canvas.drawBitmap(this.previewColorBitmap,
-                    this.position.x - this.halfBitmapSize,
-                    this.position.y - this.halfBitmapSize,
+                    this.position.x,
+                    this.position.y - (this.timeStringPaint.getTextSize() / 2),
                     this.previewColorPaint);
-        }
 
-        canvas.drawText(
-                this.timeString,
-                this.position.x + this.halfBitmapSize + this.textPaddingLeft,
-                this.position.y + this.halfBitmapSize,
-                this.timeStringPaint
-        );
+            canvas.drawText(
+                    this.timeString,
+                    this.position.x + this.bitmapSize + this.textPaddingLeft,
+                    this.position.y + (this.timeStringPaint.getTextSize() / 2),
+                    this.timeStringPaint
+            );
+        }
     }
 
     public void setTimeLeft(float dt) {
-        this.millis -= dt*1000;
+        this.millis -= dt * 1000;
         if (this.millis < 0) {
             this.millis = 0;
         }
@@ -91,7 +85,7 @@ public class NextPlayerColorHudElement extends HudElement {
     public void setPreviewColorBitmap(Bitmap bitmap) {
 
         if (bitmap != this.lastBitmap) {
-            this.previewColorBitmap = Bitmap.createScaledBitmap(bitmap, this.bitmapSizeToUse, this.bitmapSizeToUse, false);
+            this.previewColorBitmap = Bitmap.createScaledBitmap(bitmap, this.bitmapSize, this.bitmapSize, false);
             this.lastBitmap = bitmap;
             this.millis = this.timeForNextBitmap;
         }

@@ -22,7 +22,7 @@ public class Health extends HudElement {
         this.healthAmount = 5;
         this.setHealthString();
         this.createPaint();
-        this.position = new Vector2D(x, (float)(y + Math.floor(this.paint.getTextSize() / 2.0f)));
+        this.position = new Vector2D(x, (y + this.paint.getTextSize() / 2));
     }
 
     private void createPaint() {
