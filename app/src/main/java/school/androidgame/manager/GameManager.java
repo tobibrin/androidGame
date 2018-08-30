@@ -53,7 +53,8 @@ public class GameManager {
         this.player = new Player(this, this.defaultHealth);
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
-        this.gameTimeEventManager = new GameTimeEventManager(this.player);
+        this.gameTimeEventManager = new GameTimeEventManager();
+        this.gameTimeEventManager.registerPlayerChangeColor(this.player, 3000);
     }
 
     public void draw(Canvas canvas) {

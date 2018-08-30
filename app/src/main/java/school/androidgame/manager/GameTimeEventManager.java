@@ -13,26 +13,14 @@ import school.androidgame.timeContext.StopWatch;
 public class GameTimeEventManager {
 
     private StopWatch stopWatch;
-    private Timer playerChangeColorTimer;
 
-    private int playerChangeColorTime = 3000;
-
-    public GameTimeEventManager(Player player) {
+    public GameTimeEventManager() {
         this.stopWatch = new StopWatch();
         this.stopWatch.start();
-        this.playerChangeColorTimer = new Timer();
-        this.playerChangeColorTimer.scheduleAtFixedRate(new PlayerChangeColorTimerTask(player), 0, this.playerChangeColorTime);
     }
 
-    public void stopGameTime() {
-        this.stopWatch.stop();
-    }
-
-    public long getPassedMilliseconds() {
-        return this.stopWatch.getPassedMilliseconds();
-    }
-
-    public Timer getPlayerChangeColorTimer() {
-        return this.playerChangeColorTimer;
+    public void registerPlayerChangeColor(Player player, int duration) {
+        Timer playerChangeColorTimer = new Timer();
+        playerChangeColorTimer.scheduleAtFixedRate(new PlayerChangeColorTimerTask(player), 0, duration);
     }
 }
