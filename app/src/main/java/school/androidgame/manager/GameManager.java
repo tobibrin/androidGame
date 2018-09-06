@@ -8,6 +8,8 @@ import school.androidgame.GamePanel;
 import school.androidgame.MainActivity;
 import school.androidgame.MainMenu;
 import school.androidgame.R;
+import school.androidgame.interfaces.ISpeed;
+import school.androidgame.powerUps.SpeedPowerUp;
 import school.androidgame.utils.Config;
 
 import android.content.Intent;
@@ -38,11 +40,11 @@ public class GameManager {
     public GuiManager guiManager;
     public EnemyManager enemyManager;
     public GameTimeEventManager gameTimeEventManager;
+    private CollectAbleManager collectAbleManager;
 
     public int defaultHealth;
 
     public GameManager(final MainActivity activity) {
-
         this.defaultHealth = 5;
         this.stopped = false;
         this.activity = activity;
@@ -53,20 +55,9 @@ public class GameManager {
         this.player = new Player(this, this.defaultHealth);
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
+        this.collectAbleManager = new CollectAbleManager(this.context, this.player);
         this.gameTimeEventManager = new GameTimeEventManager();
         this.gameTimeEventManager.registerPlayerChangeColor(this.player, 3000);
-    }
-
-    public void draw(Canvas canvas) {
-        this.enemyManager.draw(canvas);
-        this.player.draw(canvas);
-        this.guiManager.draw(canvas);
-
-        if (this.player.getHealth() == 0) {
-
-            this.gamePanel.stopGame();
-            this.showGameOverDialog();
-        }
     }
 
     public void showGameOverDialog() {
@@ -130,9 +121,23 @@ public class GameManager {
     }
 
     public void update(float dt) {
+        this.collectAbleManager.update(dt);
         this.enemyManager.update(dt);
         this.player.update(dt);
         this.guiManager.update(dt);
+    }
+
+    public void draw(Canvas canvas) {
+        this.collectAbleManager.draw(canvas);
+        this.enemyManager.draw(canvas);
+        this.player.draw(canvas);
+        this.guiManager.draw(canvas);
+
+        if (this.player.getHealth() == 0) {
+
+            this.gamePanel.stopGame();
+            this.showGameOverDialog();
+        }
     }
 
     public void stop() {

@@ -23,7 +23,6 @@ import school.androidgame.repositories.BitmapColorRepository;
 public class Enemy extends GameObject {
 
     private Context context;
-
     private BitmapColorRepository bitmapColorRepository;
 
     private boolean isAlive;
@@ -31,32 +30,21 @@ public class Enemy extends GameObject {
     private Rect enemyRect;
     private Bitmap enemyBitmap;
     private PointF direction;
-    private float speed;
+    private float speed = 15;
 
     private boolean isInScreen;
 
     public Enemy(Context context, float x, float y) {
         this.context = context;
-        this.isAlive = true;
         this.setX(x);
         this.setY(y);
-
         this.bitmapColorRepository = new BitmapColorRepository();
         this.setupEnemyImages();
         this.bitmapColorRepository.setRandomIndex();
+        this.enemyBitmap = this.bitmapColorRepository.getBitmapColorAtCurrentIndex().getBitmap();
 
-        float width = this.initWidth();
-
-        this.setWidth((int)width);
-        this.setHeight((int)width);
-
-        this.speed = this.initSpeed();
-        this.direction = new PointF(0 ,0);
-
+        this.isAlive = true;
         this.isInScreen = true;
-
-        BitmapColor enemyBitmapColor = this.bitmapColorRepository.getBitmapColorAtCurrentIndex();
-        this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmapColor.getBitmap(), this.getWidth(), this.getHeight(), false);
 
         this.enemyRect = new Rect();
         this.enemyPaint = new Paint();
@@ -74,19 +62,11 @@ public class Enemy extends GameObject {
 
         Bitmap redImage = BitmapFactory.decodeResource(this.context.getResources(), R.drawable.enemy_red);
         BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
+        this.setWidth(greenImage.getWidth());
+        this.setHeight(greenImage.getHeight());
 
         this.bitmapColorRepository.addBitmapColors(new BitmapColor[] {bitmapColorGreen, bitmapColorBlue, bitmapColorRed});
 
-    }
-
-    private float initSpeed() {
-        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
-        return 150 * (minValue / 1000) * (GamePanel.DENSITY);
-    }
-
-    private float initWidth() {
-        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
-        return minValue * 0.025f * GamePanel.DENSITY;
     }
 
     private boolean stillInScreen() {
