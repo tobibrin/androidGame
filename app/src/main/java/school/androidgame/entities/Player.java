@@ -3,13 +3,18 @@ package school.androidgame.entities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.view.MotionEvent;
 
 import school.androidgame.core.GameObject;
-import school.androidgame.interfaces.ISpeed;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
 import school.androidgame.GamePanel;
@@ -23,7 +28,7 @@ import school.androidgame.repositories.BitmapColorRepository;
  * Created by kezab on 10.10.17.
  */
 
-public class Player extends GameObject implements ISpeed {
+public class Player extends GameObject {
 
     private GameManager game;
     private Rect playerRect;
@@ -35,7 +40,6 @@ public class Player extends GameObject implements ISpeed {
 
     private int health;
     private int points;
-    private float speed;
 
     private Vector2D direction;
 
@@ -54,13 +58,16 @@ public class Player extends GameObject implements ISpeed {
 
         this.health = health;
         this.points = 0;
-        this.speed = 900;
+        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
+        int size = (int) (minValue * 0.05f * GamePanel.DENSITY);
 
-        this.setupPlayerImages();
-
+        this.setWidth(size);
+        this.setHeight(size);
         this.setName("player");
         this.setVisible(true);
         this.playerIsAbleToMove = false;
+
+        this.setupPlayerImages();
 
         this.playerPaint = new Paint();
         this.playerRect = new Rect();
@@ -72,18 +79,26 @@ public class Player extends GameObject implements ISpeed {
     private void setupPlayerImages() {
 
         Bitmap greenImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_green);
-        Bitmap blueImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_blue);
-        Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_red);
+        greenImage = Bitmap.createScaledBitmap(greenImage, this.getWidth(), this.getHeight(), false);
 
-        this.setWidth(greenImage.getWidth());
-        this.setHeight(greenImage.getHeight());
+        Bitmap blueImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_blue);
+        blueImage = Bitmap.createScaledBitmap(blueImage, this.getWidth(), this.getHeight(), false);
+
+        Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_red);
+        redImage = Bitmap.createScaledBitmap(redImage, this.getWidth(), this.getHeight(), false);
 
         BitmapColor bitmapColorGreen = new BitmapColor(greenImage, ObjectColorState.COLOR_STATE_GREEN);
         BitmapColor bitmapColorBlue = new BitmapColor(blueImage, ObjectColorState.COLOR_STATE_BLUE);
         BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
 
         this.bitmapColorRepository.addBitmapColors(new BitmapColor[]{bitmapColorBlue, bitmapColorGreen, bitmapColorRed});
+//        this.drawableTest = ; //TODO
+
+
+
     }
+
+    private VectorDrawableCompat drawableTest;
 
     @Override
     public void update(float dt) {
@@ -111,22 +126,28 @@ public class Player extends GameObject implements ISpeed {
                 else if (yDirection > 1.0f)
                     yDirection = 1.0f;
 
-                this.direction.set((Math.abs(xDirection) > 0) ? xDirection : 0, this.direction.y);
-                this.direction.set(this.direction.x, (Math.abs(yDirection) > 0) ? yDirection : 0);
+                this.direction.set((Math.abs(xDirection) > 0)? xDirection : 0, this.direction.y);
+                this.direction.set(this.direction.x, (Math.abs(yDirection) > 0)? yDirection : 0);
             }
         }
 
-        if (Math.abs(this.direction.x) > 0) {
-            float newX = this.getX() + (this.speed * dt * this.direction.x * GamePanel.DENSITY);
-            this.setX(newX);
-        }
+        if (dt != 0 && GamePanel.MIN_WIDTH_HEIGHT != 0 && GamePanel.DENSITY != 0) {
+            if (Math.abs(this.direction.x) > 0) {
+                float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
 
-        if (Math.abs(this.direction.y) > 0) {
-            float newY = this.getY() + (this.speed * dt * this.direction.y * GamePanel.DENSITY);
-            this.setY(newY);
-        }
+                if (Math.abs(newX - this.getX()) < 50.0f)
+                    this.setX(newX);
+            }
 
-        this.updatePlayerRect();
+            if (Math.abs(this.direction.y) > 0) {
+                float newY = this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
+
+                if (Math.abs(newY - this.getY()) < 50.0f)
+                    this.setY(newY);
+            }
+
+            this.updatePlayerRect();
+        }
     }
 
     @Override
@@ -214,15 +235,5 @@ public class Player extends GameObject implements ISpeed {
 
     public BitmapColorRepository getBitmapColorRepository() {
         return this.bitmapColorRepository;
-    }
-
-    @Override
-    public float getSpeed() {
-        return this.speed;
-    }
-
-    @Override
-    public void setSpeed(float newSpeed) {
-        this.speed = newSpeed;
     }
 }
