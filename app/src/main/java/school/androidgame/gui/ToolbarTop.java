@@ -14,28 +14,18 @@ import school.androidgame.GamePanel;
 
 public class ToolbarTop extends HudElement {
 
-    private int height;
-    private int width;
+    public static int HEIGHT;
     private Rect toolbarTopRect;
     private Paint paint;
 
     public ToolbarTop() {
-        this.height = (int)(GamePanel.HEIGHT / 15);
-        this.width = (int)GamePanel.WIDTH;
-        this.toolbarTopRect = new Rect(0,0, this.width, this.height);
+        ToolbarTop.HEIGHT = (int) (GamePanel.HEIGHT / 15);
+        this.toolbarTopRect = new Rect(0, 0, (int) GamePanel.WIDTH, ToolbarTop.HEIGHT);
         this.paint = new Paint();
         this.paint.setColor(Color.BLACK);
     }
 
     public void draw(Canvas canvas) {
         canvas.drawRect(this.toolbarTopRect, this.paint);
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-
-    public int getWidth() {
-        return this.width;
     }
 }

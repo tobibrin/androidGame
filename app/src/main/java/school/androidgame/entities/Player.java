@@ -3,18 +3,13 @@ package school.androidgame.entities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.view.MotionEvent;
 
-import school.androidgame.core.GameObject;
+import school.androidgame.core.CollideAbleGameObject;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
 import school.androidgame.GamePanel;
@@ -28,23 +23,19 @@ import school.androidgame.repositories.BitmapColorRepository;
  * Created by kezab on 10.10.17.
  */
 
-public class Player extends GameObject {
+public class Player extends CollideAbleGameObject {
 
+    private final PointF spawnPoint;
+    private final int virtualSize = 64;
     private GameManager game;
-    private Rect playerRect;
     private Paint playerPaint;
-
     private BitmapColorRepository bitmapColorRepository;
 
-    final private PointF spawnPoint;
-
+    private Paint playerRectPaint;
     private int health;
     private int points;
-
     private Vector2D direction;
-
     private GyroscopicManager gyroscopicManager;
-
     private boolean playerIsAbleToMove;
 
     public Player(GameManager game, int health) {
@@ -56,13 +47,14 @@ public class Player extends GameObject {
         this.direction = new Vector2D(0, 0);
         this.spawnPlayer();
 
+        this.playerRectPaint = new Paint();
+        this.playerRectPaint.setStyle(Paint.Style.STROKE);
+        this.playerRectPaint.setColor(Color.RED);
         this.health = health;
         this.points = 0;
-        float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
-        int size = (int) (minValue * 0.05f * GamePanel.DENSITY);
-
-        this.setWidth(size);
-        this.setHeight(size);
+        int scaledSize = (int) (this.virtualSize * GamePanel.DENSITY);
+        this.setWidth(scaledSize);
+        this.setHeight(scaledSize);
         this.setName("player");
         this.setVisible(true);
         this.playerIsAbleToMove = false;
@@ -70,7 +62,7 @@ public class Player extends GameObject {
         this.setupPlayerImages();
 
         this.playerPaint = new Paint();
-        this.playerRect = new Rect();
+        this.rect = new Rect();
 
         this.updatePlayerRect();
         this.gyroscopicManager = new GyroscopicManager(this.game);
@@ -78,13 +70,13 @@ public class Player extends GameObject {
 
     private void setupPlayerImages() {
 
-        Bitmap greenImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_green);
+        Bitmap greenImage = BitmapFactory.decodeResource(this.game.getContext().getResources(), R.drawable.player_green);
         greenImage = Bitmap.createScaledBitmap(greenImage, this.getWidth(), this.getHeight(), false);
 
-        Bitmap blueImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_blue);
+        Bitmap blueImage = BitmapFactory.decodeResource(this.game.getContext().getResources(), R.drawable.player_blue);
         blueImage = Bitmap.createScaledBitmap(blueImage, this.getWidth(), this.getHeight(), false);
 
-        Bitmap redImage = BitmapFactory.decodeResource(this.game.context.getResources(), R.drawable.player_red);
+        Bitmap redImage = BitmapFactory.decodeResource(this.game.getContext().getResources(), R.drawable.player_red);
         redImage = Bitmap.createScaledBitmap(redImage, this.getWidth(), this.getHeight(), false);
 
         BitmapColor bitmapColorGreen = new BitmapColor(greenImage, ObjectColorState.COLOR_STATE_GREEN);
@@ -92,13 +84,7 @@ public class Player extends GameObject {
         BitmapColor bitmapColorRed = new BitmapColor(redImage, ObjectColorState.COLOR_STATE_RED);
 
         this.bitmapColorRepository.addBitmapColors(new BitmapColor[]{bitmapColorBlue, bitmapColorGreen, bitmapColorRed});
-//        this.drawableTest = ; //TODO
-
-
-
     }
-
-    private VectorDrawableCompat drawableTest;
 
     @Override
     public void update(float dt) {
@@ -126,8 +112,8 @@ public class Player extends GameObject {
                 else if (yDirection > 1.0f)
                     yDirection = 1.0f;
 
-                this.direction.set((Math.abs(xDirection) > 0)? xDirection : 0, this.direction.y);
-                this.direction.set(this.direction.x, (Math.abs(yDirection) > 0)? yDirection : 0);
+                this.direction.set((Math.abs(xDirection) > 0) ? xDirection : 0, this.direction.y);
+                this.direction.set(this.direction.x, (Math.abs(yDirection) > 0) ? yDirection : 0);
             }
         }
 
@@ -160,6 +146,7 @@ public class Player extends GameObject {
                 float xCenter = this.getX() - (this.getWidth() / 2.0f);
                 float yCenter = this.getY() - (this.getHeight() / 2.0f);
                 canvas.drawBitmap(bitmap, xCenter, yCenter, this.playerPaint);
+//                canvas.drawRect(this.rect, this.playerRectPaint);
             }
         }
     }
@@ -180,9 +167,6 @@ public class Player extends GameObject {
         this.playerIsAbleToMove = this.intersectsPlayer(event.getX(), event.getY());
     }
 
-    public Rect getPlayerRect() {
-        return this.playerRect;
-    }
 
     private boolean intersectsPlayer(float clickedX, float clickedY) {
         float playerPosX = this.getX();
@@ -201,7 +185,7 @@ public class Player extends GameObject {
         float playerHalfWidth = this.getWidth() / 2.0f;
         float playerHalfHeight = this.getHeight() / 2.0f;
 
-        this.playerRect.set((int) (this.getX() - playerHalfWidth),
+        this.rect.set((int) (this.getX() - playerHalfWidth),
                 (int) (this.getY() - playerHalfHeight),
                 (int) (this.getX() + playerHalfWidth),
                 (int) (this.getY() + playerHalfHeight));
@@ -224,8 +208,9 @@ public class Player extends GameObject {
     public void damage(int damage) {
         this.health -= damage;
 
-        if (this.health <= 0)
+        if (this.health <= 0) {
             this.health = 0;
+        }
     }
 
     public void nextBitmapColor() {
@@ -233,7 +218,15 @@ public class Player extends GameObject {
             this.bitmapColorRepository.nextBitMapColor();
     }
 
+    public Rect getPlayerRect() {
+        return this.rect;
+    }
+
     public BitmapColorRepository getBitmapColorRepository() {
         return this.bitmapColorRepository;
+    }
+
+    public void addHealth(int value) {
+        this.health += value;
     }
 }

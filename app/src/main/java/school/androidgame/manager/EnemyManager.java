@@ -18,18 +18,15 @@ import school.androidgame.utils.bitmap.colors.ObjectColorState;
 
 public class EnemyManager {
 
-    private GameManager game;
     private Player player;
-
     private int maxEnemies;
     private Context context;
     private ArrayList<Enemy> enemyArrayList;
     private ArrayList<Enemy> enemiesToRemove;
 
     public EnemyManager(GameManager game) {
-        this.game = game;
-        this.context = game.context;
-        this.player = game.player;
+        this.context = game.getContext();
+        this.player = game.getPlayer();
 
         this.enemyArrayList = new ArrayList<>();
         this.enemiesToRemove = new ArrayList<>();
@@ -44,7 +41,7 @@ public class EnemyManager {
     }
 
     private void playerEnemyCollision(Enemy enemy) {
-        if (enemy.isVisible() && enemy.rectCollisionCheck(player.getPlayerRect())) {
+        if (enemy.isVisible() && enemy.isColliding(player.getPlayerRect())) {
 
             ObjectColorState playerObjectColorState = this.player.getBitmapColorRepository().getCurrentColorState();
             ObjectColorState enemyObjectColorState = enemy.getBitmapColorRepository().getCurrentColorState();
@@ -116,19 +113,19 @@ public class EnemyManager {
     }
 
     private Vector2D getRandomLeftPos() {
-        return new Vector2D(0, (float) (GamePanel.HEIGHT * Math.random()));
+        return new Vector2D(0, GamePanel.getRandomY(0));
     }
 
     private Vector2D getRandomRightPos() {
-        return new Vector2D(GamePanel.WIDTH, (int) (GamePanel.HEIGHT * Math.random()));
+        return new Vector2D(GamePanel.WIDTH, GamePanel.getRandomY(0));
     }
 
     private Vector2D getRandomTopPos() {
-        return new Vector2D((float) (GamePanel.WIDTH * Math.random()), 0);
+        return new Vector2D(GamePanel.getRandomX(0), 0);
     }
 
     private Vector2D getRandomBottomPos() {
-        return new Vector2D((float) (GamePanel.WIDTH * Math.random()), GamePanel.HEIGHT);
+        return new Vector2D(GamePanel.getRandomX(0), GamePanel.HEIGHT);
     }
 
 }

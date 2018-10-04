@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import school.androidgame.gui.ToolbarTop;
 import school.androidgame.manager.GameManager;
 
 /**
@@ -23,16 +24,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public static float DENSITY;
     public static float MIN_WIDTH_HEIGHT;
 
-
     private GameManager game;
     private MainThread thread;
     final private Context context;
 
-
     public GamePanel(GameManager game) {
-        super(game.context);
+        super(game.getContext());
         this.game = game;
-        this.context = game.context;
+        this.context = game.getContext();
         getHolder().addCallback(this);
 
         this.getScreenSize();
@@ -42,9 +41,35 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         setFocusable(true);
     }
 
+    public static float getRandomX(float offset) {
+
+        float randomX = (float) (GamePanel.WIDTH * Math.random());
+
+        if (randomX + offset >= GamePanel.WIDTH) {
+            randomX = GamePanel.WIDTH - offset;
+        } else if (randomX < offset) {
+            randomX = 0 + offset;
+        }
+
+        return randomX;
+    }
+
+    public static float getRandomY(float offset) {
+
+        float randomY = (float) (GamePanel.HEIGHT * Math.random());
+        randomY += ToolbarTop.HEIGHT;
+
+        if (randomY + offset >= GamePanel.HEIGHT) {
+            randomY =  GamePanel.HEIGHT - offset;
+        } else if (randomY < offset + ToolbarTop.HEIGHT) {
+            randomY = offset + ToolbarTop.HEIGHT;
+        }
+
+        return randomY;
+    }
 
     private void getDensity() {
-        GamePanel.DENSITY = (float)this.context.getResources().getDisplayMetrics().densityDpi / 320.0f;
+        GamePanel.DENSITY = (float) this.context.getResources().getDisplayMetrics().densityDpi / 320.0f;
     }
 
     private void getScreenSize() {
@@ -89,9 +114,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                this.game.player.onActionDown(event);
+                this.game.getPlayer().onActionDown(event);
             case MotionEvent.ACTION_MOVE:
-                this.game.player.onActionMove(event);
+                this.game.getPlayer().onActionMove(event);
         }
         return true;
     }

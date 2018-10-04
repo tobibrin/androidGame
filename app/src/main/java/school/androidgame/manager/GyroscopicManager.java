@@ -32,11 +32,11 @@ public class GyroscopicManager implements SensorEventListener {
         this.game = game;
         this.orientation = new float[3];
         this.startOrientation = null;
-        Context context = this.game.context;
+        Context context = this.game.getContext();
 
         this.sensorManager = (SensorManager) context.getSystemService(context.SENSOR_SERVICE);
 
-        if (this.sensorManager != null && game.config.getUseSensors()) {
+        if (this.sensorManager != null && game.getConfig().getUseSensors()) {
 
             this.sensorMagneticField = this.sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
             this.sensorAccelerometer = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -76,7 +76,6 @@ public class GyroscopicManager implements SensorEventListener {
                 }
             }
         }
-
     }
 
     @Override

@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import school.androidgame.core.GameObject;
+import school.androidgame.core.CollideAbleGameObject;
 import school.androidgame.R;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
@@ -20,24 +20,17 @@ import school.androidgame.repositories.BitmapColorRepository;
  * Created by Tobi on 28.10.2017.
  */
 
-public class Enemy extends GameObject {
+public class Enemy extends CollideAbleGameObject {
 
     private Context context;
-
     private BitmapColorRepository bitmapColorRepository;
-
-    private boolean isAlive;
-    private Paint enemyPaint;
-    private Rect enemyRect;
     private Bitmap enemyBitmap;
     private PointF direction;
     private float speed;
-
     private boolean isInScreen;
 
     public Enemy(Context context, float x, float y) {
         this.context = context;
-        this.isAlive = true;
         this.setX(x);
         this.setY(y);
 
@@ -58,9 +51,7 @@ public class Enemy extends GameObject {
         BitmapColor enemyBitmapColor = this.bitmapColorRepository.getBitmapColorAtCurrentIndex();
         this.enemyBitmap = Bitmap.createScaledBitmap(enemyBitmapColor.getBitmap(), this.getWidth(), this.getHeight(), false);
 
-        this.enemyRect = new Rect();
-        this.enemyPaint = new Paint();
-        this.enemyPaint.setColor(Color.BLACK);
+        this.rect = new Rect();
         this.updateRect();
     }
 
@@ -129,10 +120,6 @@ public class Enemy extends GameObject {
         return this.bitmapColorRepository;
     }
 
-    public boolean rectCollisionCheck(Rect rect) {
-        return Rect.intersects(rect, this.enemyRect);
-    }
-
     public void destroy() {
         this.enemyBitmap.recycle();
         this.enemyBitmap = null;
@@ -145,7 +132,7 @@ public class Enemy extends GameObject {
         float enemyHalfWidth = this.getWidth() / 2.0f;
         float enemyHalfHeight = this.getHeight() / 2.0f;
 
-        this.enemyRect.set((int)(enemyX - enemyHalfWidth),
+        this.rect.set((int)(enemyX - enemyHalfWidth),
                 (int)(enemyY - enemyHalfHeight),
                 (int)(enemyX + enemyHalfWidth),
                 (int)(enemyY + enemyHalfHeight));

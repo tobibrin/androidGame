@@ -19,63 +19,67 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import junit.framework.Assert;
-
 /**
  * Created by tobijasp on 17.12.2017.
  */
 
 public class GameManager {
 
-    public boolean stopped;
-
     private MainActivity activity;
-    public Context context;
-    public GamePanel gamePanel;
-    public Config config;
+    private Context context;
+    private GamePanel gamePanel;
+    private Config config;
 
-    public Player player;
-    public GuiManager guiManager;
-    public EnemyManager enemyManager;
-    public GameTimeEventManager gameTimeEventManager;
-
-    public int defaultHealth;
+    private Player player;
+    private GuiManager guiManager;
+    private EnemyManager enemyManager;
+    private GameTimeEventManager gameTimeEventManager;
+    private CollectableManager collectableManager;
 
     public GameManager(final MainActivity activity) {
-
-        this.defaultHealth = 5;
-        this.stopped = false;
         this.activity = activity;
         this.context = activity;
         this.config = activity.getConfig();
         this.gamePanel = new GamePanel(this);
         this.activity.setContentView(this.gamePanel);
-        this.player = new Player(this, this.defaultHealth);
+        this.player = new Player(this, 5);
+        this.initManagers();
+    }
+
+    private void initManagers() {
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
+        this.collectableManager = new CollectableManager(this);
         this.gameTimeEventManager = new GameTimeEventManager();
         this.gameTimeEventManager.registerPlayerChangeColor(this.player, 3000);
+
+    }
+
+    public void update(float dt) {
+        this.collectableManager.update(dt);
+        this.enemyManager.update(dt);
+        this.player.update(dt);
+        this.guiManager.update(dt);
     }
 
     public void draw(Canvas canvas) {
+        this.collectableManager.draw(canvas);
         this.enemyManager.draw(canvas);
         this.player.draw(canvas);
         this.guiManager.draw(canvas);
 
         if (this.player.getHealth() == 0) {
-
             this.gamePanel.stopGame();
             this.showGameOverDialog();
         }
     }
 
-    public void showGameOverDialog() {
-
+    private void showGameOverDialog() {
         int points = this.player.getPoints();
         int textColor = Color.YELLOW;
         String pointsString = "SCORE: " + points;
 
-        if(this.config.isNewHighscore(points)){
+        if (this.config.isNewHighscore(points)) {
             textColor = Color.RED;
             pointsString += "!";
         }
@@ -105,7 +109,7 @@ public class GameManager {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
-                        Intent mainMenuIntent = new Intent( context, MainMenu.class);
+                        Intent mainMenuIntent = new Intent(context, MainMenu.class);
                         mainMenuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         activity.startActivity(mainMenuIntent);
                     }
@@ -129,18 +133,15 @@ public class GameManager {
         this.config.saveValues();
     }
 
-    public void update(float dt) {
-        this.enemyManager.update(dt);
-        this.player.update(dt);
-        this.guiManager.update(dt);
+    public Context getContext() {
+        return this.context;
     }
 
-    public void stop() {
-        this.stopped = true;
+    public Player getPlayer() {
+        return this.player;
     }
 
-    public void resume() {
-        this.stopped = false;
+    public Config getConfig() {
+        return config;
     }
-
 }

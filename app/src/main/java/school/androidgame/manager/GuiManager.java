@@ -25,11 +25,10 @@ public class GuiManager {
 
     public GuiManager(GameManager game){
         this.game = game;
-        this.player = game.player;
+        this.player = game.getPlayer();
         this.toolbarTop = new ToolbarTop();
 
-        int toolbarTopHeight = this.toolbarTop.getHeight();
-        int toolbarTopCenterPoint = toolbarTopHeight / 2;
+        int toolbarTopCenterPoint = ToolbarTop.HEIGHT / 2;
         this.health = new Health(10, toolbarTopCenterPoint);
         this.playerPoints = new PlayerPoints(GamePanel.WIDTH / 2, toolbarTopCenterPoint);
         this.nextPlayerColorHudElement = new NextPlayerColorHudElement(
@@ -52,6 +51,6 @@ public class GuiManager {
     }
 
     private BitmapColor getNextPlayerBitmapColor() {
-        return this.game.player.getBitmapColorRepository().getBitmapColorAtNextIndex();
+        return this.game.getPlayer().getBitmapColorRepository().getBitmapColorAtNextIndex();
     }
 }
