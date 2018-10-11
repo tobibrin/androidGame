@@ -9,6 +9,9 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import school.androidgame.core.CollideAbleGameObject;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
@@ -31,6 +34,7 @@ public class Player extends CollideAbleGameObject {
     private Paint playerPaint;
     private BitmapColorRepository bitmapColorRepository;
 
+    private float speedFactor;
     private Paint playerRectPaint;
     private int health;
     private int points;
@@ -42,6 +46,8 @@ public class Player extends CollideAbleGameObject {
         super();
         this.bitmapColorRepository = new BitmapColorRepository();
         this.game = game;
+
+        this.speedFactor = 1;
 
         this.spawnPoint = new PointF(GamePanel.WIDTH / 2, GamePanel.HEIGHT / 2.0f);
         this.direction = new Vector2D(0, 0);
@@ -102,15 +108,17 @@ public class Player extends CollideAbleGameObject {
                 float yDirection = (pitch * 4.0f) / (float) Math.PI * -1.0f;
                 yDirection = Math.round(yDirection * 100.0f) / 100.0f;
 
-                if (xDirection < -1.0f)
+                if (xDirection < -1.0f) {
                     xDirection = -1.0f;
-                else if (xDirection > 1.0f)
+                } else if (xDirection > 1.0f) {
                     xDirection = 1.0f;
+                }
 
-                if (yDirection < -1.0f)
+                if (yDirection < -1.0f) {
                     yDirection = -1.0f;
-                else if (yDirection > 1.0f)
+                } else if (yDirection > 1.0f) {
                     yDirection = 1.0f;
+                }
 
                 this.direction.set((Math.abs(xDirection) > 0) ? xDirection : 0, this.direction.y);
                 this.direction.set(this.direction.x, (Math.abs(yDirection) > 0) ? yDirection : 0);
@@ -119,17 +127,13 @@ public class Player extends CollideAbleGameObject {
 
         if (dt != 0 && GamePanel.MIN_WIDTH_HEIGHT != 0 && GamePanel.DENSITY != 0) {
             if (Math.abs(this.direction.x) > 0) {
-                float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
-
-                if (Math.abs(newX - this.getX()) < 50.0f)
-                    this.setX(newX);
+                float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor);
+                this.setX(newX);
             }
 
             if (Math.abs(this.direction.y) > 0) {
-                float newY = this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * 0.8f * GamePanel.DENSITY);
-
-                if (Math.abs(newY - this.getY()) < 50.0f)
-                    this.setY(newY);
+                float newY = this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor);
+                this.setY(newY);
             }
 
             this.updatePlayerRect();
@@ -146,7 +150,6 @@ public class Player extends CollideAbleGameObject {
                 float xCenter = this.getX() - (this.getWidth() / 2.0f);
                 float yCenter = this.getY() - (this.getHeight() / 2.0f);
                 canvas.drawBitmap(bitmap, xCenter, yCenter, this.playerPaint);
-//                canvas.drawRect(this.rect, this.playerRectPaint);
             }
         }
     }
@@ -211,6 +214,17 @@ public class Player extends CollideAbleGameObject {
         if (this.health <= 0) {
             this.health = 0;
         }
+    }
+
+    public void onSpeedChange(float factor, int duration) {
+        Timer timer = new Timer();
+        this.speedFactor += factor;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                speedFactor = 1;
+            }
+        }, duration);
     }
 
     public void nextBitmapColor() {

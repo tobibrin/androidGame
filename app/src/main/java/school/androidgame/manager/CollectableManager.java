@@ -65,6 +65,12 @@ public class CollectableManager {
 
     private ICollectableObject getRandomCollectableObject() {
         int randomInt = (int)(Math.random() * 2);
+
+        if (!this.gameManager.getConfig().getUseSensors()) {
+            randomInt = 1;
+        }
+
+
         ICollectableObject result = null;
         switch (randomInt) {
             case 0:

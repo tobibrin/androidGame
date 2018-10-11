@@ -50,6 +50,7 @@ public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableO
     @Override
     public void onPlayerCollision(Player player) {
         this.destroy();
+        player.onSpeedChange(2, 10000);
     }
 
     private void destroy() {
