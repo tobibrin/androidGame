@@ -15,8 +15,8 @@ public class Heart extends CollideAbleGameObject implements ICollectableObject {
 
     private Bitmap bitmap;
 
-    public static final int halfSize = 32;
-    public static final int size = 64;
+    public static final int halfSize = 64;
+    public static final int size = 128;
 
     public Heart(GameManager gameManager, Vector2D spawnPosition) {
         this.setWidth(Heart.size);
