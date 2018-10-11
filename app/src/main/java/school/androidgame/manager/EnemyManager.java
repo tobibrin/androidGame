@@ -7,7 +7,7 @@ import android.graphics.PointF;
 import java.util.ArrayList;
 
 import school.androidgame.entities.Enemy;
-import school.androidgame.entities.Player;
+import school.androidgame.entities.player.Player;
 import school.androidgame.GamePanel;
 import school.androidgame.utils.Vector2D;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;

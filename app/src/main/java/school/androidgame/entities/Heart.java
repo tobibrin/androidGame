@@ -7,6 +7,7 @@ import android.graphics.Rect;
 
 import school.androidgame.R;
 import school.androidgame.core.CollideAbleGameObject;
+import school.androidgame.entities.player.Player;
 import school.androidgame.interfaces.ICollectableObject;
 import school.androidgame.manager.GameManager;
 import school.androidgame.utils.Vector2D;

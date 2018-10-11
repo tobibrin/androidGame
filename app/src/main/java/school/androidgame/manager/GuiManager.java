@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 
 import school.androidgame.GamePanel;
 import school.androidgame.gui.NextPlayerColorHudElement;
-import school.androidgame.entities.Player;
+import school.androidgame.entities.player.Player;
 import school.androidgame.gui.Health;
 import school.androidgame.gui.PlayerPoints;
 import school.androidgame.gui.ToolbarTop;

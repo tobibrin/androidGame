@@ -1,4 +1,4 @@
-package school.androidgame.entities;
+package school.androidgame.entities.player;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +9,8 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -138,6 +140,8 @@ public class Player extends CollideAbleGameObject {
 
             this.updatePlayerRect();
         }
+
+        System.out.println(this.speedFactor);
     }
 
     @Override
@@ -216,15 +220,10 @@ public class Player extends CollideAbleGameObject {
         }
     }
 
-    public void onSpeedChange(float factor, int duration) {
+    public void onSpeedChange(float additionToFactor, int duration) {
         Timer timer = new Timer();
-        this.speedFactor += factor;
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                speedFactor = 1;
-            }
-        }, duration);
+        this.speedFactor += additionToFactor;
+        timer.schedule(new PlayerSpeedTimerTask(this, additionToFactor), duration);
     }
 
     public void nextBitmapColor() {
@@ -242,5 +241,17 @@ public class Player extends CollideAbleGameObject {
 
     public void addHealth(int value) {
         this.health += value;
+    }
+
+    public float getSpeedFactor() {
+        return this.speedFactor;
+    }
+
+    public void setSpeedFactor(float factor) {
+        if (factor < 1) {
+            this.speedFactor = 1;
+        } else {
+            this.speedFactor = factor;
+        }
     }
 }

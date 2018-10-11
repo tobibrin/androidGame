@@ -3,7 +3,7 @@ package school.androidgame.manager;
 import android.app.Dialog;
 import android.content.Context;
 
-import school.androidgame.entities.Player;
+import school.androidgame.entities.player.Player;
 import school.androidgame.GamePanel;
 import school.androidgame.MainActivity;
 import school.androidgame.MainMenu;

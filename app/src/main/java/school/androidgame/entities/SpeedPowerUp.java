@@ -3,14 +3,11 @@ package school.androidgame.entities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 
-import school.androidgame.GamePanel;
 import school.androidgame.R;
 import school.androidgame.core.CollideAbleGameObject;
-import school.androidgame.gui.ToolbarTop;
+import school.androidgame.entities.player.Player;
 import school.androidgame.interfaces.ICollectableObject;
 import school.androidgame.manager.GameManager;
 import school.androidgame.utils.Vector2D;
@@ -50,7 +47,7 @@ public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableO
     @Override
     public void onPlayerCollision(Player player) {
         this.destroy();
-        player.onSpeedChange(2, 10000);
+        player.onSpeedChange(1, 10000);
     }
 
     private void destroy() {
