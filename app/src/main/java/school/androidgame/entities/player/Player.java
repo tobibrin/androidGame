@@ -9,11 +9,16 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import school.androidgame.animations.AlphaAnimation;
+import school.androidgame.animations.Animation;
+import school.androidgame.animations.Frame;
+import school.androidgame.animations.ITransition;
 import school.androidgame.core.CollideAbleGameObject;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
@@ -43,6 +48,7 @@ public class Player extends CollideAbleGameObject {
     private Vector2D direction;
     private GyroscopicManager gyroscopicManager;
     private boolean playerIsAbleToMove;
+    private AlphaAnimation damageAnimation;
 
     public Player(GameManager game, int health) {
         super();
@@ -74,6 +80,7 @@ public class Player extends CollideAbleGameObject {
 
         this.updatePlayerRect();
         this.gyroscopicManager = new GyroscopicManager(this.game);
+        this.damageAnimation = null;
     }
 
     private void setupPlayerImages() {
@@ -140,6 +147,8 @@ public class Player extends CollideAbleGameObject {
 
             this.updatePlayerRect();
         }
+        if(this.damageAnimation != null)
+            this.damageAnimation.update();
 
         System.out.println(this.speedFactor);
     }
@@ -147,14 +156,22 @@ public class Player extends CollideAbleGameObject {
     @Override
     public void draw(Canvas canvas) {
         BitmapColor playerBitmapColor = this.bitmapColorRepository.getBitmapColorAtCurrentIndex();
-
+        Bitmap playerBitmap = null;
+        Paint paint = this.playerPaint;
         if (playerBitmapColor != null) {
-            Bitmap bitmap = playerBitmapColor.getBitmap();
-            if (bitmap != null) {
-                float xCenter = this.getX() - (this.getWidth() / 2.0f);
-                float yCenter = this.getY() - (this.getHeight() / 2.0f);
-                canvas.drawBitmap(bitmap, xCenter, yCenter, this.playerPaint);
-            }
+            playerBitmap = playerBitmapColor.getBitmap();
+        }
+
+        if(this.damageAnimation != null && this.damageAnimation.isStarted()) {
+            Frame<ITransition<Paint>> currentFrame = this.damageAnimation.getCurrentFrame();
+            if(currentFrame != null && currentFrame.getFrameObject() != null)
+                currentFrame.getFrameObject().transform(paint);
+        }
+
+        if(playerBitmap != null) {
+            float xCenter = this.getX() - (this.getWidth() / 2.0f);
+            float yCenter = this.getY() - (this.getHeight() / 2.0f);
+            canvas.drawBitmap(playerBitmap, xCenter, yCenter, paint);
         }
     }
 
@@ -217,6 +234,11 @@ public class Player extends CollideAbleGameObject {
 
         if (this.health <= 0) {
             this.health = 0;
+        }
+        else {
+            this.damageAnimation = AlphaAnimation.CreateDamageAnimation();
+            this.damageAnimation.AnimationFinished.addObserver((o, a) -> this.damageAnimation = null);
+            this.damageAnimation.Start();
         }
     }
 
