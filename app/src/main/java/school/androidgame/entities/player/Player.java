@@ -147,10 +147,9 @@ public class Player extends CollideAbleGameObject {
 
             this.updatePlayerRect();
         }
-        if(this.damageAnimation != null)
+        if (this.damageAnimation != null) {
             this.damageAnimation.update();
-
-        System.out.println(this.speedFactor);
+        }
     }
 
     @Override
@@ -162,13 +161,13 @@ public class Player extends CollideAbleGameObject {
             playerBitmap = playerBitmapColor.getBitmap();
         }
 
-        if(this.damageAnimation != null && this.damageAnimation.isStarted()) {
+        if (this.damageAnimation != null && this.damageAnimation.isStarted()) {
             Frame<ITransition<Paint>> currentFrame = this.damageAnimation.getCurrentFrame();
-            if(currentFrame != null && currentFrame.getFrameObject() != null)
+            if (currentFrame != null && currentFrame.getFrameObject() != null)
                 currentFrame.getFrameObject().transform(paint);
         }
 
-        if(playerBitmap != null) {
+        if (playerBitmap != null) {
             float xCenter = this.getX() - (this.getWidth() / 2.0f);
             float yCenter = this.getY() - (this.getHeight() / 2.0f);
             canvas.drawBitmap(playerBitmap, xCenter, yCenter, paint);
@@ -234,8 +233,7 @@ public class Player extends CollideAbleGameObject {
 
         if (this.health <= 0) {
             this.health = 0;
-        }
-        else {
+        } else {
             this.damageAnimation = AlphaAnimation.CreateDamageAnimation();
             this.damageAnimation.AnimationFinished.addObserver((o, a) -> this.damageAnimation = null);
             this.damageAnimation.Start();
