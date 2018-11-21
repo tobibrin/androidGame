@@ -156,8 +156,6 @@ public class Player extends CollideAbleGameObject {
 
         if(this.pickupAnimation != null)
             this.pickupAnimation.update();
-
-        System.out.println(this.speedFactor);
     }
 
     @Override

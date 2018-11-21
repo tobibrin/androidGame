@@ -24,7 +24,7 @@ public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableO
         this.setHeight(SpeedPowerUp.size);
         this.setX(spawnPosition.x);
         this.setY(spawnPosition.y);
-        this.bitmap = BitmapFactory.decodeResource(gameManager.getContext().getResources(), R.drawable.speed_power_up);
+        this.bitmap = BitmapFactory.decodeResource(gameManager.getContext().getResources(), R.drawable.bolt);
         this.bitmap = Bitmap.createScaledBitmap(this.bitmap, SpeedPowerUp.size, SpeedPowerUp.size, false);
         this.rect = new Rect(
                 ((int) this.getX()) - SpeedPowerUp.halfSize,
