@@ -19,7 +19,9 @@ import school.androidgame.animations.AlphaAnimation;
 import school.androidgame.animations.Animation;
 import school.androidgame.animations.Frame;
 import school.androidgame.animations.ITransition;
+import school.androidgame.animations.TextAnimation;
 import school.androidgame.core.CollideAbleGameObject;
+import school.androidgame.interfaces.ICollectableObject;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
 import school.androidgame.GamePanel;
@@ -49,6 +51,7 @@ public class Player extends CollideAbleGameObject {
     private GyroscopicManager gyroscopicManager;
     private boolean playerIsAbleToMove;
     private AlphaAnimation damageAnimation;
+    private TextAnimation pickupAnimation;
 
     public Player(GameManager game, int health) {
         super();
@@ -81,6 +84,7 @@ public class Player extends CollideAbleGameObject {
         this.updatePlayerRect();
         this.gyroscopicManager = new GyroscopicManager(this.game);
         this.damageAnimation = null;
+        this.pickupAnimation = null;
     }
 
     private void setupPlayerImages() {
@@ -150,6 +154,9 @@ public class Player extends CollideAbleGameObject {
         if(this.damageAnimation != null)
             this.damageAnimation.update();
 
+        if(this.pickupAnimation != null)
+            this.pickupAnimation.update();
+
         System.out.println(this.speedFactor);
     }
 
@@ -172,6 +179,13 @@ public class Player extends CollideAbleGameObject {
             float xCenter = this.getX() - (this.getWidth() / 2.0f);
             float yCenter = this.getY() - (this.getHeight() / 2.0f);
             canvas.drawBitmap(playerBitmap, xCenter, yCenter, paint);
+        }
+
+        if(this.pickupAnimation != null && this.pickupAnimation.isStarted())
+        {
+            Frame<ITransition<Canvas>> currentFrame = this.pickupAnimation.getCurrentFrame();
+            if(currentFrame != null && currentFrame.getFrameObject() != null)
+                currentFrame.getFrameObject().transform(canvas);
         }
     }
 
@@ -275,5 +289,11 @@ public class Player extends CollideAbleGameObject {
         } else {
             this.speedFactor = factor;
         }
+    }
+
+    public void onPickupCollected(ICollectableObject collectable)
+    {
+        this.pickupAnimation = TextAnimation.CreatePickupAnimation(true, 1, null, this);
+        this.pickupAnimation.Start();
     }
 }

@@ -41,8 +41,10 @@ public class Heart extends CollideAbleGameObject implements ICollectableObject {
     }
 
     @Override
-    public void onPlayerCollision(Player player) {
+    public void onPlayerCollision(Player player)
+    {
         player.addHealth(1);
+        player.onPickupCollected(this);
     }
 
     @Override

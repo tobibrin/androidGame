@@ -17,11 +17,11 @@ public class AlphaAnimation extends TransitionAnimation<Paint> {
     {
         AlphaAnimation anim = new AlphaAnimation();
         LinkedList<Frame<ITransition<Paint>>> frames = new LinkedList<Frame<ITransition<Paint>>>();
-        frames.add(new Frame<ITransition<Paint>>((p) -> p.setAlpha(255), 50));
-        frames.add(new Frame<ITransition<Paint>>((p) -> p.setAlpha(50), 100));
-        frames.add(new Frame<ITransition<Paint>>((p) -> p.setAlpha(255), 50));
-        frames.add(new Frame<ITransition<Paint>>((p) -> p.setAlpha(50), 150));
-        frames.add(new Frame<ITransition<Paint>>((p) -> p.setAlpha(255), 1));
+        frames.add(new Frame<ITransition<Paint>>(p -> p.setAlpha(255), 25));
+        frames.add(new Frame<ITransition<Paint>>(p -> p.setAlpha(50), 50));
+        frames.add(new Frame<ITransition<Paint>>(p -> p.setAlpha(255), 25));
+        frames.add(new Frame<ITransition<Paint>>(p -> p.setAlpha(50), 75));
+        frames.add(new Frame<ITransition<Paint>>(p -> p.setAlpha(255), 1));
         anim.setFrames(frames);
         return anim;
     }
