@@ -31,11 +31,41 @@ public class TextAnimation extends TransitionAnimation<Canvas> {
         p.setTextSize(50);
 
         LinkedList<Frame<ITransition<Canvas>>> frames = new LinkedList<Frame<ITransition<Canvas>>>();
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -20, p), 250));
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -40, p), 250));
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -60, p), 250));
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -80, p), 250));
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -100, p), 250));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -20, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -30, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -40, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -50, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -60, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -70, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -80, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -90, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -100, p), 150));
+        anim.setFrames(frames);
+
+        return anim;
+    }
+
+    public static TextAnimation CreateGetPointAnimation(boolean positive, int amount, Bitmap pickupImage, GameObject target)
+    {
+        TextAnimation anim = new TextAnimation();
+
+        String positiveString = (positive)? "+" : "-";
+        String amountString = amount + "";
+        String fullString = positiveString + amountString;
+        Paint p = new Paint();
+        p.setColor(Color.YELLOW);
+        p.setTextSize(50);
+
+        LinkedList<Frame<ITransition<Canvas>>> frames = new LinkedList<Frame<ITransition<Canvas>>>();
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -20, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -30, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -40, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -50, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -60, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -70, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -80, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -90, p), 150));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX() - (target.getWidth() / 4),target.getY() -100, p), 150));
         anim.setFrames(frames);
 
         return anim;

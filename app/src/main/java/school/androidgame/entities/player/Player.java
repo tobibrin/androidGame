@@ -52,6 +52,7 @@ public class Player extends CollideAbleGameObject {
     private boolean playerIsAbleToMove;
     private AlphaAnimation damageAnimation;
     private TextAnimation pickupAnimation;
+    private LinkedList<TextAnimation> getPointAnimations;
 
     public Player(GameManager game, int health) {
         super();
@@ -85,6 +86,7 @@ public class Player extends CollideAbleGameObject {
         this.gyroscopicManager = new GyroscopicManager(this.game);
         this.damageAnimation = null;
         this.pickupAnimation = null;
+        this.getPointAnimations = new LinkedList<TextAnimation>();
     }
 
     private void setupPlayerImages() {
@@ -156,6 +158,13 @@ public class Player extends CollideAbleGameObject {
 
         if(this.pickupAnimation != null)
             this.pickupAnimation.update();
+
+        if(this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
+            for (TextAnimation anim: this.getPointAnimations) {
+                if(anim != null)
+                    anim.update();
+            }
+        }
     }
 
     @Override
@@ -184,6 +193,19 @@ public class Player extends CollideAbleGameObject {
             Frame<ITransition<Canvas>> currentFrame = this.pickupAnimation.getCurrentFrame();
             if(currentFrame != null && currentFrame.getFrameObject() != null)
                 currentFrame.getFrameObject().transform(canvas);
+        }
+
+        if(this.getPointAnimations != null && this.getPointAnimations.size() > 0)
+        {
+            for (TextAnimation anim: this.getPointAnimations) {
+
+                if(anim.isStarted())
+                {
+                    Frame<ITransition<Canvas>> currentFrame = anim.getCurrentFrame();
+                    if(currentFrame != null && currentFrame.getFrameObject() != null)
+                        currentFrame.getFrameObject().transform(canvas);
+                }
+            }
         }
     }
 
@@ -236,8 +258,10 @@ public class Player extends CollideAbleGameObject {
         return this.health;
     }
 
-    public void addPoint(int amount) {
+    public void addPoint(int amount)
+    {
         this.points += amount;
+        this.onGetPoint(amount);
     }
 
 
@@ -293,5 +317,21 @@ public class Player extends CollideAbleGameObject {
     {
         this.pickupAnimation = TextAnimation.CreatePickupAnimation(true, 1, null, this);
         this.pickupAnimation.Start();
+    }
+
+    public void onGetPoint(int amount)
+    {
+        TextAnimation anim = TextAnimation.CreateGetPointAnimation(true, amount, null,this);
+        this.getPointAnimations.add(anim);
+
+        anim.AnimationFinished.addObserver((obs, o) -> this.removePointAnimation(anim));
+
+        anim.Start();
+        System.out.print("PointAnimations: " + this.getPointAnimations.size());
+    }
+
+    public void removePointAnimation(TextAnimation animation)
+    {
+        this.getPointAnimations.remove(animation);
     }
 }
