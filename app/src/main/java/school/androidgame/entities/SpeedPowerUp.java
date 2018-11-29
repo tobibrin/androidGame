@@ -48,6 +48,7 @@ public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableO
     public void onPlayerCollision(Player player) {
         this.destroy();
         player.onSpeedChange(1, 10000);
+        player.onPickupCollected(this);
     }
 
     private void destroy() {

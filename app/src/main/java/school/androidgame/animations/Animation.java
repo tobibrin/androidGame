@@ -46,7 +46,8 @@ public class Animation<T> {
                 else
                 {
                     this.isStarted = false;
-                    this.AnimationFinished.notifyObservers();
+                    if(this.AnimationFinished.countObservers() > 0)
+                        this.AnimationFinished.notifyObservers();
                 }
             }
 
