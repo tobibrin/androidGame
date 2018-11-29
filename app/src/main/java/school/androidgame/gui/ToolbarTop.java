@@ -22,7 +22,8 @@ public class ToolbarTop extends HudElement {
         ToolbarTop.HEIGHT = (int) (GamePanel.HEIGHT / 15);
         this.toolbarTopRect = new Rect(0, 0, (int) GamePanel.WIDTH, ToolbarTop.HEIGHT);
         this.paint = new Paint();
-        this.paint.setColor(Color.BLACK);
+        this.paint.setColor(0xAAAAAA);
+        this.paint.setAlpha(50);
     }
 
     public void draw(Canvas canvas) {

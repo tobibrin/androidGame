@@ -143,12 +143,16 @@ public class Player extends CollideAbleGameObject {
         if (dt != 0 && GamePanel.MIN_WIDTH_HEIGHT != 0 && GamePanel.DENSITY != 0) {
             if (Math.abs(this.direction.x) > 0) {
                 float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor);
-                this.setX(newX);
+                if (newX > 0 && newX < GamePanel.WIDTH) {
+                    this.setX(newX);
+                }
             }
 
             if (Math.abs(this.direction.y) > 0) {
                 float newY = this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor);
-                this.setY(newY);
+                if (newY > 0 && newY < GamePanel.HEIGHT) {
+                    this.setY(newY);
+                }
             }
 
             this.updatePlayerRect();

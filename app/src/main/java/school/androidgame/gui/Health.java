@@ -27,7 +27,7 @@ public class Health extends HudElement {
     private void createPaint() {
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL);
-        this.paint.setColor(Color.WHITE);
+        this.paint.setColor(Color.GRAY);
         this.paint.setTextSize(50);
         this.paint.setAntiAlias(true);
     }

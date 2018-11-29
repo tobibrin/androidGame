@@ -29,7 +29,7 @@ public class Enemy extends CollideAbleGameObject {
     private float speed;
     private boolean isInScreen;
 
-    public Enemy(Context context, float x, float y) {
+    public Enemy(Context context, float x, float y, float speed) {
         this.context = context;
         this.setX(x);
         this.setY(y);
@@ -43,7 +43,7 @@ public class Enemy extends CollideAbleGameObject {
         this.setWidth((int)width);
         this.setHeight((int)width);
 
-        this.speed = this.initSpeed();
+        this.speed = this.initSpeed(speed);
         this.direction = new PointF(0 ,0);
 
         this.isInScreen = true;
@@ -70,9 +70,9 @@ public class Enemy extends CollideAbleGameObject {
 
     }
 
-    private float initSpeed() {
+    private float initSpeed(float speed) {
         float minValue = Math.min(GamePanel.HEIGHT, GamePanel.WIDTH);
-        return 150 * (minValue / 1000) * (GamePanel.DENSITY);
+        return speed * (minValue / 1000) * (GamePanel.DENSITY);
     }
 
     private float initWidth() {
@@ -82,7 +82,7 @@ public class Enemy extends CollideAbleGameObject {
 
     private boolean stillInScreen() {
         boolean isInWidth = this.getX() > 0 && this.getX() < GamePanel.WIDTH;
-        boolean isInHeight = this.getY() > 0 && this.getY() < GamePanel.HEIGHT;
+        boolean isInHeight = this.getY() > 0 && this.getY() < GamePanel.HEIGHT + 100;
         return isInWidth && isInHeight;
     }
 

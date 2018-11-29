@@ -32,7 +32,7 @@ public class GuiManager {
         this.health = new Health(10, toolbarTopCenterPoint);
         this.playerPoints = new PlayerPoints(GamePanel.WIDTH / 2, toolbarTopCenterPoint);
         this.nextPlayerColorHudElement = new NextPlayerColorHudElement(
-                new Vector2D((int) (GamePanel.WIDTH * 0.75), toolbarTopCenterPoint),
+                new Vector2D((int) (GamePanel.WIDTH - 10), toolbarTopCenterPoint),
                 this.getNextPlayerBitmapColor().getBitmap(), 3000);
     }
 
