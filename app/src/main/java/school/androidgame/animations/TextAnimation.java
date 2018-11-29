@@ -31,11 +31,11 @@ public class TextAnimation extends TransitionAnimation<Canvas> {
         p.setTextSize(50);
 
         LinkedList<Frame<ITransition<Canvas>>> frames = new LinkedList<Frame<ITransition<Canvas>>>();
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -20, p), 250));
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -40, p), 250));
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -60, p), 250));
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -80, p), 250));
-        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getX(),target.getY() -100, p), 250));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getPosition().x,target.getPosition().y -20, p), 250));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getPosition().x,target.getPosition().y -40, p), 250));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getPosition().x,target.getPosition().y -60, p), 250));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getPosition().x,target.getPosition().y -80, p), 250));
+        frames.add(new Frame<ITransition<Canvas>>(c -> c.drawText(fullString, target.getPosition().x,target.getPosition().y -100, p), 250));
         anim.setFrames(frames);
 
         return anim;

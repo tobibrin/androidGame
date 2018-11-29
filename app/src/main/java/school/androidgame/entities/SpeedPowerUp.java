@@ -22,15 +22,15 @@ public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableO
     public SpeedPowerUp(GameManager gameManager, Vector2D spawnPosition) {
         this.setWidth(SpeedPowerUp.size);
         this.setHeight(SpeedPowerUp.size);
-        this.setX(spawnPosition.x);
-        this.setY(spawnPosition.y);
+        this.position.x = spawnPosition.x;
+        this.position.y = spawnPosition.y;
         this.bitmap = BitmapFactory.decodeResource(gameManager.getContext().getResources(), R.drawable.bolt);
         this.bitmap = Bitmap.createScaledBitmap(this.bitmap, SpeedPowerUp.size, SpeedPowerUp.size, false);
         this.rect = new Rect(
-                ((int) this.getX()) - SpeedPowerUp.halfSize,
-                ((int) this.getY()) - SpeedPowerUp.halfSize,
-                ((int) this.getX()) + SpeedPowerUp.halfSize,
-                ((int) this.getY()) + SpeedPowerUp.halfSize
+                ((int) this.position.x) - SpeedPowerUp.halfSize,
+                ((int) this.position.y) - SpeedPowerUp.halfSize,
+                ((int) this.position.x) + SpeedPowerUp.halfSize,
+                ((int) this.position.y) + SpeedPowerUp.halfSize
         );
     }
 
@@ -41,7 +41,7 @@ public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableO
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(this.bitmap, (int) this.getX() - SpeedPowerUp.halfSize, (int) this.getY() - SpeedPowerUp.halfSize, null);
+        canvas.drawBitmap(this.bitmap, (int) this.position.x - SpeedPowerUp.halfSize, (int) this.position.y - SpeedPowerUp.halfSize, null);
     }
 
     @Override

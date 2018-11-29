@@ -16,12 +16,23 @@ public class Vector2D extends PointF {
         return (float)Math.sqrt(x*x + y*y);
     }
 
-    public PointF getDirection(PointF destination) {
+    public Vector2D getDirection(PointF destination) {
+        return this.calcDirection(destination.x, destination.y);
+    }
 
-        float xDifference = destination.x - this.x;
-        float yDifference = destination.y - this.y;
+    public Vector2D getDirection(Vector2D destination) {
+        return this.calcDirection(destination.x, destination.y);
+    }
 
-        PointF direction = new PointF(xDifference, yDifference);
+    public Vector2D getDirection(float x, float y) {
+        return this.calcDirection(x, y);
+    }
+
+    private Vector2D calcDirection(float x, float y) {
+        float xDifference = x - this.x;
+        float yDifference = y - this.y;
+
+        Vector2D direction = new Vector2D(xDifference, yDifference);
         float len = this.getLen(xDifference, yDifference);
 
         direction.x /= len;

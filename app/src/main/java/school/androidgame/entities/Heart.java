@@ -22,15 +22,15 @@ public class Heart extends CollideAbleGameObject implements ICollectableObject {
     public Heart(GameManager gameManager, Vector2D spawnPosition) {
         this.setWidth(Heart.size);
         this.setHeight(Heart.size);
-        this.setX(spawnPosition.x);
-        this.setY(spawnPosition.y);
+        this.position.x = spawnPosition.x;
+        this.position.y = spawnPosition.y;
         this.bitmap = BitmapFactory.decodeResource(gameManager.getContext().getResources(), R.drawable.heart);
         this.bitmap = Bitmap.createScaledBitmap(this.bitmap, Heart.size, Heart.size, false);
         this.rect = new Rect(
-                ((int) this.getX()) - Heart.halfSize,
-                ((int) this.getY()) - Heart.halfSize,
-                ((int) this.getX()) + Heart.halfSize,
-                ((int) this.getY()) + Heart.halfSize
+                ((int) this.position.x) - Heart.halfSize,
+                ((int) this.position.y) - Heart.halfSize,
+                ((int) this.position.x) + Heart.halfSize,
+                ((int) this.position.y) + Heart.halfSize
         );
     }
 
@@ -49,6 +49,6 @@ public class Heart extends CollideAbleGameObject implements ICollectableObject {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(this.bitmap, (int) this.getX() - Heart.halfSize, (int) this.getY() - Heart.halfSize, null);
+        canvas.drawBitmap(this.bitmap, (int) this.position.x - Heart.halfSize, (int) this.position.y - Heart.halfSize, null);
     }
 }
