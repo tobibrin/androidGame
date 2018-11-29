@@ -3,7 +3,7 @@ package school.androidgame.interfaces;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import school.androidgame.entities.player.Player;
+import school.androidgame.gameObjects.Player;
 
 public interface ICollectableObject {
     void onPlayerCollision(Player player);

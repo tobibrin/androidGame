@@ -2,7 +2,7 @@ package school.androidgame.core;
 
 import android.graphics.Rect;
 
-public abstract class CollideAbleGameObject extends GameObject {
+public abstract class CollideableGameObject extends GameObject {
 
     protected Rect rect;
 

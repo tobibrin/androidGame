@@ -1,4 +1,4 @@
-package school.androidgame.entities.player;
+package school.androidgame.gameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,17 +10,14 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import java.util.LinkedList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import school.androidgame.animations.AlphaAnimation;
-import school.androidgame.animations.Animation;
 import school.androidgame.animations.Frame;
 import school.androidgame.animations.ITransition;
 import school.androidgame.animations.TextAnimation;
-import school.androidgame.core.CollideAbleGameObject;
+import school.androidgame.core.CollideableGameObject;
+import school.androidgame.timeContext.PlayerSpeedTimerTask;
 import school.androidgame.interfaces.ICollectableObject;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
@@ -35,7 +32,7 @@ import school.androidgame.repositories.BitmapColorRepository;
  * Created by kezab on 10.10.17.
  */
 
-public class Player extends CollideAbleGameObject {
+public class Player extends CollideableGameObject {
 
     private final PointF spawnPoint;
     private final int virtualSize = 64;
@@ -319,6 +316,7 @@ public class Player extends CollideAbleGameObject {
 
     public void onPickupCollected(ICollectableObject collectable)
     {
+        CollideableGameObject pickUp = (CollideableGameObject)collectable;
         this.pickupAnimation = TextAnimation.CreatePickupAnimation(true, 1, null, this);
         this.pickupAnimation.Start();
     }

@@ -1,4 +1,4 @@
-package school.androidgame.entities;
+package school.androidgame.gameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,13 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import school.androidgame.R;
-import school.androidgame.core.CollideAbleGameObject;
-import school.androidgame.entities.player.Player;
+import school.androidgame.core.CollideableGameObject;
 import school.androidgame.interfaces.ICollectableObject;
 import school.androidgame.manager.GameManager;
 import school.androidgame.utils.Vector2D;
 
-public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableObject {
+public class SpeedPowerUp extends CollideableGameObject implements ICollectableObject {
 
     private Bitmap bitmap;
 

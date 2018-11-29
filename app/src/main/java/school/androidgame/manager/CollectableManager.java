@@ -5,8 +5,8 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 import school.androidgame.GamePanel;
-import school.androidgame.entities.Heart;
-import school.androidgame.entities.SpeedPowerUp;
+import school.androidgame.gameObjects.Heart;
+import school.androidgame.gameObjects.SpeedPowerUp;
 import school.androidgame.interfaces.ICollectableObject;
 import school.androidgame.utils.Vector2D;
 
