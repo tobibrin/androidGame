@@ -1,4 +1,4 @@
-package school.androidgame.entities;
+package school.androidgame.pickUps;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,31 +6,31 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import school.androidgame.R;
-import school.androidgame.core.CollideAbleGameObject;
-import school.androidgame.entities.player.Player;
-import school.androidgame.interfaces.ICollectableObject;
+import school.androidgame.core.CollideableGameObject;
+import school.androidgame.core.ICollectableObject;
+import school.androidgame.entities.Player;
 import school.androidgame.manager.GameManager;
 import school.androidgame.utils.Vector2D;
 
-public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableObject {
+public class SpeedPickUp extends CollideableGameObject implements ICollectableObject {
 
     private Bitmap bitmap;
 
     public static final int halfSize = 64;
     public static final int size = 128;
 
-    public SpeedPowerUp(GameManager gameManager, Vector2D spawnPosition) {
-        this.setWidth(SpeedPowerUp.size);
-        this.setHeight(SpeedPowerUp.size);
+    public SpeedPickUp(GameManager gameManager, Vector2D spawnPosition) {
+        this.setWidth(SpeedPickUp.size);
+        this.setHeight(SpeedPickUp.size);
         this.position.x = spawnPosition.x;
         this.position.y = spawnPosition.y;
         this.bitmap = BitmapFactory.decodeResource(gameManager.getContext().getResources(), R.drawable.bolt);
-        this.bitmap = Bitmap.createScaledBitmap(this.bitmap, SpeedPowerUp.size, SpeedPowerUp.size, false);
+        this.bitmap = Bitmap.createScaledBitmap(this.bitmap, SpeedPickUp.size, SpeedPickUp.size, false);
         this.rect = new Rect(
-                ((int) this.position.x) - SpeedPowerUp.halfSize,
-                ((int) this.position.y) - SpeedPowerUp.halfSize,
-                ((int) this.position.x) + SpeedPowerUp.halfSize,
-                ((int) this.position.y) + SpeedPowerUp.halfSize
+                ((int) this.position.x) - SpeedPickUp.halfSize,
+                ((int) this.position.y) - SpeedPickUp.halfSize,
+                ((int) this.position.x) + SpeedPickUp.halfSize,
+                ((int) this.position.y) + SpeedPickUp.halfSize
         );
     }
 
@@ -41,7 +41,7 @@ public class SpeedPowerUp extends CollideAbleGameObject implements ICollectableO
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(this.bitmap, (int) this.position.x - SpeedPowerUp.halfSize, (int) this.position.y - SpeedPowerUp.halfSize, null);
+        canvas.drawBitmap(this.bitmap, (int) this.position.x - SpeedPickUp.halfSize, (int) this.position.y - SpeedPickUp.halfSize, null);
     }
 
     @Override

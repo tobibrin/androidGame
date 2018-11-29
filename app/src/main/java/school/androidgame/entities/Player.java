@@ -1,4 +1,4 @@
-package school.androidgame.entities.player;
+package school.androidgame.entities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,14 +9,16 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import java.util.LinkedList;
 import java.util.Timer;
 
 import school.androidgame.animations.AlphaAnimation;
 import school.androidgame.animations.Frame;
 import school.androidgame.animations.ITransition;
 import school.androidgame.animations.TextAnimation;
-import school.androidgame.core.CollideAbleGameObject;
-import school.androidgame.interfaces.ICollectableObject;
+import school.androidgame.core.CollideableGameObject;
+import school.androidgame.timeContext.PlayerSpeedTimerTask;
+import school.androidgame.core.ICollectableObject;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
 import school.androidgame.GamePanel;
@@ -29,7 +31,7 @@ import school.androidgame.repositories.BitmapColorRepository;
  * Created by kezab on 10.10.17.
  */
 
-public class Player extends CollideAbleGameObject {
+public class Player extends CollideableGameObject {
 
     private final PointF spawnPoint;
     private final int virtualSize = 64;
@@ -45,6 +47,7 @@ public class Player extends CollideAbleGameObject {
     private Vector2D direction;
     private AlphaAnimation damageAnimation;
     private TextAnimation pickupAnimation;
+    private LinkedList<TextAnimation> getPointAnimations;
 
     public Player(GameManager game, int health) {
         super();
@@ -77,6 +80,7 @@ public class Player extends CollideAbleGameObject {
         this.updatePlayerRect();
         this.damageAnimation = null;
         this.pickupAnimation = null;
+        this.getPointAnimations = new LinkedList<TextAnimation>();
     }
 
     private void setupPlayerImages() {
@@ -127,6 +131,13 @@ public class Player extends CollideAbleGameObject {
 
         if (this.pickupAnimation != null)
             this.pickupAnimation.update();
+
+        if(this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
+            for (TextAnimation anim: this.getPointAnimations) {
+                if(anim != null)
+                    anim.update();
+            }
+        }
     }
 
     @Override
@@ -155,6 +166,19 @@ public class Player extends CollideAbleGameObject {
             if (currentFrame != null && currentFrame.getFrameObject() != null)
                 currentFrame.getFrameObject().transform(canvas);
         }
+
+        if(this.getPointAnimations != null && this.getPointAnimations.size() > 0)
+        {
+            for (TextAnimation anim: this.getPointAnimations) {
+
+                if(anim.isStarted())
+                {
+                    Frame<ITransition<Canvas>> currentFrame = anim.getCurrentFrame();
+                    if(currentFrame != null && currentFrame.getFrameObject() != null)
+                        currentFrame.getFrameObject().transform(canvas);
+                }
+            }
+        }
     }
 
     public int getPoints() {
@@ -180,8 +204,10 @@ public class Player extends CollideAbleGameObject {
         return this.health;
     }
 
-    public void addPoint(int amount) {
+    public void addPoint(int amount)
+    {
         this.points += amount;
+        this.onGetPoint(amount);
     }
 
 
@@ -238,8 +264,26 @@ public class Player extends CollideAbleGameObject {
         }
     }
 
-    public void onPickupCollected(ICollectableObject collectable) {
+    public void onPickupCollected(ICollectableObject collectable)
+    {
+        CollideableGameObject pickUp = (CollideableGameObject)collectable;
         this.pickupAnimation = TextAnimation.CreatePickupAnimation(true, 1, null, this);
         this.pickupAnimation.Start();
+    }
+
+    public void onGetPoint(int amount)
+    {
+        TextAnimation anim = TextAnimation.CreateGetPointAnimation(true, amount, null,this);
+        this.getPointAnimations.add(anim);
+
+        anim.AnimationFinished.addObserver((obs, o) -> this.removePointAnimation(anim));
+
+        anim.Start();
+        System.out.print("PointAnimations: " + this.getPointAnimations.size());
+    }
+
+    public void removePointAnimation(TextAnimation animation)
+    {
+        this.getPointAnimations.remove(animation);
     }
 }

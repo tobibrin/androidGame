@@ -1,6 +1,8 @@
-package school.androidgame.entities.player;
+package school.androidgame.timeContext;
 
 import java.util.TimerTask;
+
+import school.androidgame.entities.Player;
 
 public class PlayerSpeedTimerTask extends TimerTask {
 

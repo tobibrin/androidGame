@@ -4,12 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import school.androidgame.core.CollideAbleGameObject;
+import school.androidgame.core.CollideableGameObject;
 import school.androidgame.R;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
@@ -20,7 +18,7 @@ import school.androidgame.repositories.BitmapColorRepository;
  * Created by Tobi on 28.10.2017.
  */
 
-public class Enemy extends CollideAbleGameObject {
+public class Enemy extends CollideableGameObject {
 
     private Context context;
     private BitmapColorRepository bitmapColorRepository;
