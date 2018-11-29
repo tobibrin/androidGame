@@ -1,4 +1,4 @@
-package school.androidgame.gameObjects;
+package school.androidgame.entities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,7 +18,7 @@ import school.androidgame.animations.ITransition;
 import school.androidgame.animations.TextAnimation;
 import school.androidgame.core.CollideableGameObject;
 import school.androidgame.timeContext.PlayerSpeedTimerTask;
-import school.androidgame.interfaces.ICollectableObject;
+import school.androidgame.core.ICollectableObject;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
 import school.androidgame.GamePanel;

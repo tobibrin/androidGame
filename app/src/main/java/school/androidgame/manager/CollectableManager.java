@@ -5,9 +5,9 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 import school.androidgame.GamePanel;
-import school.androidgame.gameObjects.Heart;
-import school.androidgame.gameObjects.SpeedPowerUp;
-import school.androidgame.interfaces.ICollectableObject;
+import school.androidgame.pickUps.HeartPickUp;
+import school.androidgame.pickUps.SpeedPickUp;
+import school.androidgame.core.ICollectableObject;
 import school.androidgame.utils.Vector2D;
 
 public class CollectableManager {
@@ -74,10 +74,10 @@ public class CollectableManager {
         ICollectableObject result = null;
         switch (randomInt) {
             case 0:
-                result = new SpeedPowerUp(this.gameManager, new Vector2D(GamePanel.getRandomX(SpeedPowerUp.halfSize), GamePanel.getRandomY(SpeedPowerUp.halfSize)));
+                result = new SpeedPickUp(this.gameManager, new Vector2D(GamePanel.getRandomX(SpeedPickUp.halfSize), GamePanel.getRandomY(SpeedPickUp.halfSize)));
                 break;
             case 1:
-                result = new Heart(this.gameManager, new Vector2D(GamePanel.getRandomX(Heart.halfSize), GamePanel.getRandomY(Heart.halfSize)));
+                result = new HeartPickUp(this.gameManager, new Vector2D(GamePanel.getRandomX(HeartPickUp.halfSize), GamePanel.getRandomY(HeartPickUp.halfSize)));
                 break;
         }
 

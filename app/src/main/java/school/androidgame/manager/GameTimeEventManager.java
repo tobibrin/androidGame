@@ -2,7 +2,7 @@ package school.androidgame.manager;
 
 import java.util.Timer;
 
-import school.androidgame.gameObjects.Player;
+import school.androidgame.entities.Player;
 import school.androidgame.timeContext.PlayerChangeColorTimerTask;
 import school.androidgame.timeContext.StopWatch;
 

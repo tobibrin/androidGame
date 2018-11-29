@@ -1,4 +1,4 @@
-package school.androidgame.gameObjects;
+package school.androidgame.entities;
 
 import android.content.Context;
 import android.graphics.Bitmap;

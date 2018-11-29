@@ -1,9 +1,9 @@
-package school.androidgame.interfaces;
+package school.androidgame.core;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import school.androidgame.gameObjects.Player;
+import school.androidgame.entities.Player;
 
 public interface ICollectableObject {
     void onPlayerCollision(Player player);

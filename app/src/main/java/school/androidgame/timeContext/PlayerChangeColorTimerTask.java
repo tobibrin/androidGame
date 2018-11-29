@@ -2,7 +2,7 @@ package school.androidgame.timeContext;
 
 import java.util.TimerTask;
 
-import school.androidgame.gameObjects.Player;
+import school.androidgame.entities.Player;
 
 /**
  * Created by tobi on 27.02.18.
