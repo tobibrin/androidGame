@@ -23,4 +23,8 @@ public class GameTimeEventManager {
         Timer playerChangeColorTimer = new Timer();
         playerChangeColorTimer.scheduleAtFixedRate(new PlayerChangeColorTimerTask(player), 0, duration);
     }
+
+    public long getElapsedGameTimeInSeconds() {
+        return this.stopWatch.getPassedSeconds();
+    }
 }

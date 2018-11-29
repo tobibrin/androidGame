@@ -73,29 +73,10 @@ public abstract class GameObject {
     }
 
     public void setX(float newX) {
-
-        if (newX > GamePanel.WIDTH) {
-            newX = GamePanel.WIDTH;
-        }
-
-        if (newX < 0) {
-            newX = 0;
-        }
-
         this.x = newX;
     }
 
     public void setY(float newY) {
-
-        if (newY > GamePanel.HEIGHT) {
-            newY = GamePanel.HEIGHT;
-        }
-
-        if (newY < 0) {
-            newY = 0;
-        }
-
-
         this.y = newY;
     }
 

@@ -38,6 +38,9 @@ public class NextPlayerColorHudElement extends HudElement {
         this.lastBitmap = previewColorBitmap;
         this.timeForNextBitmap = timeForNextBitmap;
         this.millis = timeForNextBitmap;
+
+
+        this.position.x -= this.bitmapSize + this.textPaddingLeft + this.timeStringPaint.measureText("0.00");
     }
 
 
@@ -48,7 +51,7 @@ public class NextPlayerColorHudElement extends HudElement {
     private void setupPaint() {
         int textSize = 50;
         this.timeStringPaint = new Paint();
-        this.timeStringPaint.setColor(Color.WHITE);
+        this.timeStringPaint.setColor(Color.GRAY);
         this.timeStringPaint.setStyle(Paint.Style.FILL);
         this.timeStringPaint.setTextSize(textSize);
         this.timeStringPaint.setAntiAlias(true);

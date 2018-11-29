@@ -26,6 +26,7 @@ public class Vector2D extends PointF {
 
         direction.x /= len;
         direction.y /= len;
+
         return direction;
     }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import school.androidgame.entities.Enemy;
 import school.androidgame.entities.player.Player;
 import school.androidgame.GamePanel;
+import school.androidgame.utils.Tools;
 import school.androidgame.utils.Vector2D;
 import school.androidgame.utils.bitmap.colors.ObjectColorState;
 
@@ -19,18 +20,18 @@ import school.androidgame.utils.bitmap.colors.ObjectColorState;
 public class EnemyManager {
 
     private Player player;
-    private int maxEnemies;
     private Context context;
+    private GameManager gameManager;
     private ArrayList<Enemy> enemyArrayList;
     private ArrayList<Enemy> enemiesToRemove;
 
     public EnemyManager(GameManager game) {
+        this.gameManager = game;
         this.context = game.getContext();
         this.player = game.getPlayer();
 
         this.enemyArrayList = new ArrayList<>();
         this.enemiesToRemove = new ArrayList<>();
-        this.maxEnemies = 10;
     }
 
     public void draw(Canvas canvas) {
@@ -58,6 +59,8 @@ public class EnemyManager {
 
 
     public void update(float dt) {
+
+        int maxEnemies = (int)Tools.map(this.gameManager.getGameDifficulty(), 0, 100, 1, 40);
         for (Enemy enemy : enemyArrayList) {
             enemy.update(dt);
 
@@ -68,7 +71,7 @@ public class EnemyManager {
             }
         }
 
-        if (this.enemyArrayList.size() < this.maxEnemies && Math.random() < 0.05f) {
+        if (this.enemyArrayList.size() < maxEnemies && Math.random() > 0.75f) {
             this.spawnEnemy();
         }
 
@@ -89,7 +92,12 @@ public class EnemyManager {
 
         PointF enemyDirection = enemyPos.getDirection(playerPos);
 
-        Enemy enemy = new Enemy(this.context, enemyPos.x, enemyPos.y);
+        Enemy enemy = new Enemy(
+                this.context,
+                enemyPos.x,
+                enemyPos.y,
+                Tools.map(this.gameManager.getGameDifficulty(), 0, 100, 130, 170)
+        );
         enemy.setVisible(true);
         enemy.setDirection(enemyDirection);
 
@@ -113,19 +121,19 @@ public class EnemyManager {
     }
 
     private Vector2D getRandomLeftPos() {
-        return new Vector2D(0, GamePanel.getRandomY(0));
+        return new Vector2D(1, GamePanel.getRandomY(1));
     }
 
     private Vector2D getRandomRightPos() {
-        return new Vector2D(GamePanel.WIDTH, GamePanel.getRandomY(0));
+        return new Vector2D(GamePanel.WIDTH, GamePanel.getRandomY(1));
     }
 
     private Vector2D getRandomTopPos() {
-        return new Vector2D(GamePanel.getRandomX(0), 0);
+        return new Vector2D(GamePanel.getRandomX(1), 1);
     }
 
     private Vector2D getRandomBottomPos() {
-        return new Vector2D(GamePanel.getRandomX(0), GamePanel.HEIGHT);
+        return new Vector2D(GamePanel.getRandomX(1), GamePanel.HEIGHT);
     }
 
 }

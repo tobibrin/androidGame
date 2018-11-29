@@ -22,14 +22,13 @@ public class PlayerPoints extends HudElement {
         this.currentPoints = 0;
         this.createPaint();
         this.setString();
-        this.position = new Vector2D(x,y + (this.paint.getTextSize()/2));
+        this.position = new Vector2D(x,y + this.paint.getTextSize() / 2);
     }
-
 
     private void createPaint() {
         this.paint = new Paint();
         this.paint.setStyle(Paint.Style.FILL);
-        this.paint.setColor(Color.WHITE);
+        this.paint.setColor(Color.GRAY);
         this.paint.setTextSize(50);
         this.paint.setAntiAlias(true);
         this.paint.setFakeBoldText(true);
@@ -47,7 +46,10 @@ public class PlayerPoints extends HudElement {
 
     public void draw(Canvas canvas) {
         if (this.getVisibility()) {
-            canvas.drawText(this.currentPointsStringBuilder.toString(), this.position.x, this.position.y , this.paint);
+            canvas.drawText(this.currentPointsStringBuilder.toString(),
+                    this.position.x - (this.paint.measureText(this.currentPointsStringBuilder.toString()) / 2),
+                    this.position.y,
+                    this.paint);
         }
     }
 }

@@ -36,7 +36,10 @@ public class GameManager {
     private GameTimeEventManager gameTimeEventManager;
     private CollectableManager collectableManager;
 
+    private float gameDifficulty;
+
     public GameManager(final MainActivity activity) {
+        this.gameDifficulty = 1f;
         this.activity = activity;
         this.context = activity;
         this.config = activity.getConfig();
@@ -60,6 +63,7 @@ public class GameManager {
         this.enemyManager.update(dt);
         this.player.update(dt);
         this.guiManager.update(dt);
+        this.setGameDifficulty();
     }
 
     public void draw(Canvas canvas) {
@@ -69,8 +73,17 @@ public class GameManager {
         this.guiManager.draw(canvas);
 
         if (this.player.getHealth() == 0) {
-            this.gamePanel.stopGame();
-            this.showGameOverDialog();
+            // TODO release
+//            this.gamePanel.stopGame();
+//            this.showGameOverDialog();
+        }
+    }
+
+    private void setGameDifficulty() {
+        long elapsedGameTime = this.gameTimeEventManager.getElapsedGameTimeInSeconds();
+        if (elapsedGameTime > 0) {
+            // y=log_2(x + 168) * 35 - 258
+            this.gameDifficulty = (float) ((Math.log(elapsedGameTime + 168) / Math.log(2) * 35) - 258);
         }
     }
 
@@ -131,6 +144,10 @@ public class GameManager {
 
         this.config.addScore(this.player.getPoints());
         this.config.saveValues();
+    }
+
+    public float getGameDifficulty() {
+        return this.gameDifficulty;
     }
 
     public Context getContext() {
