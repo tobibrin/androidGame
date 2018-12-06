@@ -17,16 +17,15 @@ public class HeartPickUp extends PickUp {
     public HeartPickUp(GameManager gameManager, Vector2D spawnPosition) {
         this.setWidth(HeartPickUp.size);
         this.setHeight(HeartPickUp.size);
-        this.setX(spawnPosition.x);
-        this.setY(spawnPosition.y);
-
+        this.position.x = spawnPosition.x;
+        this.position.y = spawnPosition.y;
         Bitmap b = BitmapFactory.decodeResource(gameManager.getContext().getResources(), R.drawable.heart);
         this.setBitmap(Bitmap.createScaledBitmap(b, HeartPickUp.size, HeartPickUp.size, false));
         this.rect = new Rect(
-                ((int) this.getX()) - HeartPickUp.halfSize,
-                ((int) this.getY()) - HeartPickUp.halfSize,
-                ((int) this.getX()) + HeartPickUp.halfSize,
-                ((int) this.getY()) + HeartPickUp.halfSize
+                ((int) this.position.x) - HeartPickUp.halfSize,
+                ((int) this.position.y) - HeartPickUp.halfSize,
+                ((int) this.position.x) + HeartPickUp.halfSize,
+                ((int) this.position.y) + HeartPickUp.halfSize
         );
         this.setVisible(true);
     }

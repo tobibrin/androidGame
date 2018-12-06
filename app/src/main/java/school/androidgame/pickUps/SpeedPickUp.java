@@ -20,15 +20,15 @@ public class SpeedPickUp extends PickUp {
     public SpeedPickUp(GameManager gameManager, Vector2D spawnPosition) {
         this.setWidth(SpeedPickUp.size);
         this.setHeight(SpeedPickUp.size);
-        this.setX(spawnPosition.x);
-        this.setY(spawnPosition.y);
+        this.position.x = spawnPosition.x;
+        this.position.y = spawnPosition.y;
         this.setBitmap(BitmapFactory.decodeResource(gameManager.getContext().getResources(), R.drawable.bolt));
         this.setBitmap(Bitmap.createScaledBitmap(this.getBitmap(), SpeedPickUp.size, SpeedPickUp.size, false));
         this.rect = new Rect(
-                ((int) this.getX()) - SpeedPickUp.halfSize,
-                ((int) this.getY()) - SpeedPickUp.halfSize,
-                ((int) this.getX()) + SpeedPickUp.halfSize,
-                ((int) this.getY()) + SpeedPickUp.halfSize
+                ((int) this.position.x) - SpeedPickUp.halfSize,
+                ((int) this.position.y) - SpeedPickUp.halfSize,
+                ((int) this.position.x) + SpeedPickUp.halfSize,
+                ((int) this.position.y) + SpeedPickUp.halfSize
         );
     }
 

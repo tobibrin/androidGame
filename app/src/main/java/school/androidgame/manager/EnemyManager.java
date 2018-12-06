@@ -87,10 +87,10 @@ public class EnemyManager {
     }
 
     private void spawnEnemy() {
-        PointF playerPos = new PointF(this.player.getX(), this.player.getY());
+        PointF playerPos = new PointF(this.player.getPosition().x, this.player.getPosition().y);
         Vector2D enemyPos = this.getRandomEnemyPos();
 
-        PointF enemyDirection = enemyPos.getDirection(playerPos);
+        PointF enemyDirection = enemyPos.getDirection(playerPos, 0);
 
         Enemy enemy = new Enemy(
                 this.context,

@@ -26,7 +26,6 @@ import school.androidgame.GamePanel;
 import school.androidgame.R;
 import school.androidgame.utils.Vector2D;
 import school.androidgame.manager.GameManager;
-import school.androidgame.manager.GyroscopicManager;
 import school.androidgame.repositories.BitmapColorRepository;
 
 /**
@@ -41,13 +40,12 @@ public class Player extends CollideableGameObject {
     private Paint playerPaint;
     private BitmapColorRepository bitmapColorRepository;
 
+    private Vector2D destination;
     private float speedFactor;
     private Paint playerRectPaint;
     private int health;
     private int points;
     private Vector2D direction;
-    private GyroscopicManager gyroscopicManager;
-    private boolean playerIsAbleToMove;
     private AlphaAnimation damageAnimation;
     private TextAnimation pickupAnimation;
     private LinkedList<TextAnimation> getPointAnimations;
@@ -73,7 +71,6 @@ public class Player extends CollideableGameObject {
         this.setHeight(scaledSize);
         this.setName("player");
         this.setVisible(true);
-        this.playerIsAbleToMove = false;
 
         this.setupPlayerImages();
 
@@ -81,7 +78,6 @@ public class Player extends CollideableGameObject {
         this.rect = new Rect();
 
         this.updatePlayerRect();
-        this.gyroscopicManager = new GyroscopicManager(this.game);
         this.damageAnimation = null;
         this.pickupAnimation = null;
         this.getPointAnimations = new LinkedList<TextAnimation>();
@@ -107,63 +103,31 @@ public class Player extends CollideableGameObject {
 
     @Override
     public void update(float dt) {
-        float[] orientation = gyroscopicManager.getOrientation();
-        float[] startOrientation = gyroscopicManager.getStartOrientation();
 
-        if (orientation != null && startOrientation != null) {
-            float pitch = orientation[1];
-            float roll = orientation[2];
-
-            if (Math.abs(pitch) < Math.PI && Math.abs(roll) < (Math.PI / 2)) {
-                float xDirection = (roll * 8.0f) / (float) Math.PI;
-                xDirection = Math.round(xDirection * 100.0f) / 100.0f;
-
-                float yDirection = (pitch * 4.0f) / (float) Math.PI * -1.0f;
-                yDirection = Math.round(yDirection * 100.0f) / 100.0f;
-
-                if (xDirection < -1.0f) {
-                    xDirection = -1.0f;
-                } else if (xDirection > 1.0f) {
-                    xDirection = 1.0f;
-                }
-
-                if (yDirection < -1.0f) {
-                    yDirection = -1.0f;
-                } else if (yDirection > 1.0f) {
-                    yDirection = 1.0f;
-                }
-
-                this.direction.set((Math.abs(xDirection) > 0) ? xDirection : 0, this.direction.y);
-                this.direction.set(this.direction.x, (Math.abs(yDirection) > 0) ? yDirection : 0);
-            }
+        if (this.destination != null) {
+            this.direction = this.position.getDirection(this.destination, 10f);
         }
 
-        if (dt != 0 && GamePanel.MIN_WIDTH_HEIGHT != 0 && GamePanel.DENSITY != 0) {
-            if (Math.abs(this.direction.x) > 0) {
-                float newX = this.getX() + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor);
-                if (newX > 0 && newX < GamePanel.WIDTH) {
-                    this.setX(newX);
-                }
-            }
-
-            if (Math.abs(this.direction.y) > 0) {
-                float newY = this.getY() + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor);
-                if (newY > 0 && newY < GamePanel.HEIGHT) {
-                    this.setY(newY);
-                }
-            }
-
-            this.updatePlayerRect();
+        float newX = this.position.x + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor / 2.5f);
+        if (newX > 0 && newX < GamePanel.WIDTH) {
+            this.position.x = newX;
         }
-        if(this.damageAnimation != null)
+        float newY = this.position.y + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor / 2.5f);
+        if (newY > 0 && newY < GamePanel.HEIGHT) {
+            this.position.y = newY;
+        }
+
+        this.updatePlayerRect();
+
+        if (this.damageAnimation != null)
             this.damageAnimation.update();
 
-        if(this.pickupAnimation != null)
+        if (this.pickupAnimation != null)
             this.pickupAnimation.update();
 
-        if(this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
-            for (TextAnimation anim: this.getPointAnimations) {
-                if(anim != null)
+        if (this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
+            for (TextAnimation anim : this.getPointAnimations) {
+                if (anim != null)
                     anim.update();
             }
         }
@@ -178,44 +142,33 @@ public class Player extends CollideableGameObject {
             playerBitmap = playerBitmapColor.getBitmap();
         }
 
-        if(this.damageAnimation != null && this.damageAnimation.isStarted()) {
+        if (this.damageAnimation != null && this.damageAnimation.isStarted()) {
             Frame<ITransition<Paint>> currentFrame = this.damageAnimation.getCurrentFrame();
-            if(currentFrame != null && currentFrame.getFrameObject() != null)
+            if (currentFrame != null && currentFrame.getFrameObject() != null)
                 currentFrame.getFrameObject().transform(paint);
         }
 
-        if(playerBitmap != null) {
-            float xCenter = this.getX() - (this.getWidth() / 2.0f);
-            float yCenter = this.getY() - (this.getHeight() / 2.0f);
+        if (playerBitmap != null) {
+            float xCenter = this.position.x - (this.getWidth() / 2.0f);
+            float yCenter = this.position.y - (this.getHeight() / 2.0f);
             canvas.drawBitmap(playerBitmap, xCenter, yCenter, paint);
         }
 
-        if(this.pickupAnimation != null && this.pickupAnimation.isStarted())
-        {
+        if (this.pickupAnimation != null && this.pickupAnimation.isStarted()) {
             Frame<ITransition<Canvas>> currentFrame = this.pickupAnimation.getCurrentFrame();
-            if(currentFrame != null && currentFrame.getFrameObject() != null)
+            if (currentFrame != null && currentFrame.getFrameObject() != null)
                 currentFrame.getFrameObject().transform(canvas);
         }
 
-        if(this.getPointAnimations != null && this.getPointAnimations.size() > 0)
-        {
-            for (TextAnimation anim: this.getPointAnimations) {
+        if (this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
+            for (TextAnimation anim : this.getPointAnimations) {
 
-                if(anim.isStarted())
-                {
+                if (anim.isStarted()) {
                     Frame<ITransition<Canvas>> currentFrame = anim.getCurrentFrame();
-                    if(currentFrame != null && currentFrame.getFrameObject() != null)
+                    if (currentFrame != null && currentFrame.getFrameObject() != null)
                         currentFrame.getFrameObject().transform(canvas);
                 }
             }
-        }
-    }
-
-    public void onActionMove(MotionEvent event) {
-        if (this.playerIsAbleToMove) {
-            this.setX((int) event.getX());
-            this.setY((int) event.getY());
-            this.updatePlayerRect();
         }
     }
 
@@ -223,45 +176,26 @@ public class Player extends CollideableGameObject {
         return this.points;
     }
 
-    public void onActionDown(MotionEvent event) {
-        this.playerIsAbleToMove = this.intersectsPlayer(event.getX(), event.getY());
-    }
-
-
-    private boolean intersectsPlayer(float clickedX, float clickedY) {
-        float playerPosX = this.getX();
-        float playerPosY = this.getY();
-
-        float halfPlayerWidth = this.getWidth() / 2;
-        float halfPlayerHeight = this.getHeight() / 2;
-
-        boolean isInWidth = clickedX >= playerPosX - halfPlayerWidth && clickedX <= playerPosX + halfPlayerWidth;
-        boolean isInHeight = clickedY >= playerPosY - halfPlayerHeight && clickedY <= playerPosY + halfPlayerHeight;
-
-        return isInWidth && isInHeight;
-    }
-
     private void updatePlayerRect() {
         float playerHalfWidth = this.getWidth() / 2.0f;
         float playerHalfHeight = this.getHeight() / 2.0f;
 
-        this.rect.set((int) (this.getX() - playerHalfWidth),
-                (int) (this.getY() - playerHalfHeight),
-                (int) (this.getX() + playerHalfWidth),
-                (int) (this.getY() + playerHalfHeight));
+        this.rect.set((int) (this.position.x - playerHalfWidth),
+                (int) (this.position.y - playerHalfHeight),
+                (int) (this.position.x + playerHalfWidth),
+                (int) (this.position.y + playerHalfHeight));
     }
 
     private void spawnPlayer() {
-        this.setX(this.spawnPoint.x);
-        this.setY(this.spawnPoint.y);
+        this.position.x = this.spawnPoint.x;
+        this.position.y = this.spawnPoint.y;
     }
 
     public int getHealth() {
         return this.health;
     }
 
-    public void addPoint(int amount)
-    {
+    public void addPoint(int amount) {
         this.points += amount;
         this.onGetPoint(amount);
     }
@@ -272,8 +206,7 @@ public class Player extends CollideableGameObject {
 
         if (this.health <= 0) {
             this.health = 0;
-        }
-        else {
+        } else {
             this.damageAnimation = AlphaAnimation.CreateDamageAnimation();
             this.damageAnimation.AnimationFinished.addObserver((o, a) -> this.damageAnimation = null);
             this.damageAnimation.Start();
@@ -289,6 +222,15 @@ public class Player extends CollideableGameObject {
     public void nextBitmapColor() {
         if (this.bitmapColorRepository != null)
             this.bitmapColorRepository.nextBitMapColor();
+    }
+
+    public void onTouch(MotionEvent event) {
+        if (this.destination == null) {
+            this.destination = new Vector2D(event.getX(), event.getY());
+        } else {
+            this.destination.x = event.getX();
+            this.destination.y = event.getY();
+        }
     }
 
     public Rect getPlayerRect() {
@@ -321,9 +263,8 @@ public class Player extends CollideableGameObject {
         this.pickupAnimation.Start();
     }
 
-    public void onGetPoint(int amount)
-    {
-        TextAnimation anim = TextAnimation.CreateGetPointAnimation(true, amount, null,this);
+    public void onGetPoint(int amount) {
+        TextAnimation anim = TextAnimation.CreateGetPointAnimation(true, amount, null, this);
         this.getPointAnimations.add(anim);
 
         anim.AnimationFinished.addObserver((obs, o) -> this.removePointAnimation(anim));
@@ -331,8 +272,7 @@ public class Player extends CollideableGameObject {
         anim.Start();
     }
 
-    public void removePointAnimation(TextAnimation animation)
-    {
+    public void removePointAnimation(TextAnimation animation) {
         this.getPointAnimations.remove(animation);
     }
 }

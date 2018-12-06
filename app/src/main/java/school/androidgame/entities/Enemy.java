@@ -29,8 +29,8 @@ public class Enemy extends CollideableGameObject {
 
     public Enemy(Context context, float x, float y, float speed) {
         this.context = context;
-        this.setX(x);
-        this.setY(y);
+        this.position.x = x;
+        this.position.y = y;
 
         this.bitmapColorRepository = new BitmapColorRepository();
         this.setupEnemyImages();
@@ -79,16 +79,16 @@ public class Enemy extends CollideableGameObject {
     }
 
     private boolean stillInScreen() {
-        boolean isInWidth = this.getX() > 0 && this.getX() < GamePanel.WIDTH;
-        boolean isInHeight = this.getY() > 0 && this.getY() < GamePanel.HEIGHT + 100;
+        boolean isInWidth = this.position.x > 0 && this.position.x < GamePanel.WIDTH;
+        boolean isInHeight = this.position.y > 0 && this.position.y < GamePanel.HEIGHT + 100;
         return isInWidth && isInHeight;
     }
 
     @Override
     public void update(float dt) {
 
-        this.setX(this.getX() + (this.direction.x * dt * speed));
-        this.setY(this.getY() + (this.direction.y * dt * speed));
+        this.position.x = this.position.x + (this.direction.x * dt * speed);
+        this.position.y = this.position.y + (this.direction.y * dt * speed);
 
         this.updateRect();
 
@@ -100,8 +100,8 @@ public class Enemy extends CollideableGameObject {
     @Override
     public void draw(Canvas canvas) {
         if(this.isVisible()) {
-            float xCenter = this.getX() - (this.getWidth() / 2.0f);
-            float yCenter = this.getY() - (this.getHeight() / 2.0f);
+            float xCenter = this.position.x - (this.getWidth() / 2.0f);
+            float yCenter = this.position.y - (this.getHeight() / 2.0f);
             canvas.drawBitmap(enemyBitmap, xCenter, yCenter, null);
         }
     }
@@ -124,8 +124,8 @@ public class Enemy extends CollideableGameObject {
     }
 
     private void updateRect(){
-        float enemyX = this.getX();
-        float enemyY = this.getY();
+        float enemyX = this.position.x;
+        float enemyY = this.position.y;
 
         float enemyHalfWidth = this.getWidth() / 2.0f;
         float enemyHalfHeight = this.getHeight() / 2.0f;

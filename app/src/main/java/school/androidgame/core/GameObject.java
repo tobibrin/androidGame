@@ -5,15 +5,15 @@ import android.graphics.Canvas;
 import java.util.UUID;
 
 import school.androidgame.GamePanel;
+import school.androidgame.utils.Vector2D;
 
 /**
  * Created by kezab on 09.10.17.
  */
 
 public abstract class GameObject {
-    //TODO x und y mit der Vector2D-Klasse ersetzen
-    private float x;
-    private float y;
+
+    protected Vector2D position;
     private int width;
     private int height;
     private String name;
@@ -22,8 +22,7 @@ public abstract class GameObject {
 
     public GameObject() {
         this.name = "";
-        this.x = 0;
-        this.y = 0;
+        this.position = new Vector2D(0,0);
         this.width = 0;
         this.height = 0;
         this.visible = false;
@@ -32,8 +31,7 @@ public abstract class GameObject {
 
     public GameObject(float newX, float newY, int newWidth, int newHeight) {
         this.name = "";
-        this.x = newX;
-        this.y = newY;
+        this.position = new Vector2D(newX, newY);
         this.width = newWidth;
         this.height = newHeight;
         this.visible = false;
@@ -43,14 +41,6 @@ public abstract class GameObject {
     public abstract void update(float dt);
 
     public abstract void draw(Canvas canvas);
-
-    public float getX() {
-        return this.x;
-    }
-
-    public float getY() {
-        return this.y;
-    }
 
     public int getWidth() {
         return this.width;
@@ -72,14 +62,6 @@ public abstract class GameObject {
         return this.visible;
     }
 
-    public void setX(float newX) {
-        this.x = newX;
-    }
-
-    public void setY(float newY) {
-        this.y = newY;
-    }
-
     public void setWidth(int newWidth) {
         this.width = newWidth;
     }
@@ -97,4 +79,7 @@ public abstract class GameObject {
     }
 
 
+    public Vector2D getPosition() {
+        return position;
+    }
 }

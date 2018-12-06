@@ -73,9 +73,8 @@ public class GameManager {
         this.guiManager.draw(canvas);
 
         if (this.player.getHealth() == 0) {
-            // TODO release
-//            this.gamePanel.stopGame();
-//            this.showGameOverDialog();
+            this.gamePanel.stopGame();
+            this.showGameOverDialog();
         }
     }
 
