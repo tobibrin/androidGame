@@ -51,7 +51,6 @@ public class Player extends CollideableGameObject {
 
     public Player(GameManager game, int health) {
         super();
-        this.destination = new Vector2D(0,0);
         this.bitmapColorRepository = new BitmapColorRepository();
         this.game = game;
 
@@ -105,36 +104,29 @@ public class Player extends CollideableGameObject {
     public void update(float dt) {
 
         if (this.destination != null) {
-            this.direction = this.destination.getDirection(this.position.x, this.position.y);
-            System.out.println(this.direction);
+            this.direction = this.position.getDirection(this.destination, 10f);
         }
 
-        if (dt != 0 && GamePanel.MIN_WIDTH_HEIGHT != 0 && GamePanel.DENSITY != 0) {
-            if (Math.abs(this.direction.x) > 0) {
-                float newX = this.position.x + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor / 3);
-                if (newX > 0 && newX < GamePanel.WIDTH) {
-                    this.position.x = newX;
-                }
-            }
-
-            if (Math.abs(this.direction.y) > 0) {
-                float newY = this.position.y + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor / 3);
-                if (newY > 0 && newY < GamePanel.HEIGHT) {
-                    this.position.y = newY;
-                }
-            }
-
-            this.updatePlayerRect();
+        float newX = this.position.x + (dt * this.direction.x * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor / 2.5f);
+        if (newX > 0 && newX < GamePanel.WIDTH) {
+            this.position.x = newX;
         }
+        float newY = this.position.y + (dt * this.direction.y * GamePanel.MIN_WIDTH_HEIGHT * GamePanel.DENSITY * this.speedFactor / 2.5f);
+        if (newY > 0 && newY < GamePanel.HEIGHT) {
+            this.position.y = newY;
+        }
+
+        this.updatePlayerRect();
+
         if (this.damageAnimation != null)
             this.damageAnimation.update();
 
         if (this.pickupAnimation != null)
             this.pickupAnimation.update();
 
-        if(this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
-            for (TextAnimation anim: this.getPointAnimations) {
-                if(anim != null)
+        if (this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
+            for (TextAnimation anim : this.getPointAnimations) {
+                if (anim != null)
                     anim.update();
             }
         }
@@ -167,14 +159,12 @@ public class Player extends CollideableGameObject {
                 currentFrame.getFrameObject().transform(canvas);
         }
 
-        if(this.getPointAnimations != null && this.getPointAnimations.size() > 0)
-        {
-            for (TextAnimation anim: this.getPointAnimations) {
+        if (this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
+            for (TextAnimation anim : this.getPointAnimations) {
 
-                if(anim.isStarted())
-                {
+                if (anim.isStarted()) {
                     Frame<ITransition<Canvas>> currentFrame = anim.getCurrentFrame();
-                    if(currentFrame != null && currentFrame.getFrameObject() != null)
+                    if (currentFrame != null && currentFrame.getFrameObject() != null)
                         currentFrame.getFrameObject().transform(canvas);
                 }
             }
@@ -204,8 +194,7 @@ public class Player extends CollideableGameObject {
         return this.health;
     }
 
-    public void addPoint(int amount)
-    {
+    public void addPoint(int amount) {
         this.points += amount;
         this.onGetPoint(amount);
     }
@@ -235,9 +224,12 @@ public class Player extends CollideableGameObject {
     }
 
     public void onTouch(MotionEvent event) {
-        this.destination.x = event.getX();
-        this.destination.y = event.getY();
-        System.out.println(this.destination);
+        if (this.destination == null) {
+            this.destination = new Vector2D(event.getX(), event.getY());
+        } else {
+            this.destination.x = event.getX();
+            this.destination.y = event.getY();
+        }
     }
 
     public Rect getPlayerRect() {
@@ -264,26 +256,22 @@ public class Player extends CollideableGameObject {
         }
     }
 
-    public void onPickupCollected(ICollectableObject collectable)
-    {
-        CollideableGameObject pickUp = (CollideableGameObject)collectable;
+    public void onPickupCollected(ICollectableObject collectable) {
+        CollideableGameObject pickUp = (CollideableGameObject) collectable;
         this.pickupAnimation = TextAnimation.CreatePickupAnimation(true, 1, null, this);
         this.pickupAnimation.Start();
     }
 
-    public void onGetPoint(int amount)
-    {
-        TextAnimation anim = TextAnimation.CreateGetPointAnimation(true, amount, null,this);
+    public void onGetPoint(int amount) {
+        TextAnimation anim = TextAnimation.CreateGetPointAnimation(true, amount, null, this);
         this.getPointAnimations.add(anim);
 
         anim.AnimationFinished.addObserver((obs, o) -> this.removePointAnimation(anim));
 
         anim.Start();
-        System.out.print("PointAnimations: " + this.getPointAnimations.size());
     }
 
-    public void removePointAnimation(TextAnimation animation)
-    {
+    public void removePointAnimation(TextAnimation animation) {
         this.getPointAnimations.remove(animation);
     }
 }
