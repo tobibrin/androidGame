@@ -17,6 +17,7 @@ import school.androidgame.animations.Frame;
 import school.androidgame.animations.ITransition;
 import school.androidgame.animations.TextAnimation;
 import school.androidgame.core.CollideableGameObject;
+import school.androidgame.pickUps.PickUp;
 import school.androidgame.timeContext.PlayerSpeedTimerTask;
 import school.androidgame.core.ICollectableObject;
 import school.androidgame.utils.bitmap.colors.BitmapColor;
@@ -314,10 +315,9 @@ public class Player extends CollideableGameObject {
         }
     }
 
-    public void onPickupCollected(ICollectableObject collectable)
+    public void onPickupCollected(PickUp pickUp)
     {
-        CollideableGameObject pickUp = (CollideableGameObject)collectable;
-        this.pickupAnimation = TextAnimation.CreatePickupAnimation(true, 1, null, this);
+        this.pickupAnimation = TextAnimation.CreatePickupAnimation(true, 1, pickUp.getBitmap(), this);
         this.pickupAnimation.Start();
     }
 
@@ -329,7 +329,6 @@ public class Player extends CollideableGameObject {
         anim.AnimationFinished.addObserver((obs, o) -> this.removePointAnimation(anim));
 
         anim.Start();
-        System.out.print("PointAnimations: " + this.getPointAnimations.size());
     }
 
     public void removePointAnimation(TextAnimation animation)

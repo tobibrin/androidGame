@@ -34,7 +34,7 @@ public class GameManager {
     private GuiManager guiManager;
     private EnemyManager enemyManager;
     private GameTimeEventManager gameTimeEventManager;
-    private CollectableManager collectableManager;
+    private PickUpManager collectableManager;
 
     private float gameDifficulty;
 
@@ -52,7 +52,7 @@ public class GameManager {
     private void initManagers() {
         this.guiManager = new GuiManager(this);
         this.enemyManager = new EnemyManager(this);
-        this.collectableManager = new CollectableManager(this);
+        this.collectableManager = new PickUpManager(this);
         this.gameTimeEventManager = new GameTimeEventManager();
         this.gameTimeEventManager.registerPlayerChangeColor(this.player, 3000);
 
