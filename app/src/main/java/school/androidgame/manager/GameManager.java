@@ -1,11 +1,11 @@
 package school.androidgame.manager;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 
 import school.androidgame.entities.Player;
 import school.androidgame.GamePanel;
-import school.androidgame.MainActivity;
 import school.androidgame.MainMenu;
 import school.androidgame.R;
 import school.androidgame.utils.Config;
@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 public class GameManager {
 
-    private MainActivity activity;
+    private MainMenu activity;
     private Context context;
     private GamePanel gamePanel;
     private Config config;
@@ -38,7 +38,7 @@ public class GameManager {
 
     private float gameDifficulty;
 
-    public GameManager(final MainActivity activity) {
+    public GameManager(final MainMenu activity) {
         this.gameDifficulty = 1f;
         this.activity = activity;
         this.context = activity;
@@ -131,7 +131,7 @@ public class GameManager {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
-                        Intent gameIntent = new Intent(context, MainActivity.class);
+                        Intent gameIntent = new Intent(context, MainMenu.class);
                         gameIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         activity.startActivity(gameIntent);
                     }
