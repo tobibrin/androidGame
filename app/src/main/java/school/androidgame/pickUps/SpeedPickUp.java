@@ -30,6 +30,7 @@ public class SpeedPickUp extends PickUp {
                 ((int) this.position.x) + SpeedPickUp.halfSize,
                 ((int) this.position.y) + SpeedPickUp.halfSize
         );
+        this.setVisible(true);
     }
 
     @Override

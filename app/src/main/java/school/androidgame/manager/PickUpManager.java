@@ -67,9 +67,7 @@ public class PickUpManager {
     private PickUp getRandomPickUp() {
         int randomInt = (int)(Math.random() * 2);
 
-        if (!this.gameManager.getConfig().getUseSensors()) {
-            randomInt = 1;
-        }
+
 
 
         PickUp result = null;

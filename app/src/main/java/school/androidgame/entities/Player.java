@@ -47,8 +47,8 @@ public class Player extends CollideableGameObject {
     private int points;
     private Vector2D direction;
     private AlphaAnimation damageAnimation;
-    private TextAnimation pickupAnimation;
     private LinkedList<TextAnimation> getPointAnimations;
+    private LinkedList<TextAnimation> pickUpAnimations;
 
     public Player(GameManager game, int health) {
         super();
@@ -79,8 +79,8 @@ public class Player extends CollideableGameObject {
 
         this.updatePlayerRect();
         this.damageAnimation = null;
-        this.pickupAnimation = null;
         this.getPointAnimations = new LinkedList<TextAnimation>();
+        this.pickUpAnimations = new LinkedList<TextAnimation>();
     }
 
     private void setupPlayerImages() {
@@ -122,8 +122,14 @@ public class Player extends CollideableGameObject {
         if (this.damageAnimation != null)
             this.damageAnimation.update();
 
-        if (this.pickupAnimation != null)
-            this.pickupAnimation.update();
+        if (this.pickUpAnimations != null)
+        {
+            for (TextAnimation anim : this.pickUpAnimations) {
+                if (anim != null)
+                    anim.update();
+            }
+        }
+
 
         if (this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
             for (TextAnimation anim : this.getPointAnimations) {
@@ -154,10 +160,15 @@ public class Player extends CollideableGameObject {
             canvas.drawBitmap(playerBitmap, xCenter, yCenter, paint);
         }
 
-        if (this.pickupAnimation != null && this.pickupAnimation.isStarted()) {
-            Frame<ITransition<Canvas>> currentFrame = this.pickupAnimation.getCurrentFrame();
-            if (currentFrame != null && currentFrame.getFrameObject() != null)
-                currentFrame.getFrameObject().transform(canvas);
+        if (this.pickUpAnimations != null && this.pickUpAnimations.size() > 0) {
+            for (TextAnimation anim : this.pickUpAnimations) {
+
+                if (anim.isStarted()) {
+                    Frame<ITransition<Canvas>> currentFrame = anim.getCurrentFrame();
+                    if (currentFrame != null && currentFrame.getFrameObject() != null)
+                        currentFrame.getFrameObject().transform(canvas);
+                }
+            }
         }
 
         if (this.getPointAnimations != null && this.getPointAnimations.size() > 0) {
@@ -259,8 +270,12 @@ public class Player extends CollideableGameObject {
 
     public void onPickupCollected(PickUp pickUp)
     {
-        this.pickupAnimation = TextAnimation.CreatePickupAnimation(true, 1, pickUp.getBitmap(), this);
-        this.pickupAnimation.Start();
+        TextAnimation anim = TextAnimation.CreatePickupAnimation(true, 1,pickUp.getBitmap(), this);
+        this.pickUpAnimations.add(anim);
+
+        anim.AnimationFinished.addObserver((obs, o) -> this.removePointAnimation(anim));
+
+        anim.Start();
     }
 
     public void onGetPoint(int amount) {

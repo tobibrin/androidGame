@@ -25,7 +25,7 @@ public abstract class PickUp extends CollideableGameObject {
 
     public void draw(Canvas canvas) {
         if(this.isVisible() && this.getBitmap() != null)
-            canvas.drawBitmap(this.bitmap, (int) this.getX() - HeartPickUp.halfSize, (int) this.getY() - HeartPickUp.halfSize, null);
+            canvas.drawBitmap(this.bitmap, (int) this.getPosition().x - HeartPickUp.halfSize, (int) this.getPosition().y - HeartPickUp.halfSize, null);
     }
 
     public abstract void onPlayerCollision(Player player);
