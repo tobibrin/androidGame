@@ -21,14 +21,11 @@ import school.androidgame.utils.Config;
 public class MainMenu extends Activity {
     private Config config;
 
-
     public void openMainMenu()
     {
         setContentView(R.layout.activity_main_menu);
 
         final Button startButton = (Button)this.findViewById(R.id.startButton);
-        final Button exitButton = (Button)this.findViewById(R.id.exitButton);
-        final Button settingsButton = (Button)this.findViewById(R.id.settingsButton);
         final Button scoresButton = (Button)this.findViewById(R.id.scoresButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -41,48 +38,12 @@ public class MainMenu extends Activity {
             }
         });
 
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openSettingsMenu();
-            }
-
-        });
         scoresButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openScoresMenu();
             }
 
-        });
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.exit(0);
-            }
-        });
-    }
-
-    public void openSettingsMenu()
-    {
-        setContentView(R.layout.activity_main_menu_settings);
-
-        final Button backButton = (Button)this.findViewById(R.id.backButton);
-        final Switch useSensorsSwitch = (Switch)this.findViewById(R.id.useSensorsSwitch);
-        useSensorsSwitch.setChecked(this.config.getUseSensors());
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMainMenu();
-            }
-        });
-
-        useSensorsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               config.setUseSensors(isChecked);
-            }
         });
     }
 
