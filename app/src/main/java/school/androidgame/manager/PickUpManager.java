@@ -6,26 +6,27 @@ import java.util.ArrayList;
 
 import school.androidgame.GamePanel;
 import school.androidgame.pickUps.HeartPickUp;
+import school.androidgame.pickUps.PickUp;
 import school.androidgame.pickUps.SpeedPickUp;
 import school.androidgame.core.ICollectableObject;
 import school.androidgame.utils.Vector2D;
 
-public class CollectableManager {
+public class PickUpManager {
 
     private float elapsedTime;
-    private ArrayList<ICollectableObject> collectableObjects;
-    private ArrayList<ICollectableObject> collectableObjectsToRemove;
+    private ArrayList<PickUp> pickUps;
+    private ArrayList<PickUp> removeablePickUps;
     private GameManager gameManager;
 
-    public CollectableManager(GameManager gameManager) {
-        this.collectableObjects = new ArrayList<ICollectableObject>();
-        this.collectableObjectsToRemove = new ArrayList<ICollectableObject>();
+    public PickUpManager(GameManager gameManager) {
+        this.pickUps = new ArrayList<PickUp>();
+        this.removeablePickUps = new ArrayList<PickUp>();
         this.gameManager = gameManager;
     }
 
     public void draw(Canvas canvas) {
-        for (ICollectableObject collectable : this.collectableObjects) {
-            collectable.draw(canvas);
+        for (PickUp pickUp : this.pickUps) {
+            pickUp.draw(canvas);
         }
     }
 
@@ -33,45 +34,43 @@ public class CollectableManager {
         this.elapsedTime += dt;
         if (elapsedTime > 1) {
             this.elapsedTime = 0;
-            if (this.collectableObjects.size() < 2 && Math.random() <= 0.15f) {
-                ICollectableObject collectableObject = this.getRandomCollectableObject();
-                if (collectableObject != null) {
-                    this.collectableObjects.add(collectableObject);
+            if (this.pickUps.size() < 2 && Math.random() <= 0.15f) {
+                PickUp pickUp = this.getRandomPickUp();
+                if (pickUp != null) {
+                    this.pickUps.add(pickUp);
                 }
             }
         }
-        for (ICollectableObject collectable : this.collectableObjects) {
-            collectable.update(dt);
-            this.playerCollectableCollision(collectable);
+        for (PickUp pickUp : this.pickUps) {
+            pickUp.update(dt);
+            this.playerPickUpCollision(pickUp);
         }
 
         this.cleanUpCollectableObjects();
     }
 
     private void cleanUpCollectableObjects() {
-        for (ICollectableObject collectableObject: this.collectableObjectsToRemove) {
-            this.collectableObjects.remove(collectableObject);
+        for (PickUp collectableObject: this.removeablePickUps) {
+            this.pickUps.remove(collectableObject);
         }
 
-        this.collectableObjectsToRemove.clear();
+        this.removeablePickUps.clear();
     }
 
-    private void playerCollectableCollision(ICollectableObject collectableObject) {
+    private void playerPickUpCollision(PickUp collectableObject) {
         if (collectableObject.isColliding(this.gameManager.getPlayer().getPlayerRect())) {
             collectableObject.onPlayerCollision(this.gameManager.getPlayer());
-            this.collectableObjectsToRemove.add(collectableObject);
+            this.removeablePickUps.add(collectableObject);
         }
     }
 
-    private ICollectableObject getRandomCollectableObject() {
+    private PickUp getRandomPickUp() {
         int randomInt = (int)(Math.random() * 2);
 
-        if (!this.gameManager.getConfig().getUseSensors()) {
-            randomInt = 1;
-        }
 
 
-        ICollectableObject result = null;
+
+        PickUp result = null;
         switch (randomInt) {
             case 0:
                 result = new SpeedPickUp(this.gameManager, new Vector2D(GamePanel.getRandomX(SpeedPickUp.halfSize), GamePanel.getRandomY(SpeedPickUp.halfSize)));

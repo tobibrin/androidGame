@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,12 @@ import school.androidgame.utils.Config;
 
 public class MainMenu extends Activity {
     private Config config;
+    private GameManager game;
+
+    public Config getConfig()
+    {
+        return config;
+    }
 
     public void openMainMenu()
     {
@@ -31,10 +38,7 @@ public class MainMenu extends Activity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.config = config;
-                Intent gameIntent = new Intent(MainMenu.this, MainActivity.class);
-                gameIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(gameIntent);
+                MainMenu.this.game = new GameManager(MainMenu.this);
             }
         });
 
@@ -60,9 +64,6 @@ public class MainMenu extends Activity {
                 openMainMenu();
             }
         });
-
-
-
         ArrayAdapter adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, this.config.getScores());
         scoreListView.setAdapter(adapter);
     }
