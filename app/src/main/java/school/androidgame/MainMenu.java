@@ -60,6 +60,9 @@ public class MainMenu extends Activity {
                 openMainMenu();
             }
         });
+
+
+
         ArrayAdapter adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, this.config.getScores());
         scoreListView.setAdapter(adapter);
     }
