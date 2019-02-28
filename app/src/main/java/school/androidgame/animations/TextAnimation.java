@@ -42,10 +42,22 @@ public class TextAnimation extends TransitionAnimation<Canvas> {
     private static Frame<ITransition<Canvas>> CreatePickupAnimationFrame(String text, GameObject o, Paint p, long millis, int frameIndex, Bitmap image)
     {
         Frame<ITransition<Canvas>> newFrame = new Frame<ITransition<Canvas>>(c -> {
-            c.drawText(text, o.getPosition().x - (o.getWidth() / 4), o.getPosition().y - (frameIndex), p);
+            float objectCenter = o.getWidth() / 2;
+            int bitmapSize = 64;
+            int imageCenter = 32;
+            float marginToCenter = 15;
+            float textSize = 10;
+            float textLeft = o.getPosition().x - imageCenter -marginToCenter;
+
+            float imageLeft = o.getPosition().x -imageCenter + marginToCenter;
+            float textPosition = o.getPosition().y - frameIndex - (textSize / 2);
+            if(image == null)
+                textLeft += (imageCenter /2 );
+
+            c.drawText(text, textLeft, textPosition, p);
             if(image != null) {
-                Bitmap scaled = Bitmap.createScaledBitmap(image, 64, 64, false);
-                c.drawBitmap(scaled, o.getPosition().x + (o.getWidth() / 6), o.getPosition().y - frameIndex - 48, new Paint());
+                Bitmap scaled = Bitmap.createScaledBitmap(image, bitmapSize, bitmapSize, false);
+                c.drawBitmap(scaled, imageLeft , o.getPosition().y - frameIndex - bitmapSize, new Paint());
             }
         }, millis);
         return newFrame;
